@@ -57,7 +57,7 @@ String xml = "&lt;root&gt;"
                 "&lt;city&gt;Den Haag&lt;/city&gt;"
                 ));
         
-        assertThat(result.get("nameOfTheCompany"), is("E &amp; Y"));
+        assertThat(result.get("nameOfTheCompany"), is("E &amp;amp; Y"));
         
         assertThat(result.get("info"), is(
                 "&lt;company&gt;" +
