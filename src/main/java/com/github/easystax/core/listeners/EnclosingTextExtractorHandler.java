@@ -1,10 +1,10 @@
 package com.github.easystax.core.listeners;
 
-import com.ctc.wstx.stax.WstxOutputFactory;
-import org.codehaus.stax2.XMLStreamReader2;
-import org.codehaus.stax2.XMLStreamWriter2;
+import com.github.easystax.core.WoodstockInputFactory;
 import com.github.easystax.core.XmlNavigationPath;
 import com.github.easystax.core.builders.BuilderInitializationException;
+import org.codehaus.stax2.XMLStreamReader2;
+import org.codehaus.stax2.XMLStreamWriter2;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.StringWriter;
@@ -14,32 +14,26 @@ import java.io.StringWriter;
  */
 public class EnclosingTextExtractorHandler implements ContentHandler {
 
-    private String lastElement;
+    final private String lastElement;
 
-    private String path;
+    final private String path;
 
     private boolean recording;
 
     private XMLStreamWriter2 writer2;
 
-    private StringWriter w = new StringWriter();
-
-    private WstxOutputFactory wstxOutputFactory = new WstxOutputFactory();
+    final private StringWriter w = new StringWriter();
 
     EnclosingTextExtractorHandler(String path) {
         this.path = path;
         this.lastElement = parseLastElement(path);
         try {
-            writer2 = (XMLStreamWriter2) wstxOutputFactory.createXMLStreamWriter(w);
+            writer2 = (XMLStreamWriter2) WoodstockInputFactory.getOutputFactory().createXMLStreamWriter(w);
         } catch (XMLStreamException e) {
             throw new BuilderInitializationException(e);
         }
     }
 
-    @Override
-    public void startDocument(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) {
-
-    }
 
     @Override
     public void startElement(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
@@ -64,11 +58,6 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
     }
 
     @Override
-    public void endDocument(XMLStreamReader2 endDocument, XmlNavigationPath navigationStack) {
-
-    }
-
-    @Override
     public void attribute(XMLStreamReader2 streamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
         copyIfRecordingEnabled(streamReader);
     }
@@ -80,7 +69,7 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
         }
     }
 
-    public boolean isRecording() {
+    boolean isRecording() {
         return recording;
     }
 

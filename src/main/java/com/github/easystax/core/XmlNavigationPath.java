@@ -1,8 +1,6 @@
 package com.github.easystax.core;
 
 import java.util.EmptyStackException;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -10,17 +8,14 @@ import java.util.Stack;
  */
 public class XmlNavigationPath {
 
-    private Stack<String> xmlPath = new Stack<String>();
-    private Set<String> openTags = new HashSet<String>();
+    final private Stack<String> xmlPath = new Stack<String>();
 
     private String parent;
     private String current;
 
-
     public void pushTag(String tagName){
         parent = current;
         current = tagName;
-        openTags.add(current);
         xmlPath.push(current);
     }
 
@@ -42,14 +37,6 @@ public class XmlNavigationPath {
             parent = null;
         }
         xmlPath.push(current);
-    }
-
-    public Stack<String> getXmlPath() {
-        return xmlPath;
-    }
-
-    public Set<String> getOpenTags() {
-        return openTags;
     }
 
     public String getParent() {

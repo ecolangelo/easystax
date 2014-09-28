@@ -7,15 +7,9 @@ import com.github.easystax.core.builders.FluentBuilder;
  */
 public class ContentHandlerBuilder implements FluentBuilder<ContentHandler> {
 
-    private ContentHandler handler;
-
     private StringBuilder builder;
 
-    ContentHandlerBuilder(ContentHandler handler) {
-        this.handler = handler;
-    }
-
-    ContentHandlerBuilder(StringBuilder builder) {
+    private ContentHandlerBuilder(StringBuilder builder) {
         this.builder = builder;
     }
 

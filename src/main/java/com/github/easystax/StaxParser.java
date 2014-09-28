@@ -1,13 +1,13 @@
 package com.github.easystax;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-
-import org.codehaus.stax2.XMLStreamReader2;
 import com.github.easystax.core.DummyClosure;
 import com.github.easystax.core.ParseException;
+import com.github.easystax.core.WoodstockInputFactory;
 import com.github.easystax.core.XmlNavigationPath;
 import com.github.easystax.core.listeners.ContentHandler;
+import org.codehaus.stax2.XMLStreamReader2;
 
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
@@ -20,27 +20,17 @@ import java.util.List;
  */
 public class StaxParser implements XmlParser{
 
-    private WstxInputFactory wstxInputFactory = new WstxInputFactory();
+    final private XMLInputFactory xmlInputFactory = WoodstockInputFactory.getInputFactory();
 
-    private List<ContentHandler> listeners = new ArrayList<ContentHandler>();
+    final private List<ContentHandler> listeners = new ArrayList<ContentHandler>();
 
     public void parse(String xml,Charset charset) throws XMLStreamException {
-        final XMLStreamReader2 streamReader = (XMLStreamReader2) wstxInputFactory.createXMLStreamReader(new ByteArrayInputStream(xml.getBytes(charset)));
+        final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(new ByteArrayInputStream(xml.getBytes(charset)));
         final XmlNavigationPath stack = new XmlNavigationPath();
         while(streamReader.hasNext()) {
             streamReader.next();
             int eventType = streamReader.getEventType();
             switch(eventType){
-                case XMLStreamConstants.START_DOCUMENT:{
-                    notifyStaxEventToAll(new DummyClosure<ContentHandler>() {
-                        @Override
-                        public void cl(ContentHandler contentHandler){
-                            contentHandler.startDocument(streamReader, stack);
-                        }
-                    });
-
-                    break;
-                }
                 case XMLStreamConstants.START_ELEMENT:{
 
                     String localPart = streamReader.getName().getLocalPart();
@@ -82,17 +72,6 @@ public class StaxParser implements XmlParser{
                     break;
 
                 }
-                case XMLStreamConstants.END_DOCUMENT:{
-                    notifyStaxEventToAll(new DummyClosure<ContentHandler>() {
-                        @Override
-                        public void cl(ContentHandler contentHandler){
-                            contentHandler.endDocument(streamReader, stack);
-                        }
-                    });
-                    break;
-                }
-
-
             }
         }
     }
