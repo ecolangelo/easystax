@@ -21,7 +21,7 @@ String xml = "&lt;root&gt;"
                         "&lt;/person&gt;" +
                         "&lt;info&gt;" +
                             "&lt;company&gt;" +
-                                "&lt;name type=\"standard\"&gt;E &amp; Y&lt;/name&gt;" +
+                                "&lt;name type=\"standard\"&gt;E &amp;amp; Y&lt;/name&gt;" +
                                 "&lt;address&gt;" +
                                     "&lt;street&gt;Spui&lt;/street&gt;" +
                                     "&lt;number&gt;26&lt;/number&gt;" +
@@ -50,10 +50,12 @@ String xml = "&lt;root&gt;"
         assertThat(result.get("addressStreet"), is("Kalvermarkt"));
         
         
-        assertThat(result.get("fullXmlAddress"), is("&lt;street&gt;Kalvermarkt&lt;/street&gt;" +
+        assertThat(result.get("fullXmlAddress"), is(
+                "&lt;street&gt;Kalvermarkt&lt;/street&gt;" +
                 "&lt;number&gt;25&lt;/number&gt;" +
                 "&lt;postCode&gt;2511&lt;/postCode&gt;" +
-                "&lt;city&gt;Den Haag&lt;/city&gt;"));
+                "&lt;city&gt;Den Haag&lt;/city&gt;"
+                ));
         
         assertThat(result.get("nameOfTheCompany"), is("E &amp; Y"));
         
