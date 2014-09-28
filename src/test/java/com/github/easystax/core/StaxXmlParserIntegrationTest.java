@@ -84,9 +84,25 @@ public class StaxXmlParserIntegrationTest {
         Map<String,String> result = parser.parse(xml, Charset.defaultCharset());
 
         assertThat(result.get("addressStreet"), is("Kalvermarkt"));
-        assertThat(result.get("fullXmlAddress"), is("<street>Kalvermarkt</street><number>25</number><postCode>2511</postCode><city>Den Haag</city>"));
+
+        assertThat(result.get("fullXmlAddress"), is("<street>Kalvermarkt</street>" +
+                "<number>25</number>" +
+                "<postCode>2511</postCode>" +
+                "<city>Den Haag</city>"));
+
         assertThat(result.get("nameOfTheCompany"), is("E &amp; Y"));
-        assertThat(result.get("info"), is("<company><name type=\"standard\">E &amp; Y</name><address><street>Spui</street><number>26</number><postCode>2611</postCode><city>Den Haag</city></address></company>"));
+
+        assertThat(result.get("info"), is(
+                "<company>" +
+                "<name type=\"standard\">E &amp; Y</name>" +
+                "<address>" +
+                "<street>Spui</street>" +
+                "<number>26</number>" +
+                "<postCode>2611</postCode>" +
+                "<city>Den Haag</city>" +
+                "</address>" +
+                "</company>"
+        ));
     }
 
     @Test
