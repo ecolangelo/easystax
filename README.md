@@ -6,8 +6,8 @@ library to deal with StAX API for xml parsing the library use Woodstock as defau
 
 ### example of usage
 
-
-
+<pre>
+<code>
 String xml = "&lt;root&gt;" 
                         "&lt;person&gt;" +
                             "&lt;name&gt;Mario&lt;/name&gt;" +
@@ -45,29 +45,32 @@ String xml = "&lt;root&gt;"
 
 
 
-        Map<String,String> result = parser.parse(xml, Charset.defaultCharset());
+        Map&lt;String,String&gt; result = parser.parse(xml, Charset.defaultCharset());
 
         assertThat(result.get("addressStreet"), is("Kalvermarkt"));
         
         
-        assertThat(result.get("fullXmlAddress"), is("<street>Kalvermarkt</street>" +
-                "<number>25</number>" +
-                "<postCode>2511</postCode>" +
-                "<city>Den Haag</city>"));
+        assertThat(result.get("fullXmlAddress"), is("&lt;street&gt;Kalvermarkt&lt;/street&gt;" +
+                "&lt;number&gt;25&lt;/number&gt;" +
+                "&lt;postCode&gt;2511&lt;/postCode&gt;" +
+                "&lt;city&gt;Den Haag&lt;/city&gt;"));
         
         assertThat(result.get("nameOfTheCompany"), is("E &amp; Y"));
         
         assertThat(result.get("info"), is(
-                "<company>" +
-                "<name type=\"standard\">E &amp;amp; Y</name>" +
-                "<address>" +
-                "<street>Spui</street>" +
-                "<number>26</number>" +
-                "<postCode>2611</postCode>" +
-                "<city>Den Haag</city>" +
-                "</address>" +
-                "</company>"
+                "&lt;company&gt;" +
+                "&lt;name type=\"standard\"&gt;E &amp;amp; Y&lt;/name&gt;" +
+                "&lt;address&gt;" +
+                "&lt;street&gt;Spui&lt;/street&gt;" +
+                "&lt;number&gt;26&lt;/number&gt;" +
+                "&lt;postCode&gt;2611&lt;/postCode&gt;" +
+                "&lt;city&gt;Den Haag&lt;/city&gt;" +
+                "&lt;/address&gt;" +
+                "&lt;/company&gt;"
         ));
+
+</code>
+</pre>
         
         
        
