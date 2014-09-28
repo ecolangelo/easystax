@@ -85,10 +85,18 @@ public class StaxParser implements XmlParser{
     }
 
     @Override
-    public void addListener(ContentHandler contentHandler) {
+    public void registerHandler(ContentHandler contentHandler) {
         if(!listeners.contains(contentHandler))listeners.add(contentHandler);
     }
 
+    @Override
+    public void registerHandlers(ContentHandler... contentHandlers) {
+        for(ContentHandler ch: contentHandlers) {
+            if(!listeners.contains(ch)) {
+                listeners.add(ch);
+            }
+        }
+    }
 
     private void notifyStaxEventToAll(DummyClosure<ContentHandler> closure){
         for(ContentHandler listener:listeners){

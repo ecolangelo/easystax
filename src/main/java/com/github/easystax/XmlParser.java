@@ -13,5 +13,7 @@ public interface XmlParser {
 
     public Map<String,String> parse(String xml, Charset charset) throws XMLStreamException;
 
-    public void addListener(ContentHandler contentHandler);
+    public void registerHandler(ContentHandler contentHandler);
+
+    public void registerHandlers(ContentHandler... contentHandler);
 }
