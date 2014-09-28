@@ -1,4 +1,4 @@
 easystax
 ========
 
-library to deal with xml parsing using StAX convention plus woodstock XmlInputFactory provider
+library to deal with StAX API for xml parsing the library use Woodstock as default provider for XMLInputFactory and XMLOutputFactory
