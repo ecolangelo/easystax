@@ -13,7 +13,9 @@ import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by eros on 06/09/14.
@@ -24,7 +26,7 @@ public class StaxParser implements XmlParser{
 
     final private List<ContentHandler> listeners = new ArrayList<ContentHandler>();
 
-    public void parse(String xml,Charset charset) throws XMLStreamException {
+    public Map<String,String> parse(String xml,Charset charset) throws XMLStreamException {
         final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(new ByteArrayInputStream(xml.getBytes(charset)));
         final XmlNavigationPath stack = new XmlNavigationPath();
         while(streamReader.hasNext()) {
@@ -74,6 +76,12 @@ public class StaxParser implements XmlParser{
                 }
             }
         }
+
+        Map<String,String> results = new HashMap<String, String>();
+        for(ContentHandler ch : listeners){
+            results.put(ch.getId(),ch.getOut());
+        }
+        return results;
     }
 
     @Override

@@ -21,6 +21,8 @@ public interface ContentHandler {
     void attribute(XMLStreamReader2 streamReader, XmlNavigationPath navigationStack) throws XMLStreamException;
 
     String getOut();
+
+    String getId();
     
     
 }
