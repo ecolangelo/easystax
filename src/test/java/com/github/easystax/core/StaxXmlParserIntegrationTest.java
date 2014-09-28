@@ -3,12 +3,14 @@ package com.github.easystax.core;
 
 import com.github.easystax.StaxParser;
 import com.github.easystax.XmlParser;
+import com.github.easystax.core.listeners.ContentHandlerBuilder;
+import com.github.easystax.core.listeners.DotNotationContentHandlerBuilder;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import com.github.easystax.core.listeners.ContentHandler;
-import com.github.easystax.core.listeners.ContentHandlerBuilder;
 
 import java.nio.charset.Charset;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.StringContains.containsString;
@@ -22,21 +24,26 @@ public class StaxXmlParserIntegrationTest {
 
         XmlParser parser = new StaxParser();
 
-        ContentHandler contentHandler = ContentHandlerBuilder.build("family").dot("publications").get();
-        ContentHandler numberHandler = ContentHandlerBuilder.build("family").dot("publications").dot("ExchCpcPublication").dot("number").get();
-        ContentHandler countryHandler = ContentHandlerBuilder.build("family").dot("publications").dot("ExchCpcPublication").dot("country").get();
+        String PUBLICATION_REQUEST = "publications";
+        String NUMBER_REQUEST = "number";
+        String COUNTRY_REQUEST = "country";
+        ContentHandler contentHandler = ContentHandlerBuilder.root("family").dot("publications").withId(PUBLICATION_REQUEST);
+        ContentHandler numberHandler = ContentHandlerBuilder.root("family").dot("publications").dot("ExchCpcPublication").dot(NUMBER_REQUEST).withId("number");
+        ContentHandler countryHandler = ContentHandlerBuilder.root("family").dot("publications").dot("ExchCpcPublication").dot(COUNTRY_REQUEST).withId("country");
 
         parser.addListener(contentHandler);
         parser.addListener(numberHandler);
         parser.addListener(numberHandler);
         parser.addListener(countryHandler);
 
-        parser.parse(inputXml, Charset.defaultCharset());
+        Map<String,String> result = parser.parse(inputXml, Charset.defaultCharset());
 
-        assertThat(contentHandler.getOut(), containsString("<sequence>1</sequence>"));
-        assertThat(numberHandler.getOut().trim(), is("MO20130060"));
-        assertThat(countryHandler.getOut(), is("IT"));
+        assertThat(result.get(PUBLICATION_REQUEST), containsString("<sequence>1</sequence>"));
+        assertThat(result.get(NUMBER_REQUEST).trim(), is("MO20130060"));
+        assertThat(result.get(COUNTRY_REQUEST), is("IT"));
     }
+
+
 
     @Test
     public void parseXml() throws Exception {

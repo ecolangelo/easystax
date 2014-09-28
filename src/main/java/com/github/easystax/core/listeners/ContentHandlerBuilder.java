@@ -3,29 +3,31 @@ package com.github.easystax.core.listeners;
 import com.github.easystax.core.builders.FluentBuilder;
 
 /**
- * Created by eros on 14/09/14.
+ * Created by eros on 28/09/14.
  */
 public class ContentHandlerBuilder implements FluentBuilder<ContentHandler> {
 
-    private StringBuilder builder;
+    protected String id;
 
-    private ContentHandlerBuilder(StringBuilder builder) {
-        this.builder = builder;
-    }
-
-
-    public static ContentHandlerBuilder build(String rootTag){
-        return new ContentHandlerBuilder(new StringBuilder("/"+rootTag+"/"));
-    }
-
-    public ContentHandlerBuilder dot(String tag){
-        builder.append(tag).append("/");
-        return new ContentHandlerBuilder(builder);
-    }
-
+    protected StringBuilder builder;
 
     @Override
     public ContentHandler get() {
-        return new EnclosingTextExtractorHandler(builder.toString());
+        return new EnclosingTextExtractorHandler(id, builder.toString());
     }
+
+    public ContentHandler withId(String id){
+        this.id = id;
+        return get();
+    }
+
+    public static DotNotationContentHandlerBuilder root(String rootTag){
+        return new DotNotationContentHandlerBuilder(new StringBuilder("/"+rootTag+"/"));
+    }
+
+    public static XmlPathContentHandlerBuilder path(String xmlPath){
+        if(!xmlPath.endsWith("/"))xmlPath = xmlPath+"/";
+        return new XmlPathContentHandlerBuilder(new StringBuilder(xmlPath));
+    }
+
 }

@@ -14,9 +14,11 @@ import java.io.StringWriter;
  */
 public class EnclosingTextExtractorHandler implements ContentHandler {
 
-    final private String lastElement;
+    final protected String id;
 
-    final private String path;
+    final protected String path;
+
+    final private String lastElement;
 
     private boolean recording;
 
@@ -24,7 +26,7 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
 
     final private StringWriter w = new StringWriter();
 
-    EnclosingTextExtractorHandler(String path) {
+    EnclosingTextExtractorHandler(String id,String path) {
         this.path = path;
         this.lastElement = parseLastElement(path);
         try {
@@ -32,6 +34,7 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
         } catch (XMLStreamException e) {
             throw new BuilderInitializationException(e);
         }
+        this.id = id;
     }
 
 
@@ -91,4 +94,7 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
     public String getOut() {
         return w.toString().replaceAll("<[^a-zA-Z]?"+this.lastElement+">","");
     }
+
+    @Override
+    public String getId() {return id;}
 }
