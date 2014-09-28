@@ -1,6 +1,6 @@
 package com.github.easystax;
 
-import com.github.easystax.core.listeners.ContentHandler;
+import com.github.easystax.core.handlers.ContentHandler;
 
 import javax.xml.stream.XMLStreamException;
 import java.nio.charset.Charset;
@@ -13,7 +13,4 @@ public interface XmlParser {
 
     public Map<String,String> parse(String xml, Charset charset) throws XMLStreamException;
 
-    public void registerHandler(ContentHandler contentHandler);
-
-    public void registerHandlers(ContentHandler... contentHandler);
 }

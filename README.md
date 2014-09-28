@@ -33,7 +33,7 @@ String xml = "&lt;root&gt;"
                     "&lt;/root&gt;";
 
 
-        XmlParser parser = new StaxParser();
+        StaxParser parser = new StaxParser();
 
         parser.registerHandlers(
                 path("/root/person/address/street").withId("addressStreet"),

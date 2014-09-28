@@ -2,14 +2,14 @@ package com.github.easystax.core;
 
 
 import com.github.easystax.StaxParser;
-import com.github.easystax.XmlParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import static com.github.easystax.core.listeners.ContentHandlerBuilder.*;
+import static com.github.easystax.core.handlers.ContentHandlerBuilder.path;
+import static com.github.easystax.core.handlers.ContentHandlerBuilder.root;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertNotNull;
@@ -21,7 +21,7 @@ public class StaxXmlParserIntegrationTest {
     public void exampleUsageWithDotNotation() throws Exception {
         String inputXml = IOUtils.toString(this.getClass().getResourceAsStream("/inputTest.xml"));
 
-        XmlParser parser = new StaxParser();
+        StaxParser parser = new StaxParser();
 
         String PUBLICATION_REQUEST = "publications";
         String NUMBER_REQUEST = "number";
@@ -69,7 +69,7 @@ public class StaxXmlParserIntegrationTest {
                     "</root>";
 
 
-        XmlParser parser = new StaxParser();
+        StaxParser parser = new StaxParser();
 
         parser.registerHandlers(
                 path("/root/person/address/street").withId("addressStreet"),
@@ -127,7 +127,7 @@ public class StaxXmlParserIntegrationTest {
                                 "</teiCorpus>" +
                             "</teiCorpus>";
 
-        XmlParser parser = new StaxParser();
+        StaxParser parser = new StaxParser();
 
         Map<String,String> result = parser.parse(inputXml, Charset.defaultCharset());
         assertNotNull(result);

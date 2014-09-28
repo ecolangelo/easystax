@@ -1,6 +1,4 @@
-package com.github.easystax.core.listeners;
-
-import com.github.easystax.core.builders.FluentBuilder;
+package com.github.easystax.core.handlers;
 
 /**
  * Created by eros on 28/09/14.
