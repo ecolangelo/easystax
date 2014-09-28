@@ -4,7 +4,7 @@ import com.github.easystax.core.DummyClosure;
 import com.github.easystax.core.ParseException;
 import com.github.easystax.core.WoodstockInputFactory;
 import com.github.easystax.core.XmlNavigationPath;
-import com.github.easystax.core.listeners.ContentHandler;
+import com.github.easystax.core.handlers.ContentHandler;
 import org.codehaus.stax2.XMLStreamReader2;
 
 import javax.xml.stream.XMLInputFactory;
@@ -24,7 +24,7 @@ public class StaxParser implements XmlParser{
 
     final private XMLInputFactory xmlInputFactory = WoodstockInputFactory.getInputFactory();
 
-    final private List<ContentHandler> listeners = new ArrayList<ContentHandler>();
+    final private List<ContentHandler> handlers = new ArrayList<ContentHandler>();
 
     public Map<String,String> parse(String xml,Charset charset) throws XMLStreamException {
         final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(new ByteArrayInputStream(xml.getBytes(charset)));
@@ -78,7 +78,7 @@ public class StaxParser implements XmlParser{
         }
 
         Map<String,String> results = new HashMap<String, String>();
-        for(ContentHandler ch : listeners){
+        for(ContentHandler ch : handlers){
             results.put(ch.getId(),ch.getOut());
         }
         return results;
@@ -86,20 +86,20 @@ public class StaxParser implements XmlParser{
 
     @Override
     public void registerHandler(ContentHandler contentHandler) {
-        if(!listeners.contains(contentHandler))listeners.add(contentHandler);
+        if(!handlers.contains(contentHandler)) handlers.add(contentHandler);
     }
 
     @Override
     public void registerHandlers(ContentHandler... contentHandlers) {
         for(ContentHandler ch: contentHandlers) {
-            if(!listeners.contains(ch)) {
-                listeners.add(ch);
+            if(!handlers.contains(ch)) {
+                handlers.add(ch);
             }
         }
     }
 
     private void notifyStaxEventToAll(DummyClosure<ContentHandler> closure){
-        for(ContentHandler listener:listeners){
+        for(ContentHandler listener: handlers){
             try {
                 closure.cl(listener);
             } catch (Exception e) {

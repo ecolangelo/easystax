@@ -1,4 +1,4 @@
-package com.github.easystax.core.listeners;
+package com.github.easystax.core.handlers;
 
 import com.github.easystax.core.builders.FluentBuilder;
 

@@ -1,4 +1,4 @@
-package com.github.easystax.core.listeners;
+package com.github.easystax.core.handlers;
 
 import org.junit.Test;
 
