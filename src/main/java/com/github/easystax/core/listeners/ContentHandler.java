@@ -1,11 +1,10 @@
-package org.xml.parsing.core.listeners;
+package com.github.easystax.core.listeners;
 
 
 import org.codehaus.stax2.XMLStreamReader2;
-import org.xml.parsing.core.XmlNavigationPath;
+import com.github.easystax.core.XmlNavigationPath;
 
 import javax.xml.stream.XMLStreamException;
-import java.util.List;
 
 
 /**

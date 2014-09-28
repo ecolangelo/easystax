@@ -1,4 +1,4 @@
-package org.xml.parsing.core.listeners;
+package com.github.easystax.core.listeners;
 
 import com.ctc.wstx.stax.WstxInputFactory;
 

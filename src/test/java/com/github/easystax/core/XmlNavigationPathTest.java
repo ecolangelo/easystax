@@ -1,4 +1,4 @@
-package org.xml.parsing.core;
+package com.github.easystax.core;
 
 import org.junit.Test;
 

@@ -1,10 +1,10 @@
-package org.xml.parsing.core.listeners;
+package com.github.easystax.core.listeners;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.XMLStreamWriter2;
-import org.xml.parsing.core.XmlNavigationPath;
-import org.xml.parsing.core.builders.BuilderInitializationException;
+import com.github.easystax.core.XmlNavigationPath;
+import com.github.easystax.core.builders.BuilderInitializationException;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.StringWriter;

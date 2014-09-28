@@ -1,6 +1,6 @@
-package org.xml.parsing;
+package com.github.easystax;
 
-import org.xml.parsing.core.listeners.ContentHandler;
+import com.github.easystax.core.listeners.ContentHandler;
 
 import javax.xml.stream.XMLStreamException;
 import java.nio.charset.Charset;

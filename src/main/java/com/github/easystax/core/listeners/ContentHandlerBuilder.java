@@ -1,6 +1,6 @@
-package org.xml.parsing.core.listeners;
+package com.github.easystax.core.listeners;
 
-import org.xml.parsing.core.builders.FluentBuilder;
+import com.github.easystax.core.builders.FluentBuilder;
 
 /**
  * Created by eros on 14/09/14.

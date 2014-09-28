@@ -1,12 +1,12 @@
-package org.xml.parsing;
+package com.github.easystax;
 
 import com.ctc.wstx.stax.WstxInputFactory;
 
 import org.codehaus.stax2.XMLStreamReader2;
-import org.xml.parsing.core.DummyClosure;
-import org.xml.parsing.core.ParseException;
-import org.xml.parsing.core.XmlNavigationPath;
-import org.xml.parsing.core.listeners.ContentHandler;
+import com.github.easystax.core.DummyClosure;
+import com.github.easystax.core.ParseException;
+import com.github.easystax.core.XmlNavigationPath;
+import com.github.easystax.core.listeners.ContentHandler;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;

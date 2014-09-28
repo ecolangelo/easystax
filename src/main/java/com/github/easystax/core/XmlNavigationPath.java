@@ -1,4 +1,4 @@
-package org.xml.parsing.core;
+package com.github.easystax.core;
 
 import java.util.EmptyStackException;
 import java.util.HashSet;

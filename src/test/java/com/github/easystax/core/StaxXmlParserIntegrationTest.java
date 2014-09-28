@@ -1,11 +1,12 @@
-package org.xml.parsing;
+package com.github.easystax.core;
 
 
+import com.github.easystax.StaxParser;
+import com.github.easystax.XmlParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.xml.parsing.core.listeners.ContentHandler;
-import org.xml.parsing.core.listeners.ContentHandlerBuilder;
-import org.xml.parsing.core.listeners.EnclosingTextExtractorHandler;
+import com.github.easystax.core.listeners.ContentHandler;
+import com.github.easystax.core.listeners.ContentHandlerBuilder;
 
 import java.nio.charset.Charset;
 

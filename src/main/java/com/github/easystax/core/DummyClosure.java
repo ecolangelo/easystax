@@ -1,4 +1,4 @@
-package org.xml.parsing.core;
+package com.github.easystax.core;
 
 /**
  * Created by eros on 27/09/14.
