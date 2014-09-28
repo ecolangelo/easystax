@@ -24,7 +24,7 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
 
     private XMLStreamWriter2 writer2;
 
-    final private StringWriter w = new StringWriter();
+    protected StringWriter w = new StringWriter();
 
     EnclosingTextExtractorHandler(String id,String path) {
         this.path = path;
@@ -92,7 +92,7 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
 
     @Override
     public String getOut() {
-        return w.toString().replaceAll("<[^a-zA-Z]?"+this.lastElement+">","");
+        return w.toString().replaceAll("<[^a-zA-Z]?"+this.lastElement+"[^<>]*?>","");
     }
 
     @Override
