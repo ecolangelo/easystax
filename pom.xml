@@ -36,14 +36,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.epo.common.maven.plugins</groupId>
-                <artifactId>epo-maven-jenkins-plugin</artifactId>
-                <configuration>
-                    <jobLayoutDescriptor>basic.json</jobLayoutDescriptor>
-                    <overwriteExistingJobs>true</overwriteExistingJobs>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
