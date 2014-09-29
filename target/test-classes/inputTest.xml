@@ -1,0 +1,86 @@
+<family>
+    <familyId>48047546</familyId>
+    <hubId>103765033</hubId>
+    <cliponRep>                    </cliponRep>
+    <publications>
+        <ExchCpcPublication>
+            <country>IT</country>
+            <number>     MO20130060</number>
+            <kind-code>A1</kind-code>
+            <sequence>1</sequence>
+            <reserve> </reserve>
+            <applReservePub> </applReservePub>
+            <applAuthCodePub>IT</applAuthCodePub>
+            <applSeqNumberPub>     MO20130060</applSeqNumberPub>
+            <applKindCodePub>A </applKindCodePub>
+            <pubDate>2014-09-09</pubDate>
+            <pubDateInput>20140909</pubDateInput>
+            <langOfPub>IT</langOfPub>
+            <actionListInd>0</actionListInd>
+            <correctionCode>  </correctionCode>
+            <bnsPages>0</bnsPages>
+            <dateAddedDocdb>2013-04-15</dateAddedDocdb>
+            <lastUpdate>2013-04-15 16:36:38.055145</lastUpdate>
+            <publication-allocations/>
+        </ExchCpcPublication>
+    </publications>
+    <allocations>
+        <allocation>
+            <hubId>103765033</hubId>
+            <groupNr>0</groupNr>
+            <symbolRank>0</symbolRank>
+            <symbolId>141678</symbolId>
+            <allocSrc>CLASSIFICATION TOOL</allocSrc>
+            <srcUserId>EM03019</srcUserId>
+            <asIfUserId>EM03019</asIfUserId>
+            <origin>D</origin>
+            <propInd> </propInd>
+            <classValue>I</classValue>
+            <actionDate>20130919</actionDate>
+            <generatingOffice>EP</generatingOffice>
+            <originalReclass>B</originalReclass>
+            <classMthd>H</classMthd>
+            <lastUpdate>2013-09-19 14:36:32.358759</lastUpdate>
+            <commonOwnership>N</commonOwnership>
+            <raiseHand>
+                <raiseEndPresent>N</raiseEndPresent>
+            </raiseHand>
+            <position>POS_1</position>
+            <symbol>
+                <symbolId>141678</symbolId>
+                <class-key>A41D  27/205</class-key>
+                <versionDate>20130101</versionDate>
+            </symbol>
+        </allocation>
+        <allocation>
+            <hubId>103765033</hubId>
+            <groupNr>0</groupNr>
+            <symbolRank>0</symbolRank>
+            <symbolId>141691</symbolId>
+            <allocSrc>CLASSIFICATION TOOL</allocSrc>
+            <srcUserId>EM03019</srcUserId>
+            <asIfUserId>EM03019</asIfUserId>
+            <origin>D</origin>
+            <propInd> </propInd>
+            <classValue>A</classValue>
+            <actionDate>20130920</actionDate>
+            <generatingOffice>EP</generatingOffice>
+            <originalReclass>B</originalReclass>
+            <classMthd>H</classMthd>
+            <lastUpdate>2013-09-20 13:55:03.73645</lastUpdate>
+            <commonOwnership>N</commonOwnership>
+            <raiseHand>
+                <raiseEndPresent>N</raiseEndPresent>
+            </raiseHand>
+            <position>POS_999</position>
+            <symbol>
+                <symbolId>141691</symbolId>
+                <class-key>A41D  27/207</class-key>
+                <versionDate>20130101</versionDate>
+            </symbol>
+        </allocation>
+    </allocations>
+    <reasonings/>
+    <compliances/>
+    <temporary>false</temporary>
+</family>
