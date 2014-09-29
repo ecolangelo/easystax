@@ -84,12 +84,12 @@ public class StaxParser implements XmlParser{
         return results;
     }
 
-    @Override
+
     public void registerHandler(ContentHandler contentHandler) {
         if(!handlers.contains(contentHandler)) handlers.add(contentHandler);
     }
 
-    @Override
+
     public void registerHandlers(ContentHandler... contentHandlers) {
         for(ContentHandler ch: contentHandlers) {
             if(!handlers.contains(ch)) {
