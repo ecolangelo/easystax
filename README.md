@@ -1,7 +1,7 @@
 easystax
 ========
 
-library to deal with StAX API for xml parsing. The library uses Woodstock as provider for XMLInputFactory and XMLOutputFactory
+library to deal with StAX API for xml parsing. The library uses Woodstock implementation for XMLStreamReader and XMLOutputWriter
 
 ### import with maven
 <pre>
