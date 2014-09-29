@@ -3,7 +3,17 @@ easystax
 
 library to deal with StAX API for xml parsing. The library use Woodstock as provider for XMLInputFactory and XMLOutputFactory
 
+### import with maven
+&lt;pre&gt;
+&lt;code&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.github.ecolangelo&lt;/groupId&gt;
+  &lt;artifactId&gt;easystax&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1&lt;/version&gt;
+&lt;/dependency&gt;
 
+</code>
+</pre>
 ### example of usage
 
 <pre>
