@@ -2,7 +2,7 @@ package com.github.ecolangelo;
 
 import com.github.ecolangelo.core.DummyClosure;
 import com.github.ecolangelo.core.ParseException;
-import com.github.ecolangelo.core.WoodstockInputFactory;
+import com.github.ecolangelo.core.WoodstockFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.handlers.ContentHandler;
 import org.codehaus.stax2.XMLStreamReader2;
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class StaxParser implements XmlParser{
 
-    final private XMLInputFactory xmlInputFactory = WoodstockInputFactory.getInputFactory();
+    final private XMLInputFactory xmlInputFactory = WoodstockFactory.getInputFactory();
 
     final private List<ContentHandler> handlers = new ArrayList<ContentHandler>();
 

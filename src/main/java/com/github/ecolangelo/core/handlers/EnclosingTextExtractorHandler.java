@@ -1,6 +1,6 @@
 package com.github.ecolangelo.core.handlers;
 
-import com.github.ecolangelo.core.WoodstockInputFactory;
+import com.github.ecolangelo.core.WoodstockFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
 import org.codehaus.stax2.XMLStreamReader2;
@@ -29,11 +29,6 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
     EnclosingTextExtractorHandler(String id,String path) {
         this.path = path;
         this.lastElement = parseLastElement(path);
-        try {
-            writer2 = (XMLStreamWriter2) WoodstockInputFactory.getOutputFactory().createXMLStreamWriter(w);
-        } catch (XMLStreamException e) {
-            throw new BuilderInitializationException(e);
-        }
         this.id = id;
     }
 
@@ -77,6 +72,11 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
     }
 
     private void startRecording() {
+        try {
+            writer2 = (XMLStreamWriter2) WoodstockFactory.getOutputFactory().createXMLStreamWriter(w);
+        } catch (XMLStreamException e) {
+            throw new BuilderInitializationException(e);
+        }
         this.recording = true;
     }
 
@@ -92,7 +92,7 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
 
     @Override
     public String getOut() {
-        return w.toString().replaceAll("<[^a-zA-Z]?"+this.lastElement+"[^<>]*?>","");
+        return w.toString();
     }
 
     @Override
