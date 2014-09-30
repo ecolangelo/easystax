@@ -43,6 +43,16 @@ public class StaxXmlParserIntegrationTest {
     }
 
     @Test
+    public void parseBookStorage() throws Exception {
+        String xml = IOUtils.toString(this.getClass().getResourceAsStream("/books.xml"));
+        StaxParser parser = new StaxParser();
+        parser.registerHandlers(path("/bookstore/book/title").withId("books"));
+        Map<String, String> map = parser.parse(xml, Charset.defaultCharset());
+        System.out.println(map.get("books"));
+    }
+
+
+    @Test
     public void exampleOfUsageWithAbsoluteXmlPath() throws Exception {
         String xml = "<root>" +
                 "<person>" +
