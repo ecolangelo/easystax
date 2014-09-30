@@ -9,9 +9,9 @@ import javax.xml.stream.XMLOutputFactory;
 /**
  * Created by eros on 28/09/14.
  */
-public class WoodstockInputFactory {
+public class WoodstockFactory {
 
-    private WoodstockInputFactory() {
+    private WoodstockFactory() {
 
     }
 
