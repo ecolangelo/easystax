@@ -5,6 +5,6 @@ package com.github.ecolangelo.core.builders;
  */
 public interface FluentBuilder<T> {
 
-    public T get();
+    T build();
 
 }
