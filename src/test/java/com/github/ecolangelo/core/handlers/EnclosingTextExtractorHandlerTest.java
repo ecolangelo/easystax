@@ -11,20 +11,20 @@ public class EnclosingTextExtractorHandlerTest {
 
     @Test
     public void removeStartAndEndTagWhenOutputting() throws Exception {
-        EnclosingTextExtractorHandler handler = new EnclosingTextExtractorHandler("","/person/address/");
+        SubXmlExtractorHandler handler = new SubXmlExtractorHandler("","/person/address/");
         StringWriter w = new StringWriter();
         w.append("<address><street>some street</street></address>");
         handler.w = w;
-        assertThat(handler.getOut(), is("<street>some street</street>"));
+        assertThat(handler.getOut(), is("<address><street>some street</street></address>"));
     }
 
 
     @Test
     public void removeStartAndEndTagWhenOutputtingWhenAttributesContainsAttributes() throws Exception {
-        EnclosingTextExtractorHandler handler = new EnclosingTextExtractorHandler("","/person/address/street");
+        SubXmlExtractorHandler handler = new SubXmlExtractorHandler("","/person/address/street");
         StringWriter w = new StringWriter();
         w.append("<street type=\"test\">some street</street>");
         handler.w = w;
-        assertThat(handler.getOut(), is("some street"));
+        assertThat(handler.getOut(), is("<street type=\"test\">some street</street>"));
     }
 }

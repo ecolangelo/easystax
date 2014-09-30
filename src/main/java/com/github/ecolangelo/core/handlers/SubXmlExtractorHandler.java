@@ -3,6 +3,8 @@ package com.github.ecolangelo.core.handlers;
 import com.github.ecolangelo.core.WoodstockFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
+import com.github.ecolangelo.core.builders.Content;
+import com.github.ecolangelo.core.builders.XmlPath;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.XMLStreamWriter2;
 
@@ -12,23 +14,24 @@ import java.io.StringWriter;
 /**
  * Created by eros on 08/09/14.
  */
-public class EnclosingTextExtractorHandler implements ContentHandler {
+public class SubXmlExtractorHandler implements IContentHandler {
 
-    final protected String id;
+    protected String id;
 
-    final protected String path;
-
-    final private String lastElement;
+    protected String path;
 
     private boolean recording;
 
-    private XMLStreamWriter2 writer2;
+    protected XMLStreamWriter2 writer2;
 
     protected StringWriter w = new StringWriter();
 
-    EnclosingTextExtractorHandler(String id,String path) {
+    SubXmlExtractorHandler(String id, String path) {
         this.path = path;
-        this.lastElement = parseLastElement(path);
+        this.id = id;
+    }
+
+    SubXmlExtractorHandler(String id) {
         this.id = id;
     }
 
@@ -60,18 +63,18 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
         copyIfRecordingEnabled(streamReader);
     }
 
-    private void copyIfRecordingEnabled(XMLStreamReader2 xmlStreamReader) throws XMLStreamException {
+    protected void copyIfRecordingEnabled(XMLStreamReader2 xmlStreamReader) throws XMLStreamException {
         if(isRecording()) {
             writer2.copyEventFromReader(xmlStreamReader, true);
             writer2.flush();
         }
     }
 
-    boolean isRecording() {
+    protected boolean isRecording() {
         return recording;
     }
 
-    private void startRecording() {
+    protected void startRecording() {
         try {
             writer2 = (XMLStreamWriter2) WoodstockFactory.getOutputFactory().createXMLStreamWriter(w);
         } catch (XMLStreamException e) {
@@ -80,14 +83,8 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
         this.recording = true;
     }
 
-    private void stopRecording() {
+    protected void stopRecording() {
         this.recording = false;
-    }
-
-
-    private String parseLastElement(String path) {
-        String[] splitPath = path.split("/");
-        return splitPath[splitPath.length-1];
     }
 
     @Override
@@ -97,4 +94,41 @@ public class EnclosingTextExtractorHandler implements ContentHandler {
 
     @Override
     public String getId() {return id;}
+
+
+
+    public static Builder build(String id) {
+        return new Builder(id);
+    }
+
+    public static class Builder implements XmlPath,Content {
+
+        private String id;
+        private String path;
+
+        Builder(String id) {
+            this.id = id;
+        }
+
+        @Override
+        public IContentHandler text() {
+            return new TagContentExtractorHandler(id, path);
+        }
+
+        @Override
+        public IContentHandler subXml() {
+            return new SubXmlExtractorHandler(id,path);
+        }
+
+        @Override
+        public IContentHandler attribute(String attributeName) {
+            return new AttributeValueExtractorHandler(id,path,attributeName);
+        }
+
+        @Override
+        public Content withPath(String path) {
+            this.path = path;
+            return this;
+        }
+    }
 }
