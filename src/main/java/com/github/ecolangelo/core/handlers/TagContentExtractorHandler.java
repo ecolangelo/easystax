@@ -10,7 +10,8 @@ import javax.xml.stream.XMLStreamException;
  */
 public class TagContentExtractorHandler extends SubXmlExtractorHandler {
 
-    String tagContent = "";
+
+    StringBuilder builder = new StringBuilder("");
 
 
     TagContentExtractorHandler(String id, String path) {
@@ -19,6 +20,7 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
 
     @Override
     public void startElement(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
+        String localPart = xmlStreamReader.getName().getLocalPart();
         if(path.equals(navigationStack.resolvePath())) {
             startRecording();
         }
@@ -26,7 +28,10 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
 
     @Override
     public void character(XMLStreamReader2 character, XmlNavigationPath navigationStack) throws XMLStreamException {
-        if(isRecording())tagContent = character.getText();
+        if(isRecording()){
+            if(builder.toString().length() >0 ) builder.append("\n");
+            builder.append(character.getText());
+        }
     }
 
     @Override
@@ -42,9 +47,8 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
     }
 
 
-
     @Override
     public String getOut() {
-        return tagContent;
+        return builder.toString();
     }
 }

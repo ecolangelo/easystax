@@ -46,9 +46,28 @@ public class StaxXmlParserIntegrationTest {
     public void parseBookStorage() throws Exception {
         String xml = IOUtils.toString(this.getClass().getResourceAsStream("/books.xml"));
         StaxParser parser = new StaxParser();
-        parser.register(handler("books").path("/bookstore/book/title").subXml());
+        parser.register(
+                handler("booksXml").path("/bookstore/book/title").subXml(),
+                handler("books").path("/bookstore/book/title").text()
+        );
         Map<String, String> map = parser.parse(xml, Charset.defaultCharset());
-        assertThat(map.get("books"), CoreMatchers.containsString("<title lang=\"en\">Everyday Italian</title>"));
+        assertThat(map.get("booksXml"), is("<title lang=\"en\">Everyday Italian</title><title lang=\"en\">Harry Potter</title><title lang=\"en\">XQuery Kick Start</title><title lang=\"en\">Learning XML</title>"));
+        assertThat(map.get("books"), is("Everyday Italian\n" +
+                "Harry Potter\n" +
+                "XQuery Kick Start\n" +
+                "Learning XML"));
+    }
+
+    @Test
+    public void parseASubXmlAsText() throws Exception {
+        String xml = IOUtils.toString(this.getClass().getResourceAsStream("/books.xml"));
+        StaxParser parser = new StaxParser();
+        parser.register(
+                handler("booksXml").path("/bookstore/book/").text()
+        );
+        Map<String, String> map = parser.parse(xml, Charset.defaultCharset());
+
+        assertNotNull(map);
     }
 
 
@@ -80,11 +99,11 @@ public class StaxXmlParserIntegrationTest {
 
 
         StaxParser parser = new StaxParser();
-
+       handler("asd");
         parser.register(
-                handler("addressStreet").path("/root/person/address/street").subXml(),
+                handler("addressStreet").path("/root/person/address/street").text(),
                 handler("fullXmlAddress").path("/root/person/address").subXml(),
-                handler("nameOfTheCompany").path("/root/info/company/name").subXml(),
+                handler("nameOfTheCompany").path("/root/info/company/name").text(),
                 handler("cityOfTheCompany").path("/root/info/company/address/city").subXml(),
                 handler("info").path("/root/info/").subXml()
         );
@@ -93,14 +112,14 @@ public class StaxXmlParserIntegrationTest {
 
         Map<String,String> result = parser.parse(xml, Charset.defaultCharset());
 
-        assertThat(result.get("addressStreet"), is("<street>Kalvermarkt</street>"));
+        assertThat(result.get("addressStreet"), is("Kalvermarkt"));
 
         assertThat(result.get("fullXmlAddress"), is("<address><street>Kalvermarkt</street>" +
                 "<number>25</number>" +
                 "<postCode>2511</postCode>" +
                 "<city>Den Haag</city></address>"));
 
-        assertThat(result.get("nameOfTheCompany"), is("<name type=\"standard\">E &amp; Y</name>"));
+        assertThat(result.get("nameOfTheCompany"), is("E & Y"));
 
         assertThat(result.get("info"), is(
                 "<info><company>" +
