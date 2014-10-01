@@ -11,6 +11,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,53 +21,58 @@ import java.util.Map;
 /**
  * Created by eros on 06/09/14.
  */
-public class StaxParser implements XmlParser{
+public class StaxParser implements XmlParser {
 
     final private XMLInputFactory xmlInputFactory = WoodstockFactory.getInputFactory();
 
     final private List<IContentHandler> handlers = new ArrayList<IContentHandler>();
 
-    public Map<String,String> parse(String xml,Charset charset) throws XMLStreamException {
-        final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(new ByteArrayInputStream(xml.getBytes(charset)));
+    public Map<String, String> parse(String xml, Charset charset) throws XMLStreamException {
+        return parse(new ByteArrayInputStream(xml.getBytes(charset)));
+    }
+
+    @Override
+    public Map<String, String> parse(InputStream input) throws XMLStreamException {
+        final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(input);
         final XmlNavigationPath stack = new XmlNavigationPath();
-        while(streamReader.hasNext()) {
+        while (streamReader.hasNext()) {
             streamReader.next();
             int eventType = streamReader.getEventType();
-            switch(eventType){
-                case XMLStreamConstants.START_ELEMENT:{
+            switch (eventType) {
+                case XMLStreamConstants.START_ELEMENT: {
 
                     String localPart = streamReader.getName().getLocalPart();
                     stack.pushTag(localPart);
                     notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void cl(IContentHandler IContentHandler) throws Exception {
                             IContentHandler.startElement(streamReader, stack);
                         }
                     });
                     break;
                 }
-                case XMLStreamConstants.CHARACTERS:{
+                case XMLStreamConstants.CHARACTERS: {
                     notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void cl(IContentHandler IContentHandler) throws Exception {
                             IContentHandler.character(streamReader, stack);
                         }
                     });
                     break;
                 }
-                case XMLStreamConstants.ATTRIBUTE:{
+                case XMLStreamConstants.ATTRIBUTE: {
                     notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void cl(IContentHandler IContentHandler) throws Exception {
                             IContentHandler.attribute(streamReader, stack);
                         }
                     });
                     break;
                 }
-                case XMLStreamConstants.END_ELEMENT:{
+                case XMLStreamConstants.END_ELEMENT: {
                     notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void cl(IContentHandler IContentHandler) throws Exception {
                             IContentHandler.endElement(streamReader, stack);
                         }
                     });
@@ -77,29 +83,29 @@ public class StaxParser implements XmlParser{
             }
         }
 
-        Map<String,String> results = new HashMap<String, String>();
-        for(IContentHandler ch : handlers){
-            results.put(ch.getId(),ch.getOut());
+        Map<String, String> results = new HashMap<String, String>();
+        for (IContentHandler ch : handlers) {
+            results.put(ch.getId(), ch.getOut());
         }
         return results;
     }
 
 
     public void registerHandler(IContentHandler IContentHandler) {
-        if(!handlers.contains(IContentHandler)) handlers.add(IContentHandler);
+        if (!handlers.contains(IContentHandler)) handlers.add(IContentHandler);
     }
 
 
     public void registerHandlers(IContentHandler... IContentHandlers) {
-        for(IContentHandler ch: IContentHandlers) {
-            if(!handlers.contains(ch)) {
+        for (IContentHandler ch : IContentHandlers) {
+            if (!handlers.contains(ch)) {
                 handlers.add(ch);
             }
         }
     }
 
-    private void notifyStaxEventToAll(DummyClosure<IContentHandler> closure){
-        for(IContentHandler listener: handlers){
+    private void notifyStaxEventToAll(DummyClosure<IContentHandler> closure) {
+        for (IContentHandler listener : handlers) {
             try {
                 closure.cl(listener);
             } catch (Exception e) {
