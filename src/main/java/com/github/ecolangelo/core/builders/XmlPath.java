@@ -5,6 +5,6 @@ package com.github.ecolangelo.core.builders;
  */
 public interface XmlPath {
 
-    Content withPath(String path);
+    Content path(String path);
 
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.build;
+import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
@@ -26,9 +26,9 @@ public class StaxXmlParserIntegrationTest {
         String COUNTRY_REQUEST = "country";
 
         parser.registerHandlers(
-                build(PUBLICATION_REQUEST).withPath("/family/publications/").subXml(),
-                build(NUMBER_REQUEST).withPath("/family/publications/ExchCpcPublication/number").text(),
-                build(COUNTRY_REQUEST).withPath("/family/publications/ExchCpcPublication/country").text()
+                handler(PUBLICATION_REQUEST).path("/family/publications/").subXml(),
+                handler(NUMBER_REQUEST).path("/family/publications/ExchCpcPublication/number").text(),
+                handler(COUNTRY_REQUEST).path("/family/publications/ExchCpcPublication/country").text()
         );
 
 
@@ -36,6 +36,7 @@ public class StaxXmlParserIntegrationTest {
         Map<String,String> result = parser.parse(inputXml, Charset.defaultCharset());
 
         assertThat(result.get(PUBLICATION_REQUEST), containsString("<sequence>1</sequence>"));
+//        assertThat(result.get(NUMBER_REQUEST), CoreMatchers.containsString("MO20130060"));
     }
      /*
     @Test

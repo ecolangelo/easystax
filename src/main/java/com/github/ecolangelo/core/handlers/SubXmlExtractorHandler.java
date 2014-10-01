@@ -97,7 +97,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
 
 
-    public static Builder build(String id) {
+    public static Builder handler(String id) {
         return new Builder(id);
     }
 
@@ -126,8 +126,8 @@ public class SubXmlExtractorHandler implements IContentHandler {
         }
 
         @Override
-        public Content withPath(String path) {
-            this.path = path;
+        public Content path(String path) {
+            this.path = path.endsWith("/")?path:path+"/";
             return this;
         }
     }
