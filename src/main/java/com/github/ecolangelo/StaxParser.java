@@ -23,18 +23,25 @@ import java.util.Map;
  */
 public class StaxParser implements XmlParser{
 
-    final private XMLInputFactory xmlInputFactory = WoodstockFactory.getInputFactory();
+    private XMLInputFactory xmlInputFactory = WoodstockFactory.getInputFactory();
 
     final private List<IContentHandler> handlers = new ArrayList<IContentHandler>();
 
-    public Map<String,String> parse(String xml,Charset charset) throws XMLStreamException {
-        ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes(charset));
-        return parse(stream);
+    public StaxParser() {}
+
+    public StaxParser(XMLInputFactory xmlInputFactory){
+        this.xmlInputFactory = xmlInputFactory;
+    }
+
+
+    public Map<String, String> parse(String xml, Charset charset) throws XMLStreamException {
+        return parse(new ByteArrayInputStream(xml.getBytes(charset)));
     }
 
     @Override
-    public Map<String, String> parse(InputStream stream) throws XMLStreamException {
-        final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(stream);
+    public Map<String, String> parse(InputStream input) throws XMLStreamException {
+
+        final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(input);
         final XmlNavigationPath stack = new XmlNavigationPath();
         while(streamReader.hasNext()) {
             streamReader.next();
