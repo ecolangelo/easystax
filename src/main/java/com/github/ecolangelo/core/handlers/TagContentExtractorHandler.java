@@ -26,14 +26,13 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
 
     @Override
     public void character(XMLStreamReader2 character, XmlNavigationPath navigationStack) throws XMLStreamException {
-        if(isRecording())tagContent = character.getElementText();
+        if(isRecording())tagContent = character.getText();
     }
 
     @Override
     public void endElement(XMLStreamReader2 endElement, XmlNavigationPath navigationStack) throws XMLStreamException {
         if(path.equals(navigationStack.resolvePath())){
             stopRecording();
-            writer2.closeCompletely();
         }
     }
 
