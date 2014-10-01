@@ -3,6 +3,7 @@ package com.github.ecolangelo.core;
 
 import com.github.ecolangelo.StaxParser;
 import org.apache.commons.io.IOUtils;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
@@ -11,6 +12,7 @@ import java.util.Map;
 import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class StaxXmlParserIntegrationTest {
@@ -25,7 +27,7 @@ public class StaxXmlParserIntegrationTest {
         String NUMBER_REQUEST = "number";
         String COUNTRY_REQUEST = "country";
 
-        parser.registerHandlers(
+        parser.register(
                 handler(PUBLICATION_REQUEST).path("/family/publications/").subXml(),
                 handler(NUMBER_REQUEST).path("/family/publications/ExchCpcPublication/number").text(),
                 handler(COUNTRY_REQUEST).path("/family/publications/ExchCpcPublication/country").text()
@@ -36,14 +38,15 @@ public class StaxXmlParserIntegrationTest {
         Map<String,String> result = parser.parse(inputXml, Charset.defaultCharset());
 
         assertThat(result.get(PUBLICATION_REQUEST), containsString("<sequence>1</sequence>"));
-//        assertThat(result.get(NUMBER_REQUEST), CoreMatchers.containsString("MO20130060"));
+        assertThat(result.get(NUMBER_REQUEST), containsString("MO20130060"));
+        assertThat(result.get(COUNTRY_REQUEST), containsString("IT"));
     }
-     /*
+
     @Test
     public void parseBookStorage() throws Exception {
         String xml = IOUtils.toString(this.getClass().getResourceAsStream("/books.xml"));
         StaxParser parser = new StaxParser();
-        parser.registerHandlers(path("/bookstore/book/title").withId("books"));
+        parser.register(handler("books").path("/bookstore/book/title").subXml());
         Map<String, String> map = parser.parse(xml, Charset.defaultCharset());
         assertThat(map.get("books"), CoreMatchers.containsString("<title lang=\"en\">Everyday Italian</title>"));
     }
@@ -78,12 +81,12 @@ public class StaxXmlParserIntegrationTest {
 
         StaxParser parser = new StaxParser();
 
-        parser.registerHandlers(
-                path("/root/person/address/street").withId("addressStreet"),
-                path("/root/person/address").withId("fullXmlAddress"),
-                path("/root/info/company/name").withId("nameOfTheCompany"),
-                path("/root/info/company/address/city").withId("cityOfTheCompany"),
-                path("/root/info/").withId("info")
+        parser.register(
+                handler("addressStreet").path("/root/person/address/street").subXml(),
+                handler("fullXmlAddress").path("/root/person/address").subXml(),
+                handler("nameOfTheCompany").path("/root/info/company/name").subXml(),
+                handler("cityOfTheCompany").path("/root/info/company/address/city").subXml(),
+                handler("info").path("/root/info/").subXml()
         );
 
 
@@ -130,14 +133,12 @@ public class StaxXmlParserIntegrationTest {
         StaxParser parser = new StaxParser();
 
 
-        parser.registerHandlers(path("/root/person").withId("person"));
+        parser.register(handler("person").path("/root/person").subXml());
 
         Map<String, String> parse = parser.parse(xml, Charset.defaultCharset());
         String out = parse.get("person");
         assertThat(out, is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosa</name><surname>Spina</surname></person>"));
     }
-
-
 
     @Test
     public void parseXmlWithoutHandler() throws Exception {
@@ -166,5 +167,5 @@ public class StaxXmlParserIntegrationTest {
         Map<String,String> result = parser.parse(inputXml, Charset.defaultCharset());
         assertNotNull(result);
         assertThat(result.size(), is(0));
-    }  */
+    }
 }

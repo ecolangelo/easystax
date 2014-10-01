@@ -104,7 +104,7 @@ public class StaxParser implements XmlParser{
     }
 
 
-    public void registerHandlers(IContentHandler... IContentHandlers) {
+    public void register(IContentHandler... IContentHandlers) {
         for(IContentHandler ch: IContentHandlers) {
             if(!handlers.contains(ch)) {
                 handlers.add(ch);
