@@ -7,9 +7,9 @@ import com.github.ecolangelo.core.handlers.IContentHandler;
  */
 public interface Content {
 
-    IContentHandler text();
+    IContentHandler asText();
 
-    IContentHandler subXml();
+    IContentHandler asXml();
 
     IContentHandler attribute(String name);
 }

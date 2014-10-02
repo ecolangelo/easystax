@@ -3,9 +3,6 @@ package com.github.ecolangelo.core;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-/**
- * Created by eros on 21/09/14.
- */
 public class XmlNavigationPath {
 
     final private Stack<String> xmlPath = new Stack<String>();
