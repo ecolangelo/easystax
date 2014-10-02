@@ -43,37 +43,37 @@ String xml = "&lt;root&gt;"
                     "&lt;/root&gt;";
 
 
-        StaxParser parser = new StaxParser();
+StaxParser parser = new StaxParser();
 
-       String ADDRESS_STREET = "addressStreet";
-               String ADDRESS_IN_XML = "fullXmlAddress";
-               String COMPANY_NAME = "nameOfTheCompany";
-               String CITY_COMPANY_IN_XML = "cityOfTheCompany";
-               String INFO = "info";
+String ADDRESS_STREET = "addressStreet";
+String ADDRESS_IN_XML = "fullXmlAddress";
+String COMPANY_NAME = "nameOfTheCompany";
+String CITY_COMPANY_IN_XML = "cityOfTheCompany";
+String INFO = "info";
 
-       parser.register(
-              handler(ADDRESS_STREET).path("/root/person/address/street").asText(),
-              handler(ADDRESS_IN_XML).path("/root/person/address").asXml(),
-              handler(COMPANY_NAME).path("/root/info/company/name").asText(),
-              handler(CITY_COMPANY_IN_XML).path("/root/info/company/address/city").asXml(),
-              handler(INFO).path("/root/info/").asXml()
-       );
+parser.register(
+     handler(ADDRESS_STREET).path("/root/person/address/street").asText(),
+     handler(ADDRESS_IN_XML).path("/root/person/address").asXml(),
+     handler(COMPANY_NAME).path("/root/info/company/name").asText(),
+     handler(CITY_COMPANY_IN_XML).path("/root/info/company/address/city").asXml(),
+     handler(INFO).path("/root/info/").asXml()
+);
 
 
 
-        Map&lt;String,String&gt; result = parser.parse(xml, Charset.defaultCharset());
+Map&lt;String,String&gt; result = parser.parse(xml, Charset.defaultCharset());
 
-        result.get(ADDRESS_STREET) will output:
-        Kalvermarkt
+result.get(ADDRESS_STREET) will output:
+Kalvermarkt
 
-        result.get(ADDRESS_IN_XML) will output:
-        &lt;address&gt;&lt;street&gt;Kalvermarkt&lt;/street&gt;&lt;number&gt;25&lt;/number&gt;&lt;postCode&gt;2511&lt;/postCode&gt;&lt;city&gt;Den Haag&lt;/city&gt;&lt;/address&gt;
+result.get(ADDRESS_IN_XML) will output:
+&lt;address&gt;&lt;street&gt;Kalvermarkt&lt;/street&gt;&lt;number&gt;25&lt;/number&gt;&lt;postCode&gt;2511&lt;/postCode&gt;&lt;city&gt;Den Haag&lt;/city&gt;&lt;/address&gt;
 
-        result.get(COMPANY_NAME) will output:
-        E & Y
+result.get(COMPANY_NAME) will output:
+E & Y
 
-        result.get(CITY_COMPANY_IN_XML) will output:
-        &lt;city&gt;Den Haag&lt;/city&gt;
+result.get(CITY_COMPANY_IN_XML) will output:
+&lt;city&gt;Den Haag&lt;/city&gt;
 
 </code>
 </pre>
