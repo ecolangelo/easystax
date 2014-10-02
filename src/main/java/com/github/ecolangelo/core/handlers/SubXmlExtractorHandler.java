@@ -111,12 +111,12 @@ public class SubXmlExtractorHandler implements IContentHandler {
         }
 
         @Override
-        public IContentHandler text() {
+        public IContentHandler asText() {
             return new TagContentExtractorHandler(id, path);
         }
 
         @Override
-        public IContentHandler subXml() {
+        public IContentHandler asXml() {
             return new SubXmlExtractorHandler(id,path);
         }
 

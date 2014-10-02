@@ -6,9 +6,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 
-/**
- * Created by eros on 28/09/14.
- */
+
 public class WoodstockFactory {
 
     private WoodstockFactory() {

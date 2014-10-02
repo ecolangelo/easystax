@@ -9,7 +9,7 @@ library to deal with StAX API for xml parsing. The library uses Woodstock implem
 &lt;dependency&gt;
   &lt;groupId&gt;com.github.ecolangelo&lt;/groupId&gt;
   &lt;artifactId&gt;easystax&lt;/artifactId&gt;
-  &lt;version&gt;0.0.1&lt;/version&gt;
+  &lt;version&gt;0.0.2&lt;/version&gt;
 &lt;/dependency&gt;
 
 </code>
@@ -45,41 +45,35 @@ String xml = "&lt;root&gt;"
 
         StaxParser parser = new StaxParser();
 
-        parser.registerHandlers(
-                path("/root/person/address/street").withId("addressStreet"),
-                path("/root/person/address").withId("fullXmlAddress"),
-                path("/root/info/company/name").withId("nameOfTheCompany"),
-                path("/root/info/company/address/city").withId("cityOfTheCompany"),
-                path("/root/info/").withId("info")
-        );
+       String ADDRESS_STREET = "addressStreet";
+               String ADDRESS_IN_XML = "fullXmlAddress";
+               String COMPANY_NAME = "nameOfTheCompany";
+               String CITY_COMPANY_IN_XML = "cityOfTheCompany";
+               String INFO = "info";
+
+       parser.register(
+              handler(ADDRESS_STREET).path("/root/person/address/street").asText(),
+              handler(ADDRESS_IN_XML).path("/root/person/address").asXml(),
+              handler(COMPANY_NAME).path("/root/info/company/name").asText(),
+              handler(CITY_COMPANY_IN_XML).path("/root/info/company/address/city").asXml(),
+              handler(INFO).path("/root/info/").asXml()
+       );
 
 
 
         Map&lt;String,String&gt; result = parser.parse(xml, Charset.defaultCharset());
 
-        assertThat(result.get("addressStreet"), is("Kalvermarkt"));
-        
-        
-        assertThat(result.get("fullXmlAddress"), is(
-                "&lt;street&gt;Kalvermarkt&lt;/street&gt;" +
-                "&lt;number&gt;25&lt;/number&gt;" +
-                "&lt;postCode&gt;2511&lt;/postCode&gt;" +
-                "&lt;city&gt;Den Haag&lt;/city&gt;"
-                ));
-        
-        assertThat(result.get("nameOfTheCompany"), is("E &amp;amp; Y"));
-        
-        assertThat(result.get("info"), is(
-                "&lt;company&gt;" +
-                "&lt;name type=\"standard\"&gt;E &amp;amp; Y&lt;/name&gt;" +
-                "&lt;address&gt;" +
-                "&lt;street&gt;Spui&lt;/street&gt;" +
-                "&lt;number&gt;26&lt;/number&gt;" +
-                "&lt;postCode&gt;2611&lt;/postCode&gt;" +
-                "&lt;city&gt;Den Haag&lt;/city&gt;" +
-                "&lt;/address&gt;" +
-                "&lt;/company&gt;"
-        ));
+        result.get(ADDRESS_STREET) will output:
+        Kalvermarkt
+
+        result.get(ADDRESS_IN_XML) will output:
+        &lt;address&gt;&lt;street&gt;Kalvermarkt&lt;/street&gt;&lt;number&gt;25&lt;/number&gt;&lt;postCode&gt;2511&lt;/postCode&gt;&lt;city&gt;Den Haag&lt;/city&gt;&lt;/address&gt;
+
+        result.get(COMPANY_NAME) will output:
+        E & Y
+
+        result.get(CITY_COMPANY_IN_XML) will output:
+        &lt;city&gt;Den Haag&lt;/city&gt;
 
 </code>
 </pre>

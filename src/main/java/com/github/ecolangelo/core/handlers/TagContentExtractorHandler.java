@@ -5,9 +5,7 @@ import org.codehaus.stax2.XMLStreamReader2;
 
 import javax.xml.stream.XMLStreamException;
 
-/**
- * Created by eros on 30/09/14.
- */
+
 public class TagContentExtractorHandler extends SubXmlExtractorHandler {
 
 
@@ -20,7 +18,6 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
 
     @Override
     public void startElement(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
-        String localPart = xmlStreamReader.getName().getLocalPart();
         if(path.equals(navigationStack.resolvePath())) {
             startRecording();
         }
@@ -49,6 +46,6 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
 
     @Override
     public String getOut() {
-        return builder.toString();
+        return builder.toString().trim();
     }
 }

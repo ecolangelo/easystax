@@ -5,9 +5,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-/**
- * Created by eros on 06/09/14.
- */
+
 public interface XmlParser {
     public Map<String,String> parse(InputStream inputStream) throws XMLStreamException;
 
