@@ -1,5 +1,6 @@
 package com.github.ecolangelo.core.builders;
 
+import com.github.ecolangelo.core.DummyClosure;
 import com.github.ecolangelo.core.handlers.IContentHandler;
 
 /**
@@ -12,4 +13,7 @@ public interface Content {
     IContentHandler asXml();
 
     IContentHandler attribute(String name);
+
+    Content stream(DummyClosure<String> resultHandler);
+
 }

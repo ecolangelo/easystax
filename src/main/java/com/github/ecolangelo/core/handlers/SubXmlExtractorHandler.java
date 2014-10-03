@@ -1,9 +1,11 @@
 package com.github.ecolangelo.core.handlers;
 
+import com.github.ecolangelo.core.DummyClosure;
 import com.github.ecolangelo.core.WoodstockFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
 import com.github.ecolangelo.core.builders.Content;
+import com.github.ecolangelo.core.builders.IStream;
 import com.github.ecolangelo.core.builders.XmlPath;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.XMLStreamWriter2;
@@ -105,6 +107,9 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
         private String id;
         private String path;
+        DummyClosure<String> contentHandler;
+
+
 
         Builder(String id) {
             this.id = id;
@@ -112,7 +117,15 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
         @Override
         public IContentHandler asText() {
-            return new TagContentExtractorHandler(id, path);
+
+            TagContentExtractorHandler tagContentExtractorHandler = null;
+            if(contentHandler == null){
+                tagContentExtractorHandler = new TagContentExtractorHandler(id, path);
+            } else {
+                tagContentExtractorHandler = new StreamTagContentHandler(id, path, contentHandler);
+            }
+
+            return tagContentExtractorHandler;
         }
 
         @Override
@@ -128,6 +141,12 @@ public class SubXmlExtractorHandler implements IContentHandler {
         @Override
         public Content path(String path) {
             this.path = path.endsWith("/")?path:path+"/";
+            return this;
+        }
+
+        @Override
+        public Content stream(DummyClosure<String> resultHandler) {
+            this.contentHandler = resultHandler;
             return this;
         }
     }
