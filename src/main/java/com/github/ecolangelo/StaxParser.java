@@ -12,11 +12,11 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 
 /**
  * Created by eros on 06/09/14.
@@ -120,6 +120,102 @@ public class StaxParser implements XmlParser{
                 throw new ParseException(e);
             }
         }
+    }
+
+    public static IWith from(InputStream inputStream){
+        return new Builder(inputStream);
+    }
+
+    public static IWith from(String xml){
+        return new Builder(xml);
+    }
+
+
+    public static class Builder implements IFrom,IPath, IParse, IWith{
+
+        private InputStream inputStream;
+
+        private StaxParser parser;
+
+        public Builder(InputStream inputStream) {
+            this.inputStream = inputStream;
+
+        }
+
+        public Builder(String xml) {
+            this.inputStream = new ByteArrayInputStream(xml.getBytes(Charset.forName("UTF-8")));
+        }
+
+        @Override
+        public IParse path(KeyHolder<String> id, String path) {
+            parser.registerHandler(handler(id.key).path(path).asXml());
+            return this;
+        }
+
+        @Override
+        public IParse forEach(KeyHolder<String> id, String path, DummyClosure<String> resultHandler) {
+            parser.registerHandler(handler(id.key).path(path).stream(resultHandler).asXml());
+            return this;
+        }
+
+
+        @Override
+        public IPath with(XMLInputFactory xmlInputFactory) {
+            parser = new StaxParser(xmlInputFactory);
+            return this;
+        }
+
+        @Override
+        public Map<String, String> parse() throws XMLStreamException {
+            return parser.parse(inputStream);
+        }
+    }
+
+    public interface IFrom {
+
+        IParse path(KeyHolder<String> id,String path);
+    }
+
+    public interface IWith  {
+        IPath with(XMLInputFactory inputFactory);
+    }
+
+    public interface IPath {
+        IParse forEach(KeyHolder<String> id, String path, DummyClosure<String> resultHandler);
+
+        IParse path(KeyHolder<String> id, String path);
+    }
+
+    public static class KeyHolder<T> {
+
+        T key;
+
+        public KeyHolder(T t) {
+            this.key = t;
+        }
+
+    }
+
+
+    public interface IParse extends IPath{
+        Map<String,String> parse() throws XMLStreamException;
+    }
+
+
+    public static <T> KeyHolder<T> key(T t){
+        return new KeyHolder<T>(t);
+    }
+
+    public static XMLInputFactory woodstockInputFactory() {
+        return WoodstockFactory.getInputFactory();
+    }
+
+    public static XMLInputFactory woodstockInputFactory(Map<String,Object> inputFactorySettings){
+        XMLInputFactory inputFactory = WoodstockFactory.getInputFactory();
+        for(Map.Entry<String,Object> entry : inputFactorySettings.entrySet()) {
+            inputFactory.setProperty(entry.getKey(),entry.getValue());
+        }
+        return inputFactory;
     }
 
 }
