@@ -5,7 +5,6 @@ import com.github.ecolangelo.core.WoodstockFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
 import com.github.ecolangelo.core.builders.Content;
-import com.github.ecolangelo.core.builders.IStream;
 import com.github.ecolangelo.core.builders.XmlPath;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.XMLStreamWriter2;
@@ -13,16 +12,13 @@ import org.codehaus.stax2.XMLStreamWriter2;
 import javax.xml.stream.XMLStreamException;
 import java.io.StringWriter;
 
-/**
- * Created by eros on 08/09/14.
- */
 public class SubXmlExtractorHandler implements IContentHandler {
 
     protected String id;
 
     protected String path;
 
-    private boolean recording;
+    protected boolean recording;
 
     protected XMLStreamWriter2 writer2;
 
@@ -117,15 +113,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
         @Override
         public IContentHandler asText() {
-
-            TagContentExtractorHandler tagContentExtractorHandler = null;
-            if(contentHandler == null){
-                tagContentExtractorHandler = new TagContentExtractorHandler(id, path);
-            } else {
-                tagContentExtractorHandler = new StreamTagContentHandler(id, path, contentHandler);
-            }
-
-            return tagContentExtractorHandler;
+            return new TagContentExtractorHandler(id, path);
         }
 
         @Override
@@ -133,10 +121,6 @@ public class SubXmlExtractorHandler implements IContentHandler {
             return new SubXmlExtractorHandler(id,path);
         }
 
-        @Override
-        public IContentHandler attribute(String attributeName) {
-            return new AttributeValueExtractorHandler(id,path,attributeName);
-        }
 
         @Override
         public Content path(String path) {
@@ -147,7 +131,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
         @Override
         public IContentHandler stream(DummyClosure<String> resultHandler) {
             this.contentHandler = resultHandler;
-            return new StreamTagContentHandler(id,path, resultHandler);
+            return new StreamSubXmlContentHandler(id,path, resultHandler);
         }
     }
 }
