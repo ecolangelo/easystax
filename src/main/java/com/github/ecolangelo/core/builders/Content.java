@@ -14,6 +14,6 @@ public interface Content {
 
     IContentHandler attribute(String name);
 
-    Content stream(DummyClosure<String> resultHandler);
+    IContentHandler stream(DummyClosure<String> resultHandler);
 
 }

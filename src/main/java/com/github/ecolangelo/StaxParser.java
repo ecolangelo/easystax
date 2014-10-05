@@ -12,7 +12,6 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -131,11 +130,13 @@ public class StaxParser implements XmlParser{
     }
 
 
-    public static class Builder implements IFrom,IPath, IParse, IWith{
+    public static class Builder implements IFrom, IPath, IParse, IWith{
 
         private InputStream inputStream;
 
         private StaxParser parser;
+
+
 
         public Builder(InputStream inputStream) {
             this.inputStream = inputStream;
@@ -147,14 +148,20 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse path(KeyHolder<String> id, String path) {
+        public IParse path(XmlFormat<String> id, String path) {
             parser.registerHandler(handler(id.key).path(path).asXml());
             return this;
         }
 
         @Override
-        public IParse forEach(KeyHolder<String> id, String path, DummyClosure<String> resultHandler) {
-            parser.registerHandler(handler(id.key).path(path).stream(resultHandler).asXml());
+        public IParse path(TextFormat<String> id, String path) {
+            parser.registerHandler(handler(id.key).path(path).asText());
+            return this;
+        }
+
+        @Override
+        public IParse forEach(XmlFormat<String> id, String path, DummyClosure<String> resultHandler) {
+            parser.registerHandler(handler(id.key).path(path).stream(resultHandler));
             return this;
         }
 
@@ -173,7 +180,7 @@ public class StaxParser implements XmlParser{
 
     public interface IFrom {
 
-        IParse path(KeyHolder<String> id,String path);
+        IParse path(XmlFormat<String> id,String path);
     }
 
     public interface IWith  {
@@ -181,16 +188,29 @@ public class StaxParser implements XmlParser{
     }
 
     public interface IPath {
-        IParse forEach(KeyHolder<String> id, String path, DummyClosure<String> resultHandler);
+        IParse forEach(XmlFormat<String> id, String path, DummyClosure<String> resultHandler);
 
-        IParse path(KeyHolder<String> id, String path);
+        IParse path(XmlFormat<String> id, String path);
+
+        IParse path(TextFormat<String> id, String path);
     }
 
-    public static class KeyHolder<T> {
+    public static class XmlFormat<T>{
 
         T key;
 
-        public KeyHolder(T t) {
+        public XmlFormat(T t) {
+            this.key = t;
+        }
+
+
+    }
+
+    public static class TextFormat<T>{
+
+        T key;
+
+        public TextFormat(T t) {
             this.key = t;
         }
 
@@ -201,9 +221,12 @@ public class StaxParser implements XmlParser{
         Map<String,String> parse() throws XMLStreamException;
     }
 
+    public static <T> XmlFormat<T> xml(T t){
+        return new XmlFormat<T>(t);
+    }
 
-    public static <T> KeyHolder<T> key(T t){
-        return new KeyHolder<T>(t);
+    public static <T> TextFormat<T> text(T t){
+        return new TextFormat<T>(t);
     }
 
     public static XMLInputFactory woodstockInputFactory() {

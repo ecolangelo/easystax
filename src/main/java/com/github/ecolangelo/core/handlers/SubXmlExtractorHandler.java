@@ -103,7 +103,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
         return new Builder(id);
     }
 
-    public static class Builder implements XmlPath,Content {
+    public static class Builder implements XmlPath, Content{
 
         private String id;
         private String path;
@@ -145,9 +145,9 @@ public class SubXmlExtractorHandler implements IContentHandler {
         }
 
         @Override
-        public Content stream(DummyClosure<String> resultHandler) {
+        public IContentHandler stream(DummyClosure<String> resultHandler) {
             this.contentHandler = resultHandler;
-            return this;
+            return new StreamTagContentHandler(id,path, resultHandler);
         }
     }
 }

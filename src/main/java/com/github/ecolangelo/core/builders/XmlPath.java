@@ -9,6 +9,6 @@ public interface XmlPath {
 
     Content path(String path);
 
-    Content stream(DummyClosure<String> resultHandler);
+
 
 }
