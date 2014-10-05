@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.github.ecolangelo.StaxParser.*;
@@ -168,25 +170,28 @@ public class StaxXmlParserIntegrationTest {
                         path((name), text("/root/person/name")).
                 parse();
 
-        String out = parse.get(person);
-
-        assertThat(out, is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosario</name><surname>Spina</surname></person>"));
+        assertThat(parse.get(person), is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosario</name><surname>Spina</surname></person>"));
+        assertThat(parse.get(name), is("Mario\nRosario"));
     }
-
-
 
     @Test
     public void testStreaming() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books.xml");
-        Map<String,String> titles = from(is).with(woodstockInputFactory()).forEach("titles","/books/book/title", new DummyClosure<String>() {
+
+        final List<String> titles = new ArrayList<String>();
+
+        from(is).with(woodstockInputFactory()).forEach("titles", xml("/bookstore/book/title") , new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
-                System.out.println("title: "+s);
+
+                titles.add(s);
             }
         }).parse();
 
-
-
+        assertThat(titles.size(), is(4));
+        assertThat(titles.get(0), is("<title lang=\"en\">Everyday Italian</title>"));
+        assertThat(titles.get(1), is("<title lang=\"en\">Harry Potter</title>"));
+        assertThat(titles.get(2), is("<title lang=\"en\">XQuery Kick Start</title>"));
+        assertThat(titles.get(3), is("<title lang=\"en\">Learning XML</title>"));
     }
-
 }

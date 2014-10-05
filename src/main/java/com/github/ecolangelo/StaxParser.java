@@ -20,9 +20,7 @@ import java.util.Map;
 
 import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 
-/**
- * Created by eros on 06/09/14.
- */
+
 public class StaxParser implements XmlParser{
 
     private XMLInputFactory xmlInputFactory = WoodstockFactory.getInputFactory();
@@ -163,11 +161,10 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse forEach(String id, String path, DummyClosure<String> resultHandler) {
-            parser.registerHandler(handler(id).path(path).stream(resultHandler));
+        public IParse forEach(String id, XmlFormat xmlFormat, DummyClosure<String> resultHandler) {
+            parser.registerHandler(handler(id).path(xmlFormat.path).stream(resultHandler));
             return this;
         }
-
 
         @Override
         public IPath with(XMLInputFactory xmlInputFactory) {
@@ -193,7 +190,8 @@ public class StaxParser implements XmlParser{
     }
 
     public interface IPath {
-        IParse forEach(String id, String format, DummyClosure<String> resultHandler);
+        IParse forEach(String id, XmlFormat format, DummyClosure<String> resultHandler);
+
 
         IParse path(String id, XmlFormat path);
 
