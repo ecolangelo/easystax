@@ -1,7 +1,6 @@
 package com.github.ecolangelo.core;
 
 
-import com.ctc.wstx.stax.WstxInputFactory;
 import com.github.ecolangelo.StaxParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
@@ -11,7 +10,7 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 import static com.github.ecolangelo.StaxParser.from;
-import static com.github.ecolangelo.StaxParser.key;
+import static com.github.ecolangelo.StaxParser.xml;
 import static com.github.ecolangelo.StaxParser.woodstockInputFactory;
 import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 import static org.hamcrest.CoreMatchers.is;
@@ -148,26 +147,31 @@ public class StaxXmlParserIntegrationTest {
 
     @Test
     public void completeFluent() throws Exception {
-        String xml = "<root>" +
-                "<person>" +
-                "<name>Mario</name>" +
-                "<surname>Zarantonello</surname>" +
-                "</person>" +
-                "<person>" +
-                "<name>Rosario</name>" +
-                "<surname>Spina</surname>" +
-                "</person>"+
+
+        String xml =
+                "<root>" +
+                    "<person>" +
+                        "<name>Mario</name>" +
+                        "<surname>Zarantonello</surname>" +
+                    "</person>" +
+                    "<person>" +
+                        "<name>Rosario</name>" +
+                        "<surname>Spina</surname>" +
+                    "</person>"+
                 "</root>";
 
+        String person = "person";
+        String name = "name";
 
-
-        Map<String, String> parse = from(xml).
+        Map<String, String> parse =
+                from(xml).
                 with(woodstockInputFactory()).
-                path(key("person"), "/root/person").
-                path(key("name"), "/root/person/name").
+                        path(xml(person), "/root/person").
+                        path(xml(name), "/root/person/name").
                 parse();
 
-        String out = parse.get("person");
+        String out = parse.get(person);
+
         assertThat(out, is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosario</name><surname>Spina</surname></person>"));
     }
 
@@ -176,7 +180,7 @@ public class StaxXmlParserIntegrationTest {
     @Test
     public void testStreaming() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books.xml");
-        Map<String,String> titles = from(is).with(woodstockInputFactory()).forEach(key("titles"),"/books/book/title", new DummyClosure<String>() {
+        Map<String,String> titles = from(is).with(woodstockInputFactory()).forEach(xml("titles"),"/books/book/title", new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
                 System.out.println("title: "+s);
