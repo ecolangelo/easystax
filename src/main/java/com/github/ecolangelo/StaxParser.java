@@ -13,10 +13,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 
@@ -137,8 +134,6 @@ public class StaxParser implements XmlParser{
 
         private StaxParser parser;
 
-
-
         public Builder(InputStream inputStream) {
             this.inputStream = inputStream;
 
@@ -167,6 +162,11 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
+        public Iterator<String> forEach(String id, XmlFormat format) {
+            return null;
+        }
+
+        @Override
         public IPath with(XMLInputFactory xmlInputFactory) {
             parser = new StaxParser(xmlInputFactory);
             return this;
@@ -191,6 +191,8 @@ public class StaxParser implements XmlParser{
 
     public interface IPath {
         IParse forEach(String id, XmlFormat format, DummyClosure<String> resultHandler);
+
+        Iterator<String> forEach(String id, XmlFormat format);
 
 
         IParse path(String id, XmlFormat path);
