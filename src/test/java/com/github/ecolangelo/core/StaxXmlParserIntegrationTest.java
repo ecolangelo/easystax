@@ -9,9 +9,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import static com.github.ecolangelo.StaxParser.from;
-import static com.github.ecolangelo.StaxParser.xml;
-import static com.github.ecolangelo.StaxParser.woodstockInputFactory;
+import static com.github.ecolangelo.StaxParser.*;
 import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -166,8 +164,8 @@ public class StaxXmlParserIntegrationTest {
         Map<String, String> parse =
                 from(xml).
                 with(woodstockInputFactory()).
-                        path(xml(person), "/root/person").
-                        path(xml(name), "/root/person/name").
+                        path((person), xml("/root/person")).
+                        path((name), text("/root/person/name")).
                 parse();
 
         String out = parse.get(person);
@@ -180,7 +178,7 @@ public class StaxXmlParserIntegrationTest {
     @Test
     public void testStreaming() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books.xml");
-        Map<String,String> titles = from(is).with(woodstockInputFactory()).forEach(xml("titles"),"/books/book/title", new DummyClosure<String>() {
+        Map<String,String> titles = from(is).with(woodstockInputFactory()).forEach("titles","/books/book/title", new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
                 System.out.println("title: "+s);
