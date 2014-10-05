@@ -24,12 +24,12 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
     protected StringWriter w = new StringWriter();
 
-    SubXmlExtractorHandler(String id, String path) {
+    public SubXmlExtractorHandler(String id, String path) {
         this.path = path;
         this.id = id;
     }
 
-    SubXmlExtractorHandler(String id) {
+    public SubXmlExtractorHandler(String id) {
         this.id = id;
     }
 

@@ -5,6 +5,8 @@ import com.github.ecolangelo.StaxParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -193,5 +195,18 @@ public class StaxXmlParserIntegrationTest {
         assertThat(titles.get(1), is("<title lang=\"en\">Harry Potter</title>"));
         assertThat(titles.get(2), is("<title lang=\"en\">XQuery Kick Start</title>"));
         assertThat(titles.get(3), is("<title lang=\"en\">Learning XML</title>"));
+    }
+
+
+    @Test
+    public void testStremingBigFile() throws Exception {
+         InputStream is = new FileInputStream(new File("/Users/eros/Downloads/sample/EP_Authority_16May2014.xml"));
+
+        from(is).with(woodstockInputFactory()).forEach("iterator",xml("/exchange-documents/document-id/kind"),new DummyClosure<String>(){
+            @Override
+            public void cl(String s) throws Exception {
+                System.out.println(s);
+            }
+        }).parse();
     }
 }
