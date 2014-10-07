@@ -79,7 +79,7 @@ public class StaxXmlParserIntegrationTest {
         String INFO = "info";
 
         Map<String,String> result = from(xml).with(woodstockInputFactory()).
-                path("/root/person/address/street", text(ADDRESS_STREET)).  //
+                path("/root/person/address/street", text(ADDRESS_STREET)).
                 path("/root/person/address", xml(ADDRESS_IN_XML)).
                 path("/root/info/company/name", text(COMPANY_NAME)).
                 path("/root/info/company/address/city", xml(CITY_COMPANY_IN_XML)).
@@ -167,8 +167,7 @@ public class StaxXmlParserIntegrationTest {
         from(is).with(woodstockInputFactory()).forEach("/bookstore/book/title", xml("titles") , new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
-
-                titles.add(s);
+                System.out.println(s);
             }
         }).parse();
 
