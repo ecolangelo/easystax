@@ -39,6 +39,15 @@ public class StaxXmlParserIntegrationTest {
     }
 
     @Test
+    public void parseBookStorage2() throws Exception {
+        InputStream is = this.getClass().getResourceAsStream("/books.xml");
+
+        from(is).
+                with(woodstockInputFactory()).path("/bookstore/book/title", xml(""));
+
+    }
+
+    @Test
     public void parseASubXmlAsText() throws Exception {
         String xml = IOUtils.toString(this.getClass().getResourceAsStream("/books.xml"));
         StaxParser parser = new StaxParser();
@@ -168,8 +177,8 @@ public class StaxXmlParserIntegrationTest {
         Map<String, String> parse =
                 from(xml).
                 with(woodstockInputFactory()).
-                        path((person), xml("/root/person")).
-                        path((name), text("/root/person/name")).
+                        path(("/root/person"), xml(person)).
+                        path(("/root/person/name"), text(name)).
                 parse();
 
         assertThat(parse.get(person), is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosario</name><surname>Spina</surname></person>"));
@@ -182,7 +191,7 @@ public class StaxXmlParserIntegrationTest {
 
         final List<String> titles = new ArrayList<String>();
 
-        from(is).with(woodstockInputFactory()).forEach("titles", xml("/bookstore/book/title") , new DummyClosure<String>() {
+        from(is).with(woodstockInputFactory()).forEach("/bookstore/book/title", xml("titles") , new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
 
@@ -197,16 +206,4 @@ public class StaxXmlParserIntegrationTest {
         assertThat(titles.get(3), is("<title lang=\"en\">Learning XML</title>"));
     }
 
-
-    @Test
-    public void testStremingBigFile() throws Exception {
-         InputStream is = new FileInputStream(new File("/Users/eros/Downloads/sample/EP_Authority_16May2014.xml"));
-
-        from(is).with(woodstockInputFactory()).forEach("iterator",xml("/exchange-documents/document-id/kind"),new DummyClosure<String>(){
-            @Override
-            public void cl(String s) throws Exception {
-                System.out.println(s);
-            }
-        }).parse();
-    }
 }
