@@ -96,8 +96,8 @@ public class StaxParser implements XmlParser{
     }
 
 
-    public void registerHandler(IContentHandler IContentHandler) {
-        if(!handlers.contains(IContentHandler)) handlers.add(IContentHandler);
+    public void registerHandler(IContentHandler contentHandler) {
+        if(!handlers.contains(contentHandler)) handlers.add(contentHandler);
     }
 
 
@@ -150,8 +150,8 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse path(String id, TextFormat format) {
-            parser.registerHandler(handler(format.id).path(id).asText());
+        public IParse path(String path, TextFormat format) {
+            parser.registerHandler(handler(format.id).path(path).asText());
             return this;
         }
 
