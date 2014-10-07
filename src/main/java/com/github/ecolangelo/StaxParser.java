@@ -144,20 +144,20 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse path(String id, XmlFormat format) {
-            parser.registerHandler(handler(id).path(format.path).asXml());
+        public IParse path(String path, XmlFormat format) {
+            parser.registerHandler(handler(format.id).path(path).asXml());
             return this;
         }
 
         @Override
         public IParse path(String id, TextFormat format) {
-            parser.registerHandler(handler(id).path(format.path).asText());
+            parser.registerHandler(handler(format.id).path(id).asText());
             return this;
         }
 
         @Override
-        public IParse forEach(String id, XmlFormat xmlFormat, DummyClosure<String> resultHandler) {
-            parser.registerHandler(handler(id).path(xmlFormat.path).stream(resultHandler));
+        public IParse forEach(String path, XmlFormat xmlFormat, DummyClosure<String> resultHandler) {
+            parser.registerHandler(handler(xmlFormat.id).path(path).stream(resultHandler));
             return this;
         }
 
@@ -202,10 +202,10 @@ public class StaxParser implements XmlParser{
 
     public static class XmlFormat{
 
-        String path;
+        String id;
 
-        public XmlFormat(String path) {
-            this.path = path;
+        public XmlFormat(String id) {
+            this.id = id;
         }
 
 
@@ -213,10 +213,10 @@ public class StaxParser implements XmlParser{
 
     public static class TextFormat{
 
-        String path;
+        String id;
 
-        public TextFormat(String path) {
-            this.path = path;
+        public TextFormat(String id) {
+            this.id = id;
         }
 
     }
