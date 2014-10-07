@@ -29,6 +29,7 @@ public class StaxXmlParserIntegrationTest {
         Map<String, String> parseResult = from(is).with(woodstockInputFactory()).
                 path("/bookstore/book/title", xml("booksXml")).
                 path("/bookstore/book/title",text("books")).parse();
+
         assertThat(parseResult.get("booksXml"), is("<title lang=\"en\">Everyday Italian</title><title lang=\"en\">Harry Potter</title><title lang=\"en\">XQuery Kick Start</title><title lang=\"en\">Learning XML</title>"));
         assertThat(parseResult.get("books"), is("Everyday Italian\n" +
                 "Harry Potter\n" +
@@ -47,27 +48,27 @@ public class StaxXmlParserIntegrationTest {
     public void exampleOfUsageWithAbsoluteXmlPath() throws Exception {
 
         String xml = "<root>" +
-                        "<person>" +
-                            "<name>Mario</name>" +
-                            "<surname>Zarantonello</surname>" +
-                            "<address>" +
-                                "<street>Kalvermarkt</street>" +
-                                "<number>25</number>" +
-                                "<postCode>2511</postCode>" +
-                                "<city>Den Haag</city>" +
-                            "</address>"+
-                        "</person>" +
-                        "<info>" +
-                            "<company>" +
-                                "<name type=\"standard\">E &amp; Y</name>" +
-                                "<address>" +
-                                    "<street>Spui</street>" +
-                                    "<number>26</number>" +
-                                    "<postCode>2611</postCode>" +
-                                    "<city>Den Haag</city>" +
-                                "</address>" +
-                            "</company>" +
-                        "</info>" +
+                "<person>" +
+                "<name>Mario</name>" +
+                "<surname>Zarantonello</surname>" +
+                "<address>" +
+                "<street>Kalvermarkt</street>" +
+                "<number>25</number>" +
+                "<postCode>2511</postCode>" +
+                "<city>Den Haag</city>" +
+                "</address>"+
+                "</person>" +
+                "<info>" +
+                "<company>" +
+                "<name type=\"standard\">E &amp; Y</name>" +
+                "<address>" +
+                "<street>Spui</street>" +
+                "<number>26</number>" +
+                "<postCode>2611</postCode>" +
+                "<city>Den Haag</city>" +
+                "</address>" +
+                "</company>" +
+                "</info>" +
                 "</root>";
 
 
@@ -133,25 +134,25 @@ public class StaxXmlParserIntegrationTest {
 
         String xml =
                 "<root>" +
-                    "<person>" +
+                        "<person>" +
                         "<name>Mario</name>" +
                         "<surname>Zarantonello</surname>" +
-                    "</person>" +
-                    "<person>" +
+                        "</person>" +
+                        "<person>" +
                         "<name>Rosario</name>" +
                         "<surname>Spina</surname>" +
-                    "</person>"+
-                "</root>";
+                        "</person>"+
+                        "</root>";
 
         String person = "person";
         String name = "name";
 
         Map<String, String> parse =
                 from(xml).
-                with(woodstockInputFactory()).
+                        with(woodstockInputFactory()).
                         path(("/root/person"), xml(person)).
                         path(("/root/person/name"), text(name)).
-                parse();
+                        parse();
 
         assertThat(parse.get(person), is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosario</name><surname>Spina</surname></person>"));
         assertThat(parse.get(name), is("Mario\nRosario"));
@@ -177,5 +178,7 @@ public class StaxXmlParserIntegrationTest {
         assertThat(titles.get(2), is("<title lang=\"en\">XQuery Kick Start</title>"));
         assertThat(titles.get(3), is("<title lang=\"en\">Learning XML</title>"));
     }
+
+
 
 }
