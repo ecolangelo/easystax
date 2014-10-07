@@ -14,7 +14,86 @@ library to deal with StAX API for xml parsing. The library uses Woodstock implem
 
 </code>
 </pre>
-### example of usage
+
+### example: parsing huge xml
+
+input: 
+
+<pre>
+<code>
+&lt;registry&gt;
+
+        &lt;person&gt;
+            &lt;name&gt;Mario&lt;/name&gt;
+            &lt;surname&gt;Zarantonello&lt;/surname&gt;
+            &lt;address&gt;
+                    &lt;street&gt;Spui&lt;/street&gt;
+                    &lt;number&gt;75&lt;/number&gt;
+                    &lt;city&gt;Amsterdam&lt;/city&gt;
+                    &lt;code&gt;92123&lt;/code&gt;
+            &lt;/address&gt;
+        &lt;/person&gt;
+    
+        &lt;person&gt;
+            &lt;name&gt;Harry&lt;/name&gt;
+            &lt;surname&gt;Potter&lt;/surname&gt;
+            &lt;address&gt;
+                &lt;street&gt;Lincoln&lt;/street&gt;
+                &lt;number&gt;25&lt;/number&gt;
+                &lt;city&gt;London&lt;/city&gt;
+                &lt;code&gt;12345&lt;/code&gt;
+            &lt;/address&gt;
+        &lt;/person&gt; 
+                .
+                .
+                .
+                .
+                .
+                .
+                .
+                .
+&lt;/registry&gt;
+</code>
+</pre>
+
+<pre>
+<code>
+InputStream is = (...) //getting input stream from source
+
+from(is).with(woodstockInputFactory()).forEach("/registry/person/address", xml("titles") , new DummyClosure<String>() {
+            @Override
+            public void cl(String s) throws Exception {
+                System.out.println(s);
+            }
+        }).parse();
+
+</pre>
+</code>
+
+this will print out the sub xml containing the adress of each person:
+
+<pre>
+<code>
+&lt;address&gt;
+    &lt;street&gt;Spui&lt;/street&gt;
+    &lt;number&gt;75&lt;/number&gt;
+    &lt;city&gt;Amsterdam&lt;/city&gt;
+    &lt;code&gt;92123&lt;/code&gt;
+&lt;/address&gt;
+
+&lt;address&gt;
+    &lt;street&gt;Lincoln&lt;/street&gt;
+    &lt;number&gt;25&lt;/number&gt;
+    &lt;city&gt;London&lt;/city&gt;
+    &lt;code&gt;12345&lt;/code&gt;
+&lt;/address&gt;
+      .
+      .
+      .
+</pre>
+</code>
+
+### example: extracting multiple information from xml
 
 <pre>
 <code>
@@ -43,25 +122,13 @@ String xml = "&lt;root&gt;"
                     "&lt;/root&gt;";
 
 
-StaxParser parser = new StaxParser();
 
-String ADDRESS_STREET = "addressStreet";
-String ADDRESS_IN_XML = "fullXmlAddress";
-String COMPANY_NAME = "nameOfTheCompany";
-String CITY_COMPANY_IN_XML = "cityOfTheCompany";
-String INFO = "info";
-
-parser.register(
-     handler(ADDRESS_STREET).path("/root/person/address/street").asText(),
-     handler(ADDRESS_IN_XML).path("/root/person/address").asXml(),
-     handler(COMPANY_NAME).path("/root/info/company/name").asText(),
-     handler(CITY_COMPANY_IN_XML).path("/root/info/company/address/city").asXml(),
-     handler(INFO).path("/root/info/").asXml()
-);
-
-
-
-Map&lt;String,String&gt; result = parser.parse(xml, Charset.defaultCharset());
+Map&lt;String,String&gt; result = from(xml).with(woodstockInputFactory()).
+                                                  path("/root/person/address/street", text(ADDRESS_STREET)).  
+                                                  path("/root/person/address", xml(ADDRESS_IN_XML)).
+                                                  path("/root/info/company/name", text(COMPANY_NAME)).
+                                                  path("/root/info/company/address/city", xml(CITY_COMPANY_IN_XML)).
+                                                  path("/root/info/", xml(INFO)).parse();
 
 result.get(ADDRESS_STREET) will output:
 Kalvermarkt
@@ -77,6 +144,8 @@ result.get(CITY_COMPANY_IN_XML) will output:
 
 </code>
 </pre>
+
+
         
         
 #### Licence:
