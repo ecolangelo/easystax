@@ -178,7 +178,4 @@ public class StaxXmlParserIntegrationTest {
         assertThat(titles.get(2), is("<title lang=\"en\">XQuery Kick Start</title>"));
         assertThat(titles.get(3), is("<title lang=\"en\">Learning XML</title>"));
     }
-
-
-
 }
