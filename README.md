@@ -60,7 +60,7 @@ input:
 <code>
 InputStream is = (...) //getting input stream from source
 
-from(is).with(woodstockInputFactory()).forEach("/registry/person/address", xml("titles") , new DummyClosure<String>() {
+from(is).with(woodstockInputFactory()).forEach("/registry/person/address", xml("addresses") , new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
                 System.out.println(s);
