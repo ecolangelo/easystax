@@ -1,7 +1,7 @@
 package com.github.ecolangelo.core.handlers;
 
 import com.github.ecolangelo.core.DummyClosure;
-import com.github.ecolangelo.core.WoodstockFactory;
+import com.github.ecolangelo.core.WoodstoxFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
 import com.github.ecolangelo.core.builders.Content;
@@ -74,7 +74,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
     protected void startRecording() {
         try {
-            writer2 = (XMLStreamWriter2) WoodstockFactory.getOutputFactory().createXMLStreamWriter(w);
+            writer2 = (XMLStreamWriter2) WoodstoxFactory.getOutputFactory().createXMLStreamWriter(w);
         } catch (XMLStreamException e) {
             throw new BuilderInitializationException(e);
         }

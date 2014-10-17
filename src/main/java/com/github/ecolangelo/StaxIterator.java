@@ -1,17 +1,11 @@
 package com.github.ecolangelo;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-import com.github.ecolangelo.core.DummyClosure;
-import com.github.ecolangelo.core.WoodstockFactory;
+import com.github.ecolangelo.core.WoodstoxFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
-import com.github.ecolangelo.core.handlers.IContentHandler;
-import com.github.ecolangelo.core.handlers.StreamSubXmlContentHandler;
 import com.github.ecolangelo.core.handlers.SubXmlExtractorHandler;
 import org.codehaus.stax2.XMLStreamReader2;
 
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -31,7 +25,7 @@ public class StaxIterator extends SubXmlExtractorHandler implements Iterator<Str
         super(id, path);
         flag = true;
         is = inputStream;
-        reader2 = (XMLStreamReader2) WoodstockFactory.getInputFactory().createXMLStreamReader(inputStream);
+        reader2 = (XMLStreamReader2) WoodstoxFactory.getInputFactory().createXMLStreamReader(inputStream);
         iterate();
     }
 

@@ -7,9 +7,9 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 
 
-public class WoodstockFactory {
+public class WoodstoxFactory {
 
-    private WoodstockFactory() {
+    private WoodstoxFactory() {
 
     }
 

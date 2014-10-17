@@ -1,20 +1,15 @@
 package com.github.ecolangelo.core;
 
 
-import com.github.ecolangelo.StaxParser;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static com.github.ecolangelo.StaxParser.*;
-import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -26,7 +21,7 @@ public class StaxXmlParserIntegrationTest {
     public void parseBookStorage() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books.xml");
 
-        Map<String, String> parseResult = from(is).with(woodstockInputFactory()).
+        Map<String, String> parseResult = from(is).with(woodstoxInputFactory()).
                 path("/bookstore/book/title", xml("booksXml")).
                 path("/bookstore/book/title",text("books")).parse();
 
@@ -40,7 +35,7 @@ public class StaxXmlParserIntegrationTest {
     @Test
     public void parseASubXmlAsText() throws Exception {
         String xml = IOUtils.toString(this.getClass().getResourceAsStream("/books.xml"));
-        Map<String, String> map = from(xml).with(woodstockInputFactory()).path("/bookstore/book/",text("booksXml")).parse();
+        Map<String, String> map = from(xml).with(woodstoxInputFactory()).path("/bookstore/book/",text("booksXml")).parse();
         assertNotNull(map);
     }
 
@@ -78,7 +73,7 @@ public class StaxXmlParserIntegrationTest {
         String CITY_COMPANY_IN_XML = "cityOfTheCompany";
         String INFO = "info";
 
-        Map<String,String> result = from(xml).with(woodstockInputFactory()).
+        Map<String,String> result = from(xml).with(woodstoxInputFactory()).
                 path("/root/person/address/street", text(ADDRESS_STREET)).
                 path("/root/person/address", xml(ADDRESS_IN_XML)).
                 path("/root/info/company/name", text(COMPANY_NAME)).
@@ -123,7 +118,7 @@ public class StaxXmlParserIntegrationTest {
                 "</person>"+
                 "</root>";
 
-        Map<String, String> parse = from(xml).with(woodstockInputFactory()).path("person",xml("/root/person")).parse();
+        Map<String, String> parse = from(xml).with(woodstoxInputFactory()).path("person",xml("/root/person")).parse();
         String out = parse.get("person");
         assertThat(out, is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosa</name><surname>Spina</surname></person>"));
     }
@@ -149,7 +144,7 @@ public class StaxXmlParserIntegrationTest {
 
         Map<String, String> parse =
                 from(xml).
-                        with(woodstockInputFactory()).
+                        with(woodstoxInputFactory()).
                         path(("/root/person"), xml(person)).
                         path(("/root/person/name"), text(name)).
                         parse();
@@ -164,7 +159,7 @@ public class StaxXmlParserIntegrationTest {
 
         final List<String> titles = new ArrayList<String>();
 
-        from(is).with(woodstockInputFactory()).forEach("/bookstore/book/title", xml("titles") , new DummyClosure<String>() {
+        from(is).with(woodstoxInputFactory()).forEach("/bookstore/book/title", xml("titles") , new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
                 System.out.println(s);

@@ -2,7 +2,7 @@ package com.github.ecolangelo;
 
 import com.github.ecolangelo.core.DummyClosure;
 import com.github.ecolangelo.core.ParseException;
-import com.github.ecolangelo.core.WoodstockFactory;
+import com.github.ecolangelo.core.WoodstoxFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.handlers.IContentHandler;
 import org.codehaus.stax2.XMLStreamReader2;
@@ -20,7 +20,7 @@ import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler
 
 public class StaxParser implements XmlParser{
 
-    private XMLInputFactory xmlInputFactory = WoodstockFactory.getInputFactory();
+    private XMLInputFactory xmlInputFactory = WoodstoxFactory.getInputFactory();
 
     final private List<IContentHandler> handlers = new ArrayList<IContentHandler>();
 
@@ -234,12 +234,12 @@ public class StaxParser implements XmlParser{
         return new TextFormat(path);
     }
 
-    public static XMLInputFactory woodstockInputFactory() {
-        return WoodstockFactory.getInputFactory();
+    public static XMLInputFactory woodstoxInputFactory() {
+        return WoodstoxFactory.getInputFactory();
     }
 
-    public static XMLInputFactory woodstockInputFactory(Map<String,Object> inputFactorySettings){
-        XMLInputFactory inputFactory = WoodstockFactory.getInputFactory();
+    public static XMLInputFactory woodstoxInputFactory(Map<String, Object> inputFactorySettings){
+        XMLInputFactory inputFactory = WoodstoxFactory.getInputFactory();
         for(Map.Entry<String,Object> entry : inputFactorySettings.entrySet()) {
             inputFactory.setProperty(entry.getKey(),entry.getValue());
         }
