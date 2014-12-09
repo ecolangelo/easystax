@@ -119,16 +119,16 @@ public class StaxParser implements XmlParser{
         }
     }
 
-    public static IWith from(InputStream inputStream){
+    public static Builder from(InputStream inputStream){
         return new Builder(inputStream);
     }
 
-    public static IWith from(String xml){
+    public static Builder from(String xml){
         return new Builder(xml);
     }
 
 
-    public static class Builder implements IFrom, IPath, IParse, IWith{
+    public static class Builder implements  IPath, IParse, IProperties {
 
         private InputStream inputStream;
 
@@ -144,95 +144,38 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse path(String path, XmlFormat format) {
-            parser.registerHandler(handler(format.id).path(path).asXml());
+        public IParse forEach(String path, Action<String> resultHandler) {
+            parser = new StaxParser(woodstoxInputFactory());
+            parser.registerHandler(handler("no-id").path(path).stream(resultHandler));
             return this;
         }
 
         @Override
-        public IParse path(String path, TextFormat format) {
-            parser.registerHandler(handler(format.id).path(path).asText());
+        public IPath properties(Map<String,Object> xmlParserProperties) {
+            parser = new StaxParser(woodstoxInputFactory(xmlParserProperties));
             return this;
         }
 
         @Override
-        public IParse forEach(String path, XmlFormat xmlFormat, Action<String> resultHandler) {
-            parser.registerHandler(handler(xmlFormat.id).path(path).stream(resultHandler));
-            return this;
-        }
-
-        @Override
-        public Iterator<String> forEach(String id, XmlFormat format) {
-            return null;
-        }
-
-        @Override
-        public IPath with(XMLInputFactory xmlInputFactory) {
-            parser = new StaxParser(xmlInputFactory);
-            return this;
-        }
-
-        @Override
-        public Map<String, String> parse() throws XMLStreamException {
-            return parser.parse(inputStream);
+        public void parse() throws XMLStreamException {
+            parser.parse(inputStream);
         }
     }
 
-    public interface IFrom {
 
-        IParse path(String id, TextFormat path);
-
-        IParse path(String id, XmlFormat path);
-    }
-
-    public interface IWith  {
-        IPath with(XMLInputFactory inputFactory);
+    public interface IProperties {
+        IPath properties(Map<String,Object> xmlParserProperties);
     }
 
     public interface IPath {
-        IParse forEach(String id, XmlFormat format, Action<String> resultHandler);
-
-        Iterator<String> forEach(String id, XmlFormat format);
-
-
-        IParse path(String id, XmlFormat path);
-
-        IParse path(String id, TextFormat path);
-    }
-
-    public static class XmlFormat{
-
-        String id;
-
-        public XmlFormat(String id) {
-            this.id = id;
-        }
-
-
-    }
-
-    public static class TextFormat{
-
-        String id;
-
-        public TextFormat(String id) {
-            this.id = id;
-        }
-
+        IParse forEach(String path , Action<String> resultHandler);
     }
 
 
     public interface IParse extends IPath{
-        Map<String,String> parse() throws XMLStreamException;
+        void parse() throws XMLStreamException;
     }
 
-    public static  XmlFormat xml(String path){
-        return new XmlFormat(path);
-    }
-
-    public static TextFormat text(String path){
-        return new TextFormat(path);
-    }
 
     public static XMLInputFactory woodstoxInputFactory() {
         return WoodstoxFactory.getInputFactory();
