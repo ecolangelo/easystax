@@ -118,7 +118,7 @@ public class StaxXmlParserIntegrationTest {
                 "</person>"+
                 "</root>";
 
-        Map<String, String> parse = from(xml).with(woodstoxInputFactory()).path("person",xml("/root/person")).parse();
+        Map<String, String> parse = from(xml).with(woodstoxInputFactory()).path("/root/person",xml("person")).parse();
         String out = parse.get("person");
         assertThat(out, is("<person><name>Mario</name><surname>Zarantonello</surname></person><person><name>Rosa</name><surname>Spina</surname></person>"));
     }
@@ -162,7 +162,7 @@ public class StaxXmlParserIntegrationTest {
         from(is).with(woodstoxInputFactory()).forEach("/bookstore/book/title", xml("titles") , new DummyClosure<String>() {
             @Override
             public void cl(String s) throws Exception {
-                System.out.println(s);
+                titles.add(s);
             }
         }).parse();
 
