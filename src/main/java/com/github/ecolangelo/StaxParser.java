@@ -146,7 +146,7 @@ public class StaxParser implements XmlParser{
         @Override
         public IParse forEach(String path, Action<String> resultHandler) {
             parser = new StaxParser(woodstoxInputFactory());
-            parser.registerHandler(handler("no-id").path(path).stream(resultHandler));
+            parser.registerHandler(handler(UUID.randomUUID().toString()).path(path).stream(resultHandler));
             return this;
         }
 

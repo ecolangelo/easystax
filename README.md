@@ -1,7 +1,7 @@
 easystax
 ========
 
-library to deal with StAX API for xml parsing. The library uses Woodstock implementation for XMLStreamReader and XMLOutputWriter
+library to deal with StAX API for xml parsing. The library uses Woodstox implementation for XMLStreamReader and XMLOutputWriter
 
 ### import with maven
 <pre>
@@ -60,10 +60,10 @@ input:
 <code>
 InputStream is = (...) //getting input stream from source
 
-from(is).with(woodstockInputFactory()).forEach("/registry/person/address", xml("addresses") , new Action<String>() {
+from(is).forEach("/bookstore/book/title" , new OnXmlSubPart() {
             @Override
-            public void execute(String s) throws Exception {
-                System.out.println(s);
+            public void payload(String payload){
+                titles.add(payload);
             }
         }).parse();
 
