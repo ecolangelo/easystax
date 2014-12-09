@@ -1,6 +1,6 @@
 package com.github.ecolangelo;
 
-import com.github.ecolangelo.core.DummyClosure;
+import com.github.ecolangelo.core.Action;
 import com.github.ecolangelo.core.ParseException;
 import com.github.ecolangelo.core.WoodstoxFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
@@ -48,36 +48,36 @@ public class StaxParser implements XmlParser{
 
                     String localPart = streamReader.getName().getLocalPart();
                     stack.pushTag(localPart);
-                    notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
+                    notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void execute(IContentHandler IContentHandler) throws Exception{
                             IContentHandler.startElement(streamReader, stack);
                         }
                     });
                     break;
                 }
                 case XMLStreamConstants.CHARACTERS:{
-                    notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
+                    notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void execute(IContentHandler IContentHandler) throws Exception{
                             IContentHandler.character(streamReader, stack);
                         }
                     });
                     break;
                 }
                 case XMLStreamConstants.ATTRIBUTE:{
-                    notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
+                    notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void execute(IContentHandler IContentHandler) throws Exception{
                             IContentHandler.attribute(streamReader, stack);
                         }
                     });
                     break;
                 }
                 case XMLStreamConstants.END_ELEMENT:{
-                    notifyStaxEventToAll(new DummyClosure<IContentHandler>() {
+                    notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
-                        public void cl(IContentHandler IContentHandler) throws Exception{
+                        public void execute(IContentHandler IContentHandler) throws Exception{
                             IContentHandler.endElement(streamReader, stack);
                         }
                     });
@@ -109,10 +109,10 @@ public class StaxParser implements XmlParser{
         }
     }
 
-    private void notifyStaxEventToAll(DummyClosure<IContentHandler> closure){
+    private void notifyStaxEventToAll(Action<IContentHandler> closure){
         for(IContentHandler listener: handlers){
             try {
-                closure.cl(listener);
+                closure.execute(listener);
             } catch (Exception e) {
                 throw new ParseException(e);
             }
@@ -156,7 +156,7 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse forEach(String path, XmlFormat xmlFormat, DummyClosure<String> resultHandler) {
+        public IParse forEach(String path, XmlFormat xmlFormat, Action<String> resultHandler) {
             parser.registerHandler(handler(xmlFormat.id).path(path).stream(resultHandler));
             return this;
         }
@@ -190,7 +190,7 @@ public class StaxParser implements XmlParser{
     }
 
     public interface IPath {
-        IParse forEach(String id, XmlFormat format, DummyClosure<String> resultHandler);
+        IParse forEach(String id, XmlFormat format, Action<String> resultHandler);
 
         Iterator<String> forEach(String id, XmlFormat format);
 

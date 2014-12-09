@@ -1,6 +1,6 @@
 package com.github.ecolangelo.core.handlers;
 
-import com.github.ecolangelo.core.DummyClosure;
+import com.github.ecolangelo.core.Action;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import org.codehaus.stax2.XMLStreamReader2;
 
@@ -12,9 +12,9 @@ import java.io.StringWriter;
  */
 public class StreamSubXmlContentHandler extends SubXmlExtractorHandler {
 
-    DummyClosure<String> contentHandler;
+    Action<String> contentHandler;
 
-    public StreamSubXmlContentHandler(String id, String path, DummyClosure<String> contentHandler) {
+    public StreamSubXmlContentHandler(String id, String path, Action<String> contentHandler) {
         super(id,path);
         this.contentHandler = contentHandler;
     }
@@ -26,7 +26,7 @@ public class StreamSubXmlContentHandler extends SubXmlExtractorHandler {
             stopRecording();
             writer2.closeCompletely();
             try {
-                contentHandler.cl(w.toString());
+                contentHandler.execute(w.toString());
                 w.close();
                 w = new StringWriter();
             } catch (Exception e) {

@@ -1,6 +1,6 @@
 package com.github.ecolangelo.core.handlers;
 
-import com.github.ecolangelo.core.DummyClosure;
+import com.github.ecolangelo.core.Action;
 import com.github.ecolangelo.core.WoodstoxFactory;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
@@ -103,7 +103,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
         private String id;
         private String path;
-        DummyClosure<String> contentHandler;
+        Action<String> contentHandler;
 
 
 
@@ -129,7 +129,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
         }
 
         @Override
-        public IContentHandler stream(DummyClosure<String> resultHandler) {
+        public IContentHandler stream(Action<String> resultHandler) {
             this.contentHandler = resultHandler;
             return new StreamSubXmlContentHandler(id,path, resultHandler);
         }

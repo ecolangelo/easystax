@@ -159,9 +159,9 @@ public class StaxXmlParserIntegrationTest {
 
         final List<String> titles = new ArrayList<String>();
 
-        from(is).with(woodstoxInputFactory()).forEach("/bookstore/book/title", xml("titles") , new DummyClosure<String>() {
+        from(is).with(woodstoxInputFactory()).forEach("/bookstore/book/title", xml("titles") , new Action<String>() {
             @Override
-            public void cl(String s) throws Exception {
+            public void execute(String s) throws Exception {
                 titles.add(s);
             }
         }).parse();

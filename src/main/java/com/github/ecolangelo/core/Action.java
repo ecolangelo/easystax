@@ -3,7 +3,7 @@ package com.github.ecolangelo.core;
 /**
  * Created by eros on 27/09/14.
  */
-public interface DummyClosure<T> {
+public interface Action<T> {
 
-    void cl(T t) throws Exception;
+    void execute(T t) throws Exception;
 }
