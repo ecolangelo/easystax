@@ -35,8 +35,8 @@ input:
         &lt;/person&gt;
     
         &lt;person&gt;
-            &lt;name&gt;Harry&lt;/name&gt;
-            &lt;surname&gt;Potter&lt;/surname&gt;
+            &lt;name&gt;Marc&lt;/name&gt;
+            &lt;surname&gt;Wright&lt;/surname&gt;
             &lt;address&gt;
                 &lt;street&gt;Lincoln&lt;/street&gt;
                 &lt;number&gt;25&lt;/number&gt;
