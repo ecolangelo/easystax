@@ -9,7 +9,7 @@ library to deal with StAX API for xml parsing. The library uses Woodstox impleme
 &lt;dependency&gt;
   &lt;groupId&gt;com.github.ecolangelo&lt;/groupId&gt;
   &lt;artifactId&gt;easystax&lt;/artifactId&gt;
-  &lt;version&gt;0.0.3&lt;/version&gt;
+  &lt;version&gt;0.0.4&lt;/version&gt;
 &lt;/dependency&gt;
 
 </code>
