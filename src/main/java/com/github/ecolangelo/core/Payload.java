@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class Payload {
 
-    private Map<String,Object> attributes;
+    private Map<String,String> attributes;
 
     private String xml;
 
@@ -18,11 +18,11 @@ public class Payload {
 
     private XMLStreamReader xmlStreamReader;
 
-    public Map<String, Object> getAttributes() {
+    public Map<String, String> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Map<String, Object> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 

@@ -42,11 +42,14 @@ public class StaxXmlParserIntegrationTest {
         InputStream is = this.getClass().getResourceAsStream("/books.xml");
 
         final List<String> titles = new ArrayList<String>();
+        final List<String> titleLanguages = new ArrayList<String>();
 
         from(is).forEach("/bookstore/book/title" , new OnMatch() {
             @Override
             public void payload(Payload payload){
                 titles.add(payload.getXml());
+                titleLanguages.add(payload.getAttributes().get("lang"));
+
             }
         }).parse();
 
@@ -55,6 +58,10 @@ public class StaxXmlParserIntegrationTest {
         assertThat(titles.get(1), is("<title lang=\"en\">Harry Potter</title>"));
         assertThat(titles.get(2), is("<title lang=\"en\">XQuery Kick Start</title>"));
         assertThat(titles.get(3), is("<title lang=\"en\">Learning XML</title>"));
+        assertThat(titleLanguages.size(), is(4));
+        assertThat(titleLanguages.get(0), is("en"));
     }
+
+
 
 }

@@ -34,8 +34,11 @@ public class StaxParser implements XmlParser{
 
     @Override
     public Map<String, String> parse(InputStream input) throws XMLStreamException {
-
         final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(input);
+        return parse(streamReader);
+    }
+
+    private Map<String, String> parse(final XMLStreamReader2 streamReader) throws XMLStreamException {
         final XmlNavigationPath stack = new XmlNavigationPath();
         while(streamReader.hasNext()) {
             streamReader.next();
