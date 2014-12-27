@@ -1,8 +1,6 @@
 package com.github.ecolangelo.core.handlers;
 
-import com.github.ecolangelo.core.Action;
-import com.github.ecolangelo.core.WoodstoxFactory;
-import com.github.ecolangelo.core.XmlNavigationPath;
+import com.github.ecolangelo.core.*;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
 import com.github.ecolangelo.core.builders.Content;
 import com.github.ecolangelo.core.builders.XmlPath;
@@ -103,7 +101,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
         private String id;
         private String path;
-        Action<String> contentHandler;
+        Action contentHandler;
 
 
 
@@ -111,27 +109,24 @@ public class SubXmlExtractorHandler implements IContentHandler {
             this.id = id;
         }
 
+
+
         @Override
-        public IContentHandler asText() {
-            return new TagContentExtractorHandler(id, path);
+        public IContentHandler stream(OnXmlSubPart resultHandler) {
+            this.contentHandler =  resultHandler;
+            return new StreamSubXmlContentHandler(id,path, (OnXmlSubPart) resultHandler);
         }
 
         @Override
-        public IContentHandler asXml() {
-            return new SubXmlExtractorHandler(id,path);
+        public IContentHandler stream(OnMatch resultHandler) {
+            this.contentHandler = resultHandler;
+            return new StreamPayloadContentHandler(id, path, resultHandler);
         }
-
 
         @Override
         public Content path(String path) {
             this.path = path.endsWith("/")?path:path+"/";
             return this;
-        }
-
-        @Override
-        public IContentHandler stream(Action<String> resultHandler) {
-            this.contentHandler = resultHandler;
-            return new StreamSubXmlContentHandler(id,path, resultHandler);
         }
     }
 }

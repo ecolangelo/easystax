@@ -1,9 +1,6 @@
 package com.github.ecolangelo;
 
-import com.github.ecolangelo.core.Action;
-import com.github.ecolangelo.core.ParseException;
-import com.github.ecolangelo.core.WoodstoxFactory;
-import com.github.ecolangelo.core.XmlNavigationPath;
+import com.github.ecolangelo.core.*;
 import com.github.ecolangelo.core.handlers.IContentHandler;
 import org.codehaus.stax2.XMLStreamReader2;
 
@@ -123,6 +120,8 @@ public class StaxParser implements XmlParser{
         return new Builder(inputStream);
     }
 
+
+
     public static Builder from(String xml){
         return new Builder(xml);
     }
@@ -144,7 +143,14 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse forEach(String path, Action<String> resultHandler) {
+        public IParse forEach(String path, OnXmlSubPart resultHandler) {
+            parser = new StaxParser(woodstoxInputFactory());
+            parser.registerHandler(handler(UUID.randomUUID().toString()).path(path).stream(resultHandler));
+            return this;
+        }
+
+        @Override
+        public IParse forEach(String path, OnMatch resultHandler) {
             parser = new StaxParser(woodstoxInputFactory());
             parser.registerHandler(handler(UUID.randomUUID().toString()).path(path).stream(resultHandler));
             return this;
@@ -168,7 +174,9 @@ public class StaxParser implements XmlParser{
     }
 
     public interface IPath {
-        IParse forEach(String path , Action<String> resultHandler);
+        IParse forEach(String path , OnXmlSubPart resultHandler);
+
+        IParse forEach(String path, OnMatch resultHandler);
     }
 
 

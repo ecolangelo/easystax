@@ -1,21 +1,23 @@
 package com.github.ecolangelo.core.handlers;
 
-import com.github.ecolangelo.core.Action;
+import com.github.ecolangelo.core.OnMatch;
 import com.github.ecolangelo.core.OnXmlSubPart;
+import com.github.ecolangelo.core.Payload;
 import com.github.ecolangelo.core.XmlNavigationPath;
 import org.codehaus.stax2.XMLStreamReader2;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.StringWriter;
+import java.util.HashMap;
 
 /**
- * Created by eros on 04/10/14.
+ * Created by eros on 27/12/14.
  */
-public class StreamSubXmlContentHandler extends SubXmlExtractorHandler {
+public class StreamPayloadContentHandler extends SubXmlExtractorHandler {
 
-    OnXmlSubPart contentHandler;
+    OnMatch contentHandler;
 
-    public StreamSubXmlContentHandler(String id, String path, OnXmlSubPart contentHandler) {
+    public StreamPayloadContentHandler(String id, String path, OnMatch contentHandler) {
         super(id,path);
         this.contentHandler = contentHandler;
     }
@@ -27,7 +29,12 @@ public class StreamSubXmlContentHandler extends SubXmlExtractorHandler {
             stopRecording();
             writer2.closeCompletely();
             try {
-                contentHandler.execute(w.toString());
+                Payload p = new Payload();
+                p.setAttributes(new HashMap<String, Object>());
+                p.setText(w.toString().replaceAll("<[^<>]+>", ""));
+                p.setXml(w.toString());
+                p.setXmlStreamReader(endElement);
+                contentHandler.payload(p);
                 w.close();
                 w = new StringWriter();
             } catch (Exception e) {
@@ -36,6 +43,4 @@ public class StreamSubXmlContentHandler extends SubXmlExtractorHandler {
         }
 
     }
-
-
 }
