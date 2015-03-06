@@ -62,6 +62,28 @@ public class StaxXmlParserIntegrationTest {
         assertThat(titleLanguages.get(0), is("en"));
     }
 
+    @Test
+    public void testPayloadApiGettingAttributes() throws Exception {
+        InputStream is = this.getClass().getResourceAsStream("/books.xml");
+
+        final List<String> categories = new ArrayList<String>();
+
+
+        from(is).forEach("/bookstore/book" , new OnMatch() {
+            @Override
+            public void payload(Payload payload){
+                categories.add(payload.getAttributes().get("category"));
+
+            }
+        }).parse();
+
+        assertThat(categories.size(), is(4));
+        assertThat(categories.get(0), is("COOKING"));
+        assertThat(categories.get(1), is("CHILDREN"));
+        assertThat(categories.get(2), is("WEB"));
+        assertThat(categories.get(3), is("WEB"));
+    }
+
 
 
 }

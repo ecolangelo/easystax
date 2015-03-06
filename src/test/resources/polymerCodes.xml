@@ -1,0 +1,192 @@
+<RIDapplication xmlns:tsip="http://schemas.thomson.com/ts/20041221/tsip"
+                xmlns:xhtml="http://schemas.thomson.com/ts/20041221/tsip" action="U" doc-id="0310316458">
+    <RIDpublication doc-id="8364814"><patent tsip:action="new" tsip:cc="US" tsip:se="4243170" tsip:ki="A">
+        <accessions tsip:action="new">
+            <accession tsip:src="dwpi" tsip:type="pan" tsip:update="198104">198105441D</accession>
+        </accessions>
+        <assignees tsip:action="new">
+            <assignee>
+                <assigneeTotal tsip:form="original">Champion International Corporation</assigneeTotal>
+                <name>
+                    <nameTotal tsip:form="dwpi">CHAMPION INT CORP</nameTotal>
+                    <nameTotal tsip:form="original">Champion International Corporation</nameTotal>
+                </name>
+                <assigneeCode tsip:src="dwpi" tsip:codeType="dwpi:CompanyStd">USPL</assigneeCode>
+            </assignee>
+        </assignees>
+        <inventors tsip:action="new">
+            <inventor>
+                <inventorTotal tsip:form="original">Jones, Michael D., MN, US</inventorTotal>
+                <name>
+                    <nameTotal tsip:form="dwpi">JONES M D</nameTotal>
+                    <nameTotal tsip:form="original">Jones, Michael D.</nameTotal>
+                </name>
+                <address>
+                    <addressTotal>MN, US</addressTotal>
+                    <countryCode>US</countryCode>
+                </address>
+            </inventor>
+        </inventors>
+        <agents tsip:action="new">
+            <agent>
+                <agentTotal>Sommer, Evelyn M.</agentTotal>
+            </agent>
+        </agents>
+        <publications tsip:action="new">
+            <publication tsip:dw="198104" tsip:status="dwpi:basic" tsip:lang="en">
+                <documentId>
+                    <number tsip:form="dwpi">4243170</number>
+                    <countryCode>US</countryCode>
+                    <kindCode>A</kindCode>
+                    <date>1981-01-06</date>
+                </documentId>
+            </publication>
+        </publications>
+        <applications tsip:action="new">
+            <application tsip:cc="US" tsip:se="4243170" tsip:ki="A" tsip:priorityCode="A2">
+                <applicationId>
+                    <number tsip:form="dwpi">927173</number>
+                    <number tsip:form="tsip">000927173</number>
+                    <countryCode>US</countryCode>
+                    <applicationYear>1978</applicationYear>
+                    <date>1978-07-21</date>
+                </applicationId>
+            </application>
+        </applications>
+        <classificationIpcCurrent tsip:action="new">
+            <ipc>A23L-3/00</ipc>
+            <ipc>B65D-85/00</ipc>
+            <ipc>H05B-6/64</ipc>
+        </classificationIpcCurrent>
+        <classificationIpc tsip:action="new">
+            <ipc>A23L-3/00</ipc>
+            <ipc>B65D-85/00</ipc>
+            <ipc>H05B-6/64</ipc>
+        </classificationIpc>
+        <classificationUs tsip:action="new">
+            <uspc>
+                <mainclass>229</mainclass>
+                <subclass>2.54</subclass>
+            </uspc>
+            <uspc tsip:type="secondary">
+                <mainclass>219</mainclass>
+                <subclass>10.55</subclass>
+            </uspc>
+            <uspc tsip:type="secondary">
+                <mainclass>229</mainclass>
+                <subclass>43</subclass>
+            </uspc>
+            <uspc tsip:type="secondary">
+                <mainclass>426</mainclass>
+                <subclass>107</subclass>
+            </uspc>
+            <uspc tsip:type="secondary">
+                <mainclass>426</mainclass>
+                <subclass>113</subclass>
+            </uspc>
+            <uspc tsip:type="secondary">
+                <mainclass>426</mainclass>
+                <subclass>234</subclass>
+            </uspc>
+            <uspc tsip:type="secondary">
+                <mainclass>428</mainclass>
+                <subclass>481</subclass>
+            </uspc>
+            <uspc tsip:type="secondary">
+                <mainclass>428</mainclass>
+                <subclass>35</subclass>
+            </uspc>
+        </classificationUs>
+        <titles tsip:action="new">
+            <title tsip:lang="en" tsip:input="original">Food container and process for manufacturing the same</title>
+        </titles>
+        <abstracts tsip:action="new">
+            <abstract tsip:lang="en" tsip:input="original">
+                <xhtml:p>Disclosed is a container especially adapted for use in storing and heating comestibles intended
+                    for final preparation in microwave ovens. The container comprises a molded pulp tray, having a
+                    plastic film, preferably a polyester, adhered to its product-contacting surfaces. The container
+                    exhibits high strength and excellent product protection, but yet is low in cost. The process for
+                    making the container takes advantage of the porous nature of the pulp tray by drawing a vacuum
+                    directly through the tray to draw a film of heated plastic into adhering contact. The film is
+                    preferably extruded as the tray, carried in a vacuum mold, passes directly under the extruder.
+                </xhtml:p>
+            </abstract>
+        </abstracts>
+        <titleEnhanced tsip:action="new" tsip:src="dwpi" tsip:lang="en" tsip:cc="US" tsip:se="4243170" tsip:ki="A">
+            <titleAscii tsip:lang="en">
+                <titlePartAscii tsip:no="1">Thermoplastically lined moulded porous pulp food tray</titlePartAscii>
+                <titlePartAscii tsip:no="2">in which food can be stored and also heated in microwave oven
+                </titlePartAscii>
+                <titleTerms>
+                    <titleTermsStandard>
+                        <titleTerm>THERMOPLASTIC</titleTerm>
+                        <titleTerm>LINING</titleTerm>
+                        <titleTerm>MOULD</titleTerm>
+                        <titleTerm>POROUS</titleTerm>
+                        <titleTerm>PULP</titleTerm>
+                        <titleTerm>FOOD</titleTerm>
+                        <titleTerm>TRAY</titleTerm>
+                        <titleTerm>CAN</titleTerm>
+                        <titleTerm>STORAGE</titleTerm>
+                        <titleTerm>HEAT</titleTerm>
+                        <titleTerm>MICROWAVE</titleTerm>
+                        <titleTerm>OVEN</titleTerm>
+                    </titleTermsStandard>
+                </titleTerms>
+            </titleAscii>
+        </titleEnhanced>
+        <abstractEnhanced tsip:action="new" tsip:src="dwpi" tsip:lang="en" tsip:cc="US" tsip:se="4243170" tsip:ki="A">
+            <abstractCoreAscii>
+                <alertAscii>
+                    <firstSectionAlertAscii>
+                        <paraAlert>A container esp. for storing and heating comestibles intended for final prepn. in
+                            microwave ovens, comprises; (a) a tray constructed of moulded pulp having a continuous
+                            inside surface defined by an upstanding sidewall tapered inwardly from an open top to a
+                            smoothly rounded corner which joins with a bottom wall. The moulded pulp member comprises
+                            pulp fibre material with a multiplicity of interstices to provide the member with sufficient
+                            porosity to allow passage of gas through; and (b) a continuous thermoplastic film adhered to
+                            inside surface.
+                        </paraAlert>
+                    </firstSectionAlertAscii>
+                </alertAscii>
+            </abstractCoreAscii>
+        </abstractEnhanced>
+        <classificationDwpi tsip:action="new" tsip:src="dwpi">
+            <classesChemical>
+                <classChemical tsip:section="A">A92</classChemical>
+            </classesChemical>
+            <classesEngineering>
+                <classEngineering tsip:section="Q">Q34</classEngineering>
+            </classesEngineering>
+        </classificationDwpi>
+        <manualCodesChemical tsip:action="new" tsip:src="dwpi">
+            <manualCodeGroup tsip:section="A">
+                <manualCode>A12-D03</manualCode>
+                <manualCode>A12-P06</manualCode>
+            </manualCodeGroup>
+        </manualCodesChemical>
+        <polymerCodes tsip:action="new" tsip:src="dwpi" tsip:cc="US" tsip:se="4243170" tsip:ki="A">
+            <multiPunchCard tsip:no="001" tsip:timeRange="011">
+                <code>04-</code>
+                <code>289</code>
+                <code>381</code>
+                <code>435</code>
+                <code>440</code>
+                <code>445</code>
+                <code>477</code>
+                <code>50-</code>
+                <code>633</code>
+                <code>637</code>
+            </multiPunchCard>
+            <keySerials>
+                <keySerial>0231</keySerial>
+                <keySerial>2513</keySerial>
+                <keySerial>2723</keySerial>
+                <keySerial>2729</keySerial>
+                <keySerial>2756</keySerial>
+                <keySerial>2775</keySerial>
+                <keySerial>2780</keySerial>
+            </keySerials>
+        </polymerCodes>
+    </patent></RIDpublication>
+</RIDapplication>
