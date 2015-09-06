@@ -92,12 +92,12 @@ public class SubXmlExtractorHandler implements IContentHandler {
         this.recording = false;
     }
 
-    @Override
+
     public String getOut() {
         return w.toString();
     }
 
-    @Override
+
     public String getId() {return id;}
 
     @Override

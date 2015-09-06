@@ -22,7 +22,5 @@ public interface IContentHandler {
 
     void endDocument(XMLStreamReader2 xmlStreamReader);
 
-    String getOut();
 
-    String getId();
 }

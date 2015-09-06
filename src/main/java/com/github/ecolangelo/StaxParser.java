@@ -1,6 +1,7 @@
 package com.github.ecolangelo;
 
 import com.github.ecolangelo.core.*;
+import com.github.ecolangelo.core.builders.IStream;
 import com.github.ecolangelo.core.handlers.IContentHandler;
 import org.codehaus.stax2.XMLStreamReader2;
 
@@ -28,17 +29,17 @@ public class StaxParser implements XmlParser{
     }
 
 
-    public Map<String, String> parse(String xml, Charset charset) throws XMLStreamException {
-        return parse(new ByteArrayInputStream(xml.getBytes(charset)));
+    public void parse(String xml, Charset charset) throws XMLStreamException {
+        parse(new ByteArrayInputStream(xml.getBytes(charset)));
     }
 
     @Override
-    public Map<String, String> parse(InputStream input) throws XMLStreamException {
+    public void parse(InputStream input) throws XMLStreamException {
         final XMLStreamReader2 streamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(input);
-        return parse(streamReader);
+        parse(streamReader);
     }
 
-    private Map<String, String> parse(final XMLStreamReader2 streamReader) throws XMLStreamException {
+    private void parse(final XMLStreamReader2 streamReader) throws XMLStreamException {
         while(streamReader.hasNext()) {
             streamReader.next();
             int eventType = streamReader.getEventType();
@@ -73,7 +74,7 @@ public class StaxParser implements XmlParser{
                 case XMLStreamConstants.END_ELEMENT:{
                     notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
-                        public void execute(IContentHandler IContentHandler) throws Exception{
+                        public void execute(IContentHandler IContentHandler) throws Exception {
                             IContentHandler.endElement(streamReader);
                         }
                     });
@@ -81,12 +82,6 @@ public class StaxParser implements XmlParser{
                 }
             }
         }
-
-        Map<String,String> results = new HashMap<String, String>();
-        for(IContentHandler ch : handlers){
-            results.put(ch.getId(),ch.getOut());
-        }
-        return results;
     }
 
 
@@ -124,7 +119,7 @@ public class StaxParser implements XmlParser{
     }
 
 
-    public static class Builder implements  IPath, IParse, IProperties {
+    public static class Builder implements  IPath, IParse,IStream, IProperties {
 
         private InputStream inputStream;
 
@@ -140,17 +135,18 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse forEach(String path, OnXmlSubPart resultHandler) {
-            parser = new StaxParser(woodstoxInputFactory());
-            parser.registerHandler(handler(UUID.randomUUID().toString()).path(path).stream(resultHandler));
-            return this;
+        public ForEach forEach(String path) {
+            return null;
         }
 
         @Override
-        public IParse forEach(String path, OnMatch resultHandler) {
-            parser = new StaxParser(woodstoxInputFactory());
-            parser.registerHandler(handler(UUID.randomUUID().toString()).path(path).stream(resultHandler));
-            return this;
+        public IContentHandler stream(OnXmlSubPart resultHandler) {
+            return null;
+        }
+
+        @Override
+        public IContentHandler stream(OnMatch resultHandler) {
+            return null;
         }
 
         @Override
@@ -171,10 +167,17 @@ public class StaxParser implements XmlParser{
     }
 
     public interface IPath {
-        IParse forEach(String path , OnXmlSubPart resultHandler);
+        ForEach forEach(String path);
 
-        IParse forEach(String path, OnMatch resultHandler);
     }
+
+    public interface ForEach {
+        IParse stream(OnMatch match);
+
+        IParse addResultTo(Collection<String> result);
+
+    }
+
 
 
     public interface IParse extends IPath{

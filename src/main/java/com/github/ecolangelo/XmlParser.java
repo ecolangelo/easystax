@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 public interface XmlParser {
-    public Map<String,String> parse(InputStream inputStream) throws XMLStreamException;
+    void parse(InputStream inputStream) throws XMLStreamException;
 
-    public Map<String,String> parse(String xml, Charset charset) throws XMLStreamException;
+    void parse(String xml, Charset charset) throws XMLStreamException;
 }

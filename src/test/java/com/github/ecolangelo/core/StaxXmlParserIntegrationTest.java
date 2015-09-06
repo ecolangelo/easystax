@@ -22,12 +22,12 @@ public class StaxXmlParserIntegrationTest {
 
         final List<String> titles = new ArrayList<String>();
 
-        from(is).forEach("/bookstore/book/title" , new OnXmlSubPart() {
-            @Override
-            public void payload(String payload){
-                titles.add(payload);
-            }
-        }).parse();
+//        from(is).forEach("/bookstore/book/title" , new OnXmlSubPart() {
+//            @Override
+//            public void payload(String payload){
+//                titles.add(payload);
+//            }
+//        }).parse();
 
         assertThat(titles.size(), is(4));
         assertThat(titles.get(0), is("<title lang=\"en\">Everyday Italian</title>"));
@@ -44,14 +44,14 @@ public class StaxXmlParserIntegrationTest {
         final List<String> titles = new ArrayList<String>();
         final List<String> titleLanguages = new ArrayList<String>();
 
-        from(is).forEach("/bookstore/book/title" , new OnMatch() {
-            @Override
-            public void payload(Payload payload){
-                titles.add(payload.getXml());
-                titleLanguages.add(payload.getAttributes().get("lang"));
-
-            }
-        }).parse();
+//        from(is).forEach("/bookstore/book/title" , new OnMatch() {
+//            @Override
+//            public void payload(Payload payload){
+//                titles.add(payload.getXml());
+//                titleLanguages.add(payload.getAttributes().get("lang"));
+//
+//            }
+//        }).parse();
 
         assertThat(titles.size(), is(4));
         assertThat(titles.get(0), is("<title lang=\"en\">Everyday Italian</title>"));
@@ -69,13 +69,13 @@ public class StaxXmlParserIntegrationTest {
         final List<String> categories = new ArrayList<String>();
 
 
-        from(is).forEach("/bookstore/book" , new OnMatch() {
-            @Override
-            public void payload(Payload payload){
-                categories.add(payload.getAttributes().get("category"));
-
-            }
-        }).parse();
+//        from(is).forEach("/bookstore/book" , new OnMatch() {
+//            @Override
+//            public void payload(Payload payload){
+//                categories.add(payload.getAttributes().get("category"));
+//
+//            }
+//        }).parse();
 
         assertThat(categories.size(), is(4));
         assertThat(categories.get(0), is("COOKING"));
