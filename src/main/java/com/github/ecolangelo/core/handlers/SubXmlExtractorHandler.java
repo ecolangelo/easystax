@@ -20,6 +20,8 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
     protected XMLStreamWriter2 writer2;
 
+    protected XmlNavigationPath navigationStack = new XmlNavigationPath();
+
     protected StringWriter w = new StringWriter();
 
     public SubXmlExtractorHandler(String id, String path) {
@@ -31,9 +33,15 @@ public class SubXmlExtractorHandler implements IContentHandler {
         this.id = id;
     }
 
+    @Override
+    public void startDocument(XMLStreamReader2 xmlStreamReader) {
+
+    }
 
     @Override
-    public void startElement(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void startElement(XMLStreamReader2 xmlStreamReader) throws XMLStreamException {
+        String tagName = xmlStreamReader.getName().getLocalPart();
+        navigationStack.pushTag(tagName);
         if(path.equals(navigationStack.resolvePath())) {
             startRecording();
         }
@@ -41,21 +49,22 @@ public class SubXmlExtractorHandler implements IContentHandler {
     }
 
     @Override
-    public void character(XMLStreamReader2 character, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void character(XMLStreamReader2 character) throws XMLStreamException {
         copyIfRecordingEnabled(character);
     }
 
     @Override
-    public void endElement(XMLStreamReader2 endElement, XmlNavigationPath navigationStack) throws XMLStreamException {
-        copyIfRecordingEnabled(endElement);
+    public void endElement(XMLStreamReader2 endElement) throws XMLStreamException {
+
         if(path.equals(navigationStack.resolvePath())){
             stopRecording();
             writer2.closeCompletely();
         }
+        copyIfRecordingEnabled(endElement);
     }
 
     @Override
-    public void attribute(XMLStreamReader2 streamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void attribute(XMLStreamReader2 streamReader) throws XMLStreamException {
         copyIfRecordingEnabled(streamReader);
     }
 
@@ -91,7 +100,10 @@ public class SubXmlExtractorHandler implements IContentHandler {
     @Override
     public String getId() {return id;}
 
+    @Override
+    public void endDocument(XMLStreamReader2 xmlStreamReader) {
 
+    }
 
     public static Builder handler(String id) {
         return new Builder(id);

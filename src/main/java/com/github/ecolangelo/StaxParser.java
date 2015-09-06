@@ -39,19 +39,15 @@ public class StaxParser implements XmlParser{
     }
 
     private Map<String, String> parse(final XMLStreamReader2 streamReader) throws XMLStreamException {
-        final XmlNavigationPath stack = new XmlNavigationPath();
         while(streamReader.hasNext()) {
             streamReader.next();
             int eventType = streamReader.getEventType();
             switch(eventType){
                 case XMLStreamConstants.START_ELEMENT:{
-
-                    String localPart = streamReader.getName().getLocalPart();
-                    stack.pushTag(localPart);
                     notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
                         public void execute(IContentHandler IContentHandler) throws Exception{
-                            IContentHandler.startElement(streamReader, stack);
+                            IContentHandler.startElement(streamReader);
                         }
                     });
                     break;
@@ -60,7 +56,7 @@ public class StaxParser implements XmlParser{
                     notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
                         public void execute(IContentHandler IContentHandler) throws Exception{
-                            IContentHandler.character(streamReader, stack);
+                            IContentHandler.character(streamReader);
                         }
                     });
                     break;
@@ -69,7 +65,7 @@ public class StaxParser implements XmlParser{
                     notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
                         public void execute(IContentHandler IContentHandler) throws Exception{
-                            IContentHandler.attribute(streamReader, stack);
+                            IContentHandler.attribute(streamReader);
                         }
                     });
                     break;
@@ -78,12 +74,10 @@ public class StaxParser implements XmlParser{
                     notifyStaxEventToAll(new Action<IContentHandler>() {
                         @Override
                         public void execute(IContentHandler IContentHandler) throws Exception{
-                            IContentHandler.endElement(streamReader, stack);
+                            IContentHandler.endElement(streamReader);
                         }
                     });
-                    stack.popTag();
                     break;
-
                 }
             }
         }

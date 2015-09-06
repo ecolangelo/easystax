@@ -26,7 +26,7 @@ public class StreamPayloadContentHandler extends SubXmlExtractorHandler {
     }
 
     @Override
-    public void startElement(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void startElement(XMLStreamReader2 xmlStreamReader) throws XMLStreamException {
         if(path.equals(navigationStack.resolvePath())) {
             startRecording();
             for(int i = 0; i< xmlStreamReader.getAttributeCount();i++){
@@ -41,7 +41,7 @@ public class StreamPayloadContentHandler extends SubXmlExtractorHandler {
     }
 
     @Override
-    public void endElement(XMLStreamReader2 endElement, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void endElement(XMLStreamReader2 endElement) throws XMLStreamException {
         copyIfRecordingEnabled(endElement);
         if(path.equals(navigationStack.resolvePath())){
             stopRecording();

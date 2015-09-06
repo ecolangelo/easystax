@@ -17,14 +17,14 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
     }
 
     @Override
-    public void startElement(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void startElement(XMLStreamReader2 xmlStreamReader) throws XMLStreamException {
         if(path.equals(navigationStack.resolvePath())) {
             startRecording();
         }
     }
 
     @Override
-    public void character(XMLStreamReader2 character, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void character(XMLStreamReader2 character) throws XMLStreamException {
         if(isRecording()){
             if(builder.toString().length() >0 ) builder.append("\n");
             builder.append(character.getText());
@@ -32,14 +32,14 @@ public class TagContentExtractorHandler extends SubXmlExtractorHandler {
     }
 
     @Override
-    public void endElement(XMLStreamReader2 endElement, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void endElement(XMLStreamReader2 endElement) throws XMLStreamException {
         if(path.equals(navigationStack.resolvePath())){
             stopRecording();
         }
     }
 
     @Override
-    public void attribute(XMLStreamReader2 streamReader, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void attribute(XMLStreamReader2 streamReader) throws XMLStreamException {
 
     }
 

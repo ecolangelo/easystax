@@ -9,13 +9,18 @@ import javax.xml.stream.XMLStreamException;
  * Created by eros on 30/09/14.
  */
 public interface IContentHandler {
-    void startElement(XMLStreamReader2 xmlStreamReader, XmlNavigationPath navigationStack) throws XMLStreamException;
 
-    void character(XMLStreamReader2 character, XmlNavigationPath navigationStack) throws XMLStreamException;
+    void startDocument(XMLStreamReader2 xmlStreamReader);
 
-    void endElement(XMLStreamReader2 endElement, XmlNavigationPath navigationStack) throws XMLStreamException;
+    void startElement(XMLStreamReader2 xmlStreamReader) throws XMLStreamException;
 
-    void attribute(XMLStreamReader2 streamReader, XmlNavigationPath navigationStack) throws XMLStreamException;
+    void character(XMLStreamReader2 character) throws XMLStreamException;
+
+    void endElement(XMLStreamReader2 endElement) throws XMLStreamException;
+
+    void attribute(XMLStreamReader2 streamReader) throws XMLStreamException;
+
+    void endDocument(XMLStreamReader2 xmlStreamReader);
 
     String getOut();
 

@@ -21,7 +21,7 @@ public class StreamSubXmlContentHandler extends SubXmlExtractorHandler {
     }
 
     @Override
-    public void endElement(XMLStreamReader2 endElement, XmlNavigationPath navigationStack) throws XMLStreamException {
+    public void endElement(XMLStreamReader2 endElement) throws XMLStreamException {
         copyIfRecordingEnabled(endElement);
         if(path.equals(navigationStack.resolvePath())){
             stopRecording();
@@ -34,6 +34,7 @@ public class StreamSubXmlContentHandler extends SubXmlExtractorHandler {
 
             }
         }
+        navigationStack.popTag();
 
     }
 
