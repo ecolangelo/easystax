@@ -1,8 +1,8 @@
 package com.github.ecolangelo;
 
 import com.github.ecolangelo.core.*;
-import com.github.ecolangelo.core.builders.IStream;
 import com.github.ecolangelo.core.handlers.IContentHandler;
+import com.github.ecolangelo.core.handlers.NodeBasedContentHandler;
 import org.codehaus.stax2.XMLStreamReader2;
 
 import javax.xml.stream.XMLInputFactory;
@@ -12,8 +12,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.*;
-
-import static com.github.ecolangelo.core.handlers.SubXmlExtractorHandler.handler;
 
 
 public class StaxParser implements XmlParser{
@@ -119,11 +117,13 @@ public class StaxParser implements XmlParser{
     }
 
 
-    public static class Builder implements  IPath, IParse,IStream, IProperties {
+    public static class Builder implements  IPath, IParse, ForEach, IProperties {
 
         private InputStream inputStream;
 
         private StaxParser parser;
+
+        private NodeBasedContentHandler currentContentHandler;
 
         public Builder(InputStream inputStream) {
             this.inputStream = inputStream;
@@ -136,17 +136,27 @@ public class StaxParser implements XmlParser{
 
         @Override
         public ForEach forEach(String path) {
-            return null;
+            currentContentHandler = new NodeBasedContentHandler(Node.createNodeFromXpath(path), new PseudoXPathNodeMatchingStrategy());
+            return this;
         }
 
         @Override
-        public IContentHandler stream(OnXmlSubPart resultHandler) {
-            return null;
+        public IParse stream(OnMatch match) {
+            currentContentHandler.setHandler(match);
+            parser.registerHandler(currentContentHandler);
+            return this;
         }
 
         @Override
-        public IContentHandler stream(OnMatch resultHandler) {
-            return null;
+        public IParse addResultTo(final Collection<ParsingResult> result) {
+            currentContentHandler.setHandler(new OnMatch() {
+                @Override
+                public void payload(ParsingResult payload) {
+                    result.add(payload);
+                }
+            });
+            parser.registerHandler(currentContentHandler);
+            return this;
         }
 
         @Override
@@ -174,7 +184,7 @@ public class StaxParser implements XmlParser{
     public interface ForEach {
         IParse stream(OnMatch match);
 
-        IParse addResultTo(Collection<String> result);
+        IParse addResultTo(Collection<ParsingResult> result);
 
     }
 

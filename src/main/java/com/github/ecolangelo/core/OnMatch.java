@@ -3,12 +3,12 @@ package com.github.ecolangelo.core;
 /**
  * Created by eros on 27/12/14.
  */
-public abstract class OnMatch implements Action<Payload> {
+public abstract class OnMatch implements Action<ParsingResult> {
 
     @Override
-    public void execute(Payload payload) throws Exception {
+    public void execute(ParsingResult payload) throws Exception {
         payload(payload);
     }
 
-    public abstract void payload(Payload payload);
+    public abstract void payload(ParsingResult payload);
 }

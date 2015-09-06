@@ -48,11 +48,12 @@ public class StreamPayloadContentHandler extends SubXmlExtractorHandler {
             writer2.closeCompletely();
             try {
                 Payload p = new Payload();
+
                 p.setAttributes(attributes);
                 p.setText(w.toString().replaceAll("<[^<>]+>", ""));
                 p.setXml(w.toString());
                 p.setXmlStreamReader(endElement);
-                contentHandler.payload(p);
+//                contentHandler.payload(p);
                 w.close();
                 w = new StringWriter();
             } catch (Exception e) {

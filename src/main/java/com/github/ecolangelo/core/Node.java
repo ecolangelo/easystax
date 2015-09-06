@@ -34,6 +34,10 @@ public class Node {
         return parent;
     }
 
+    public static Node createNodeFromXpath(String path) {
+        return null;
+    }
+
     public void setParent(Node parent) {
         this.parent = parent;
     }

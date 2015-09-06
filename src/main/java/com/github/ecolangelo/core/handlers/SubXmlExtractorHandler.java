@@ -2,8 +2,6 @@ package com.github.ecolangelo.core.handlers;
 
 import com.github.ecolangelo.core.*;
 import com.github.ecolangelo.core.builders.BuilderInitializationException;
-import com.github.ecolangelo.core.builders.Content;
-import com.github.ecolangelo.core.builders.XmlPath;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.XMLStreamWriter2;
 
@@ -105,40 +103,7 @@ public class SubXmlExtractorHandler implements IContentHandler {
 
     }
 
-    public static Builder handler(String id) {
-        return new Builder(id);
-    }
-
-    public static class Builder implements XmlPath, Content{
-
-        private String id;
-        private String path;
-        Action contentHandler;
 
 
 
-        Builder(String id) {
-            this.id = id;
-        }
-
-
-
-        @Override
-        public IContentHandler stream(OnXmlSubPart resultHandler) {
-            this.contentHandler =  resultHandler;
-            return new StreamSubXmlContentHandler(id,path, (OnXmlSubPart) resultHandler);
-        }
-
-        @Override
-        public IContentHandler stream(OnMatch resultHandler) {
-            this.contentHandler = resultHandler;
-            return new StreamPayloadContentHandler(id, path, resultHandler);
-        }
-
-        @Override
-        public Content path(String path) {
-            this.path = path.endsWith("/")?path:path+"/";
-            return this;
-        }
-    }
 }

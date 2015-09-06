@@ -23,6 +23,11 @@ public class NodeBasedContentHandler implements IContentHandler {
         this.handler = handler;
     }
 
+    public NodeBasedContentHandler(Node referenceNode, NodeMatchingStrategy matchingStrategy) {
+        this.referenceNode = referenceNode;
+        this.matchingStrategy = matchingStrategy;
+    }
+
     protected boolean recording;
 
     protected XMLStreamWriter2 writer2;
@@ -133,5 +138,14 @@ public class NodeBasedContentHandler implements IContentHandler {
     @Override
     public void endDocument(XMLStreamReader2 xmlStreamReader) {
 
+    }
+
+
+    public Action<ParsingResult> getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Action<ParsingResult> handler) {
+        this.handler = handler;
     }
 }
