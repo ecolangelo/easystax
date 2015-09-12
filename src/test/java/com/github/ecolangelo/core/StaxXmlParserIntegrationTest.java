@@ -57,4 +57,37 @@ public class StaxXmlParserIntegrationTest {
         assertThat(categories.get(3), is("WEB"));
     }
 
+    @Test
+    public void testOfNewApi() throws Exception {
+        InputStream is = this.getClass().getResourceAsStream("/books.xml");
+
+        List<ParsingResult> years = new ArrayList<ParsingResult>();
+        List<ParsingResult> prices = new ArrayList<ParsingResult>();
+        List<ParsingResult> author = new ArrayList<ParsingResult>();
+
+
+        from(is).
+                forEach("/bookstore/book/year").addResultTo(years).
+                forEach("/bookstore/book/author").addResultTo(author).
+                forEach("/bookstore/book/price").addResultTo(prices).parse();
+
+        assertThat(years.size(), is(4));
+        assertThat(prices.size(), is(4));
+        assertThat(author.size(), is(8));
+    }
+
+    @Test
+    public void testOfNewApiWithAttributes() throws Exception {
+        InputStream is = this.getClass().getResourceAsStream("/books.xml");
+
+        List<ParsingResult> author = new ArrayList<ParsingResult>();
+
+        from(is).
+                forEach("/bookstore/book[category=WEB]/author").addResultTo(author).
+                parse();
+
+
+        assertThat(author.size(), is(5));
+        assertThat(author.get(0).getContent(), is("<author>James McGovern</author>"));
+    }
 }

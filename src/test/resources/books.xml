@@ -27,7 +27,7 @@
         <price>49.99</price>
     </book>
 
-    <book category="WEB">
+    <book category="SOMETHING">
         <title lang="en">Learning XML</title>
         <author>Erik T. Ray</author>
         <year>2003</year>
