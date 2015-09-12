@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * rapresentation of an xPath with a node an throught its parents
+ * rapresentation of an xml Node
  */
 public class Node {
 
@@ -69,6 +69,23 @@ public class Node {
     public Node append(Node node) {
         node.setParent(this);
         return node;
-
     }
+
+    public String getXPath(){
+        StringBuilder builder = new StringBuilder("/");
+        Node current = this;
+
+        while(current != null){
+            builder.insert(0,current.toString()).insert(0,"/");
+            current = current.getParent();
+        }
+
+        return builder.toString();
+    }
+
+    public String toString() {
+        return name+""+(attributes.size()>0?attributes.toString().replaceAll("\\{","[").replaceAll("\\}","]"):"");
+    }
+
+
 }

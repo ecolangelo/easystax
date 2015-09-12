@@ -6,7 +6,7 @@ public class PseudoXPathNodeMatchingStrategy implements NodeMatchingStrategy{
 
     /*
     *
-    * testing similarity of one node against the other.
+    * testing matching of one node against the other.
     * a node is rapresented by his value(tagName+attributes) and his parents
     * e.g. /root[id='']/child1[id=''] etc...
     * nodeToBeTested could omit the attributes, following xPath behaviour, it will
@@ -36,7 +36,7 @@ public class PseudoXPathNodeMatchingStrategy implements NodeMatchingStrategy{
         if(!nodeToBeTested.getName().equals(sample.getName())) return false;
 
         Map<String,String> attributes = nodeToBeTested.getAttributes();
-        if(attributes != null && !attributes.equals(sample.getAttributes())){
+        if(attributes != null && attributes.size()>0 && !attributes.equals(sample.getAttributes())){
             return false;
         }
         return true;
