@@ -2,11 +2,17 @@ package com.github.ecolangelo.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * rapresentation of an xml Node
  */
 public class Node {
+
+    final static Pattern FRAGMENT_VALIDATOR = Pattern.compile("");
+
+    final static Pattern ATTRIBUTE_PATTERN = Pattern.compile("\\[(.+)\\]");
 
     public Node(String name) {
         this.name = name;
@@ -35,7 +41,57 @@ public class Node {
     }
 
     public static Node createNodeFromXpath(String path) {
-        return null;
+        if(path.startsWith("/"))path = path.replaceFirst("/","");
+        String[] splittedPath= path.split("/");
+        if(splittedPath.length == 0) throw new InvalidPathException("no fragments in path, looks is empty, path:"+path);
+        String currentFragment = splittedPath[0];
+        boolean isValid = validateFragment(currentFragment);
+        if(!isValid) {
+            throw new InvalidPathException("path: "+path+" invalid, found invalid fragment ---> "+currentFragment);
+        }
+        Node currentNode = createNodeFromXpathFragment(currentFragment);
+
+        for(int i = 1; i<splittedPath.length;i++){
+            currentFragment = splittedPath[i];
+            isValid = validateFragment(currentFragment);
+            if(!isValid) {
+                throw new InvalidPathException("path: "+path+" invalid, found invalid fragment ---> "+currentFragment);
+            }
+            currentNode = currentNode.append(createNodeFromXpathFragment(currentFragment));
+        }
+        return currentNode;
+    }
+
+    protected static Node createNodeFromXpathFragment(String fragment){
+        StringBuilder builderForTagName = new StringBuilder();
+
+        for(int i = 0;i<fragment.length();i++) {
+            char a = fragment.charAt(i);
+            if(a !='['){
+                builderForTagName.append(a);
+            }
+            else{
+                break;
+            }
+
+        }
+        Node node = new Node(builderForTagName.toString());
+
+        Matcher m = ATTRIBUTE_PATTERN.matcher(fragment);
+        if(m.find()) {
+            String attributesStr = m.group(1);
+            String[] attributeFragments = attributesStr.split(",");
+            for (String attributeFragment : attributeFragments) {
+                String[] splittedFragments = attributeFragment.split("=");
+                node.getAttributes().put(splittedFragments[0], splittedFragments[1]);
+            }
+        }
+
+        return node;
+    }
+
+    protected static boolean validateFragment(String fragment) {
+        return true;
     }
 
     public void setParent(Node parent) {
