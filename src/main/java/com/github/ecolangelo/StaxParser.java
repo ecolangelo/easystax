@@ -128,6 +128,7 @@ public class StaxParser implements XmlParser{
         public Builder(InputStream inputStream) {
             this.inputStream = inputStream;
 
+
         }
 
         public Builder(String xml) {
@@ -142,6 +143,7 @@ public class StaxParser implements XmlParser{
 
         @Override
         public IParse stream(OnMatch match) {
+            if(parser == null)parser = new StaxParser(woodstoxInputFactory());
             currentContentHandler.setHandler(match);
             parser.registerHandler(currentContentHandler);
             return this;
@@ -149,6 +151,7 @@ public class StaxParser implements XmlParser{
 
         @Override
         public IParse addResultTo(final Collection<ParsingResult> result) {
+            if(parser == null)parser = new StaxParser(woodstoxInputFactory());
             currentContentHandler.setHandler(new OnMatch() {
                 @Override
                 public void payload(ParsingResult payload) {
