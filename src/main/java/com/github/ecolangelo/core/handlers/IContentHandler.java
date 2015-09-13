@@ -1,6 +1,5 @@
 package com.github.ecolangelo.core.handlers;
 
-import com.github.ecolangelo.core.XmlNavigationPath;
 import org.codehaus.stax2.XMLStreamReader2;
 
 import javax.xml.stream.XMLStreamException;

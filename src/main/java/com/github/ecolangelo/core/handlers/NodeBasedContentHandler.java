@@ -32,8 +32,6 @@ public class NodeBasedContentHandler implements IContentHandler {
 
     protected XMLStreamWriter2 writer2;
 
-    protected XmlNavigationPath navigationStack = new XmlNavigationPath();
-
     protected StringWriter w = new StringWriter();
 
     @Override
