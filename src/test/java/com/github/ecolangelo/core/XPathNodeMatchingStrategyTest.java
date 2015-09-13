@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PseudoXPathNodeMatchingStrategyTest {
+public class XPathNodeMatchingStrategyTest {
 
     @Test
     public void testMatch1() throws Exception {
@@ -16,7 +16,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
         Node secondroot = new Node("root");
         Node second = secondroot.append(new Node("child"));
 
-        assertTrue(new PseudoXPathNodeMatchingStrategy().match(first, second));
+        assertTrue(new XPathNodeMatchingStrategy().match(first, second));
 
     }
 
@@ -24,7 +24,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
     public void testGracefulNodeValidation_true_success () throws Exception {
         Node first = new Node("root");
         Node second = new Node("root");
-        assertTrue(new PseudoXPathNodeMatchingStrategy().nodeMatch(first, second));
+        assertTrue(new XPathNodeMatchingStrategy().nodeMatch(first, second));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
 
         Node second = new Node("root");
         second.getAttributes().put("id","1");
-        assertTrue(new PseudoXPathNodeMatchingStrategy().nodeMatch(first, second));
+        assertTrue(new XPathNodeMatchingStrategy().nodeMatch(first, second));
     }
 
 
@@ -45,7 +45,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
         Node second = new Node("root");
         second.getAttributes().put("id","1");
         second.getAttributes().put("type","application");
-        assertTrue(new PseudoXPathNodeMatchingStrategy().nodeMatch(first, second));
+        assertTrue(new XPathNodeMatchingStrategy().nodeMatch(first, second));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
         first.getAttributes().put("type","application");
         Node second = new Node("root");
         second.getAttributes().put("id","1");
-        assertFalse(new PseudoXPathNodeMatchingStrategy().nodeMatch(first, second));
+        assertFalse(new XPathNodeMatchingStrategy().nodeMatch(first, second));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
         secondroot.getAttributes().put("id","1");
         Node second = secondroot.append(new Node("child"));
 
-        assertTrue("\n" + first.getXPath() + " ---> " + second.getXPath(), new PseudoXPathNodeMatchingStrategy().match(first, second));
+        assertTrue("\n" + first.getXPath() + " ---> " + second.getXPath(), new XPathNodeMatchingStrategy().match(first, second));
 
     }
 
@@ -86,7 +86,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
         secondroot.getAttributes().put("category","WEB");
         Node second = secondroot.append(new Node("child"));
 
-        assertTrue("\n" + first.getXPath() + " ---> " + second.getXPath(), new PseudoXPathNodeMatchingStrategy().match(first, second));
+        assertTrue("\n" + first.getXPath() + " ---> " + second.getXPath(), new XPathNodeMatchingStrategy().match(first, second));
 
     }
 
@@ -97,7 +97,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
         Node node2 = new Node("root");
         node2.getAttributes().put("id","1");
 
-        assertTrue(new PseudoXPathNodeMatchingStrategy().attributesMatch(node1, node2));
+        assertTrue(new XPathNodeMatchingStrategy().attributesMatch(node1, node2));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class PseudoXPathNodeMatchingStrategyTest {
         node1.getAttributes().put("id","1");
         Node node2 = new Node("root");
 
-        assertFalse((new PseudoXPathNodeMatchingStrategy().attributesMatch(node1, node2)));
+        assertFalse((new XPathNodeMatchingStrategy().attributesMatch(node1, node2)));
     }
 
     @Test
@@ -117,6 +117,6 @@ public class PseudoXPathNodeMatchingStrategyTest {
         node2.getAttributes().put("id","1");
         node2.getAttributes().put("category","public");
 
-        assertTrue(new PseudoXPathNodeMatchingStrategy().attributesMatch(node1, node2));
+        assertTrue(new XPathNodeMatchingStrategy().attributesMatch(node1, node2));
     }
 }

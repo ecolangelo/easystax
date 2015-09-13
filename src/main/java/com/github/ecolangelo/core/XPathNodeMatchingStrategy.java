@@ -2,7 +2,7 @@ package com.github.ecolangelo.core;
 
 import java.util.Map;
 
-public class PseudoXPathNodeMatchingStrategy implements NodeMatchingStrategy{
+public class XPathNodeMatchingStrategy implements NodeMatchingStrategy{
 
     /*
     *

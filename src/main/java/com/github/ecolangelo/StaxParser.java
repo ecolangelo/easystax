@@ -137,7 +137,7 @@ public class StaxParser implements XmlParser{
 
         @Override
         public ForEach forEach(String path) {
-            currentContentHandler = new NodeBasedContentHandler(Node.createNodeFromXpath(path), new PseudoXPathNodeMatchingStrategy());
+            currentContentHandler = new NodeBasedContentHandler(Node.createNodeFromXpath(path), new XPathNodeMatchingStrategy());
             return this;
         }
 
