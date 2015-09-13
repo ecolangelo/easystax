@@ -90,4 +90,19 @@ public class StaxXmlParserIntegrationTest {
         assertThat(author.size(), is(5));
         assertThat(author.get(0).getContent(), is("<author>James McGovern</author>"));
     }
+
+    @Test
+    public void testOfNewApiWithAttributes1() throws Exception {
+        InputStream is = this.getClass().getResourceAsStream("/books.xml");
+
+        List<ParsingResult> author = new ArrayList<ParsingResult>();
+
+        from(is).
+                forEach("/bookstore/book[id=1]/author").addResultTo(author).
+                parse();
+
+
+        assertThat(author.size(), is(5));
+        assertThat(author.get(0).getContent(), is("<author>James McGovern</author>"));
+    }
 }

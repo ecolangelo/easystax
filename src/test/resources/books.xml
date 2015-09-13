@@ -34,4 +34,11 @@
         <price>39.95</price>
     </book>
 
+    <book id = "1" category="public">
+        <title lang="en">Learning XML</title>
+        <author>Erik T. Ray</author>
+        <year>2003</year>
+        <price>39.95</price>
+    </book>
+
 </bookstore>
