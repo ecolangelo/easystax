@@ -1,13 +1,11 @@
 package com.github.ecolangelo.core;
 
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.github.ecolangelo.StaxParser.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -25,7 +23,7 @@ public class StaxXmlParserIntegrationTest {
         from(is).forEach("/bookstore/book/title").stream(new OnMatch() {
             @Override
             public void payload(ParsingResult payload) {
-                   titles.add(payload.getContent());
+                titles.add(payload.getContent());
             }
         }).parse();
 
@@ -44,7 +42,7 @@ public class StaxXmlParserIntegrationTest {
 
         from(is).forEach("/bookstore/book").stream(new OnMatch() {
             @Override
-            public void payload(ParsingResult payload){
+            public void payload(ParsingResult payload) {
                 categories.add(payload.getNode().getAttributes().get("category"));
 
             }
@@ -67,9 +65,9 @@ public class StaxXmlParserIntegrationTest {
 
 
         from(is).
-                forEach("/bookstore/book/year").addResultTo(years).
-                forEach("/bookstore/book/author").addResultTo(author).
-                forEach("/bookstore/book/price").addResultTo(prices).parse();
+                forEach("/bookstore/book/year").addTo(years).
+                forEach("/bookstore/book/author").addTo(author).
+                forEach("/bookstore/book/price").addTo(prices).parse();
 
         assertThat(years.size(), is(4));
         assertThat(prices.size(), is(4));
@@ -83,7 +81,7 @@ public class StaxXmlParserIntegrationTest {
         List<ParsingResult> author = new ArrayList<ParsingResult>();
 
         from(is).
-                forEach("/bookstore/book[category=WEB]/author").addResultTo(author).
+                forEach("/bookstore/book[category=WEB]/author").addTo(author).
                 parse();
 
 
@@ -98,11 +96,11 @@ public class StaxXmlParserIntegrationTest {
         List<ParsingResult> author = new ArrayList<ParsingResult>();
 
         from(is).
-                forEach("/bookstore/book[id=1]/author").addResultTo(author).
+                forEach("/bookstore/book[id=1]/author").addTo(author).
                 parse();
 
 
-        assertThat(author.size(), is(5));
-        assertThat(author.get(0).getContent(), is("<author>James McGovern</author>"));
+        assertThat(author.size(), is(1));
+        assertThat(author.get(0).getContent(), is("<author>Erik T. Ray</author>"));
     }
 }

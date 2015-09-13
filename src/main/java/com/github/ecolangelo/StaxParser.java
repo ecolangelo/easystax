@@ -150,7 +150,7 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse addResultTo(final Collection<ParsingResult> result) {
+        public IParse addTo(final Collection<ParsingResult> result) {
             if(parser == null)parser = new StaxParser(woodstoxInputFactory());
             currentContentHandler.setHandler(new OnMatch() {
                 @Override
@@ -187,7 +187,7 @@ public class StaxParser implements XmlParser{
     public interface ForEach {
         IParse stream(OnMatch match);
 
-        IParse addResultTo(Collection<ParsingResult> result);
+        IParse addTo(Collection<ParsingResult> result);
 
     }
 
