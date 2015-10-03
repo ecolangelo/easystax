@@ -23,6 +23,7 @@ public class StaxXmlParserIntegrationTest {
         from(is).forEach("/bookstore/book/title").stream(new OnMatch() {
             @Override
             public void payload(ParsingResult payload) {
+
                 titles.add(payload.getContent());
             }
         }).parse();

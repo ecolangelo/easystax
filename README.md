@@ -1,7 +1,7 @@
 easystax
 ========
 
-library to deal with StAX API for xml parsing. The library uses Woodstox implementation for XMLInputFactory and XMLOutputFactory
+utility library that wraps StAX API for xml parsing. The library uses Woodstox implementation for XMLInputFactory and XMLOutputFactory
 
 
 ### import with maven
@@ -10,15 +10,15 @@ library to deal with StAX API for xml parsing. The library uses Woodstox impleme
 &lt;dependency&gt;
   &lt;groupId&gt;com.github.ecolangelo&lt;/groupId&gt;
   &lt;artifactId&gt;easystax&lt;/artifactId&gt;
-  &lt;version&gt;0.0.4&lt;/version&gt;
+  &lt;version&gt;0.0.5&lt;/version&gt;
 &lt;/dependency&gt;
 
 </code>
 </pre>
 
-### example: parsing huge xml
+### example: streaming xml
 
-input: 
+input (generally big xml):
 
 <pre>
 <code>
@@ -61,10 +61,10 @@ input:
 <code>
 InputStream is = (...) //getting input stream from source
 
-from(is).forEach("/bookstore/book/title" , new OnXmlSubPart() {
+from(is).forEach("/bookstore/book/address" ).stream(new OnMatch() {
             @Override
-            public void payload(String payload){
-                titles.add(payload);
+            public void payload(ParsingResult payload){
+                titles.add(payload.getContent());
             }
         }).parse();
 

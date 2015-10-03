@@ -6,7 +6,7 @@
 
     <groupId>com.github.ecolangelo</groupId>
     <artifactId>easystax</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
 
     <name>Easy Stax</name>
     <description>An Utility Wrapper on top of stax API for xml parsing</description>
