@@ -27,7 +27,7 @@ public class StaxXmlParserIntegrationTest {
             }
         }).parse();
 
-        assertThat(titles.size(), is(4));
+        assertThat(titles.size(), is(5));
         assertThat(titles.get(0), is("<title lang=\"en\">Everyday Italian</title>"));
         assertThat(titles.get(1), is("<title lang=\"en\">Harry Potter</title>"));
         assertThat(titles.get(2), is("<title lang=\"en\">XQuery Kick Start</title>"));
@@ -48,11 +48,11 @@ public class StaxXmlParserIntegrationTest {
             }
         }).parse();
 
-        assertThat(categories.size(), is(4));
+        assertThat(categories.size(), is(5));
         assertThat(categories.get(0), is("COOKING"));
         assertThat(categories.get(1), is("CHILDREN"));
         assertThat(categories.get(2), is("WEB"));
-        assertThat(categories.get(3), is("WEB"));
+        assertThat(categories.get(3), is("SOMETHING"));
     }
 
     @Test
@@ -69,9 +69,9 @@ public class StaxXmlParserIntegrationTest {
                 forEach("/bookstore/book/author").addTo(author).
                 forEach("/bookstore/book/price").addTo(prices).parse();
 
-        assertThat(years.size(), is(4));
-        assertThat(prices.size(), is(4));
-        assertThat(author.size(), is(8));
+        assertThat(years.size(), is(5));
+        assertThat(prices.size(), is(5));
+        assertThat(author.size(), is(9));
     }
 
     @Test
