@@ -62,7 +62,7 @@ assertThat(priceListOfChildrenBook.get(0).getText(), is("29.99"));
 
 ### example: streaming xml
 
-input (generally big xml):
+input (generally a huge xml):
 
 <pre>
 <code>
@@ -115,7 +115,7 @@ from(is).forEach("/bookstore/book/address" ).stream(new OnMatch() {
 </pre>
 </code>
 
-this will print out the sub xml containing the adress of each person:
+this will print out all the sub xml that match the provided path /bookstore/book/address:
 
 <pre>
 <code>
@@ -147,9 +147,6 @@ ParsingResult:
 - node: contains attributes, name of the node and parent node
 - content: enclosing xml with tags
 - text: enclosing text stripped out of the tags
-
-
-
 
 </code>
 
