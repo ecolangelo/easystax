@@ -19,6 +19,49 @@ Note: no validation is currently implemented for path, example of valid path:
 </code>
 </pre>
 
+### example: parsing per node name and attributes
+
+<pre>
+<code>
+&lt;bookstore&gt;
+    &lt;book category="COOKING"&gt;
+         &lt;title lang="en"&gt;Everyday Italian&lt;/title&gt;
+         &lt;author&gt;Giada De &lt;br/&gt; Laurentiis&lt;/author&gt;
+         &lt;year&gt;2005&lt;/year&gt;
+         &lt;price&gt;30.00&lt;/price&gt;
+    &lt;/book&gt;
+
+    &lt;book category="CHILDREN"&gt;
+          &lt;title lang="en"&gt;Harry Potter&lt;/title&gt;
+          &lt;author&gt;J K. Rowling&lt;/author&gt;
+          &lt;year&gt;2005&lt;/year&gt;
+          &lt;price&gt;24.00&lt;/price&gt;
+    &lt;/book&gt;
+&lt;/bookstore&gt;
+</code>
+
+<code>
+InputStream is = this.getClass().getResourceAsStream("/books1.xml");
+
+List<ParsingResult>  authorList = new ArrayList<>();
+List<ParsingResult> priceListOfChildrenBook = new ArrayList<>();
+
+from(is)
+    .forEach("/bookstore/book/author").addTo(authorList)
+    .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook).parse();
+
+assertThat(authorList.size(), is(2));
+assertThat(priceListOfChildrenBook.size(), is(1));
+
+assertThat(authorList.get(0).getContent(), is("<author>Giada De <br/> Laurentiis</author>"));
+assertThat(authorList.get(0).getText(), is("Giada De  Laurentiis"));
+
+assertThat(priceListOfChildrenBook.get(0).getText(), is("29.99"));
+
+</code>
+
+</pre>
+
 ### example: streaming xml
 
 input (generally big xml):
@@ -96,49 +139,10 @@ this will print out the sub xml containing the adress of each person:
       .
 </pre>
 
-<pre>
-<code>
-&lt;bookstore&gt;
-    &lt;book category="COOKING"&gt;
-         &lt;title lang="en"&gt;Everyday Italian&lt;/title&gt;
-         &lt;author&gt;Giada De &lt;br/&gt; Laurentiis&lt;/author&gt;
-         &lt;year&gt;2005&lt;/year&gt;
-         &lt;price&gt;30.00&lt;/price&gt;
-    &lt;/book&gt;
-
-    &lt;book category="CHILDREN"&gt;
-          &lt;title lang="en"&gt;Harry Potter&lt;/title&gt;
-          &lt;author&gt;J K. Rowling&lt;/author&gt;
-          &lt;year&gt;2005&lt;/year&gt;
-          &lt;price&gt;24.00&lt;/price&gt;
-    &lt;/book&gt;
-&lt;/bookstore&gt;
-</code>
-
-<code>
-InputStream is = this.getClass().getResourceAsStream("/books1.xml");
-
-List<ParsingResult>  authorList = new ArrayList<>();
-List<ParsingResult> priceListOfChildrenBook = new ArrayList<>();
-
-from(is)
-    .forEach("/bookstore/book/author").addTo(authorList)
-    .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook).parse();
-
-assertThat(authorList.size(), is(2));
-assertThat(priceListOfChildrenBook.size(), is(1));
-
-assertThat(authorList.get(0).getContent(), is("<author>Giada De <br/> Laurentiis</author>"));
-assertThat(authorList.get(0).getText(), is("Giada De  Laurentiis"));
-
-assertThat(priceListOfChildrenBook.get(0).getText(), is("29.99"));
-
-</code>
-
-</pre>
 
 
-<pre>
+
+
 
 ParsingResult:
 
@@ -147,7 +151,7 @@ ParsingResult:
 - text: enclosing text stripped out of the tags
 
 
-</pre>
+
 
 </code>
 
