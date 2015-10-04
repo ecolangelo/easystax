@@ -23,7 +23,7 @@ Note: no validation is currently implemented for path, example of valid path:
 
 <pre>
 <code>
-&lt;bookstore&gt;
+String xmlBody = "&lt;bookstore&gt;
     &lt;book category="COOKING"&gt;
          &lt;title lang="en"&gt;Everyday Italian&lt;/title&gt;
          &lt;author&gt;Giada De &lt;br/&gt; Laurentiis&lt;/author&gt;
@@ -37,16 +37,13 @@ Note: no validation is currently implemented for path, example of valid path:
           &lt;year&gt;2005&lt;/year&gt;
           &lt;price&gt;24.00&lt;/price&gt;
     &lt;/book&gt;
-&lt;/bookstore&gt;
-</code>
+&lt;/bookstore&gt;"
 
-<code>
-InputStream is = this.getClass().getResourceAsStream("/books1.xml");
 
 List<ParsingResult>  authorList = new ArrayList<>();
 List<ParsingResult> priceListOfChildrenBook = new ArrayList<>();
 
-from(is)
+from(xmlBody)
     .forEach("/bookstore/book/author").addTo(authorList)
     .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook).parse();
 

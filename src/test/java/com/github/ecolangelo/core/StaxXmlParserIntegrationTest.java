@@ -1,6 +1,7 @@
 package com.github.ecolangelo.core;
 
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -111,9 +112,11 @@ public class StaxXmlParserIntegrationTest {
     public void testMultipleUseOfApi() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books1.xml");
 
+        String xmlBody = IOUtils.toString(is);
+
         List<ParsingResult>  authorList = new ArrayList<ParsingResult>();
         List<ParsingResult> priceListOfChildrenBook = new ArrayList<ParsingResult>();
-        from(is)
+        from(xmlBody)
                 .forEach("/bookstore/book/author").addTo(authorList)
                 .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook).parse();
 
