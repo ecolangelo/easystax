@@ -13,7 +13,7 @@ Note: no validation is currently implemented for path, example of valid path:
 &lt;dependency&gt;
   &lt;groupId&gt;com.github.ecolangelo&lt;/groupId&gt;
   &lt;artifactId&gt;easystax&lt;/artifactId&gt;
-  &lt;version&gt;0.0.5&lt;/version&gt;
+  &lt;version&gt;0.0.6&lt;/version&gt;
 &lt;/dependency&gt;
 
 </code>
@@ -136,10 +136,6 @@ this will print out all the sub xml that match the provided path /bookstore/book
       .
       .
 </pre>
-
-
-
-
 
 
 ParsingResult:
