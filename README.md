@@ -45,7 +45,8 @@ List<ParsingResult> priceListOfChildrenBook = new ArrayList<>();
 
 from(xmlBody)
     .forEach("/bookstore/book/author").addTo(authorList)
-    .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook).parse();
+    .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook)
+    .parse();
 
 assertThat(authorList.size(), is(2));
 assertThat(priceListOfChildrenBook.size(), is(1));
@@ -107,7 +108,7 @@ InputStream is = (...) //getting input stream from source
 from(is).forEach("/bookstore/book/address" ).stream(new OnMatch() {
             @Override
             public void payload(ParsingResult payload){
-                titles.add(payload.getContent());
+                System.out.println(payload.getContent());
             }
         }).parse();
 
