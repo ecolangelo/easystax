@@ -90,6 +90,8 @@ public class StaxXmlParserIntegrationTest {
         assertThat(author.get(0).getContent(), is("<author>James McGovern</author>"));
     }
 
+
+
     @Test
     public void testOfNewApiWithAttributes1() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books.xml");
@@ -104,4 +106,26 @@ public class StaxXmlParserIntegrationTest {
         assertThat(author.size(), is(1));
         assertThat(author.get(0).getContent(), is("<author>Erik T. Ray</author>"));
     }
+
+    @Test
+    public void testMultipleUseOfApi() throws Exception {
+        InputStream is = this.getClass().getResourceAsStream("/books1.xml");
+
+        List<ParsingResult>  authorList = new ArrayList<ParsingResult>();
+        List<ParsingResult> priceListOfChildrenBook = new ArrayList<ParsingResult>();
+        from(is)
+                .forEach("/bookstore/book/author").addTo(authorList)
+                .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook).parse();
+
+        assertThat(authorList.size(), is(2));
+        assertThat(priceListOfChildrenBook.size(), is(1));
+
+        assertThat(authorList.get(0).getContent(), is("<author>Giada De <br/> Laurentiis</author>"));
+        assertThat(authorList.get(0).getText(), is("Giada De  Laurentiis"));
+
+        assertThat(priceListOfChildrenBook.get(0).getText(), is("29.99"));
+
+
+    }
+
 }

@@ -18,6 +18,10 @@ public class ParsingResult {
         return content;
     }
 
+    public String getText() {
+        return content.replaceAll("<[^<>]+>","");
+    }
+
     public void setContent(String content) {
         this.content = content;
     }

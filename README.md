@@ -3,6 +3,9 @@ easystax
 
 utility library that wraps StAX API for xml parsing. The library uses Woodstox implementation for XMLInputFactory and XMLOutputFactory
 
+Note: no validation is currently implemented for path, example of valid path:
+/root/child
+/root[attribute1=value1,attribute2=valu2...]/child
 
 ### import with maven
 <pre>
@@ -92,13 +95,67 @@ this will print out the sub xml containing the adress of each person:
       .
       .
 </pre>
+
+<pre>
+<code>
+&lt;bookstore&gt;
+    &lt;book category="COOKING"&gt;
+         &lt;title lang="en"&gt;Everyday Italian&lt;/title&gt;
+         &lt;author&gt;Giada De &lt;br/&gt; Laurentiis&lt;/author&gt;
+         &lt;year&gt;2005&lt;/year&gt;
+         &lt;price&gt;30.00&lt;/price&gt;
+    &lt;/book&gt;
+
+    &lt;book category="CHILDREN"&gt;
+          &lt;title lang="en"&gt;Harry Potter&lt;/title&gt;
+          &lt;author&gt;J K. Rowling&lt;/author&gt;
+          &lt;year&gt;2005&lt;/year&gt;
+          &lt;price&gt;24.00&lt;/price&gt;
+    &lt;/book&gt;
+&lt;/bookstore&gt;
+</code>
+
+<code>
+InputStream is = this.getClass().getResourceAsStream("/books1.xml");
+
+List<ParsingResult>  authorList = new ArrayList<>();
+List<ParsingResult> priceListOfChildrenBook = new ArrayList<>();
+
+from(is)
+    .forEach("/bookstore/book/author").addTo(authorList)
+    .forEach("/bookstore/book[category=CHILDREN]/price").addTo(priceListOfChildrenBook).parse();
+
+assertThat(authorList.size(), is(2));
+assertThat(priceListOfChildrenBook.size(), is(1));
+
+assertThat(authorList.get(0).getContent(), is("<author>Giada De <br/> Laurentiis</author>"));
+assertThat(authorList.get(0).getText(), is("Giada De  Laurentiis"));
+
+assertThat(priceListOfChildrenBook.get(0).getText(), is("29.99"));
+
+</code>
+
+</pre>
+
+
+<pre>
+
+ParsingResult:
+
+- node: contains attributes, name of the node and parent node
+- content: enclosing xml with tags
+- text: enclosing text stripped out of the tags
+
+
+</pre>
+
 </code>
 
         
 #### Licence:
    
    
-   Copyright [2014] [Colangelo Eros]
+   Copyright [2015] [Colangelo Eros]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
