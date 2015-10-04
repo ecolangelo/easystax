@@ -51,7 +51,7 @@ from(xmlBody)
 assertThat(authorList.size(), is(2));
 assertThat(priceListOfChildrenBook.size(), is(1));
 
-assertThat(authorList.get(0).getContent(), is("<author>Giada De <br/> Laurentiis</author>"));
+assertThat(authorList.get(0).getContent(), is("&lt;author&gt;Giada De &lt;br/&gt; Laurentiis&lt;/author&gt;"));
 assertThat(authorList.get(0).getText(), is("Giada De  Laurentiis"));
 
 assertThat(priceListOfChildrenBook.get(0).getText(), is("29.99"));
