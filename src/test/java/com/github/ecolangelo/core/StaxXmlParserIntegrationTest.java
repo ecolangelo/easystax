@@ -19,7 +19,7 @@ public class StaxXmlParserIntegrationTest {
     public void testStreaming() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books.xml");
 
-        final List<String> titles = new ArrayList<String>();
+        final List<String> titles = new ArrayList<>();
 
         from(is).forEach("/bookstore/book/title").stream(new OnMatch() {
             @Override

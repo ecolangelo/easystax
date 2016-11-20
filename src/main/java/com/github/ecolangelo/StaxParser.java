@@ -20,8 +20,6 @@ public class StaxParser implements XmlParser{
 
     final private List<IContentHandler> handlers = new ArrayList<IContentHandler>();
 
-    public StaxParser() {}
-
     public StaxParser(XMLInputFactory xmlInputFactory){
         this.xmlInputFactory = xmlInputFactory;
     }
@@ -43,39 +41,19 @@ public class StaxParser implements XmlParser{
             int eventType = streamReader.getEventType();
             switch(eventType){
                 case XMLStreamConstants.START_ELEMENT:{
-                    notifyStaxEventToAll(new Action<IContentHandler>() {
-                        @Override
-                        public void execute(IContentHandler IContentHandler) throws Exception{
-                            IContentHandler.startElement(streamReader);
-                        }
-                    });
+                    notifyStaxEventToAll(IContentHandler -> IContentHandler.startElement(streamReader));
                     break;
                 }
                 case XMLStreamConstants.CHARACTERS:{
-                    notifyStaxEventToAll(new Action<IContentHandler>() {
-                        @Override
-                        public void execute(IContentHandler IContentHandler) throws Exception{
-                            IContentHandler.character(streamReader);
-                        }
-                    });
+                    notifyStaxEventToAll(IContentHandler -> IContentHandler.character(streamReader));
                     break;
                 }
                 case XMLStreamConstants.ATTRIBUTE:{
-                    notifyStaxEventToAll(new Action<IContentHandler>() {
-                        @Override
-                        public void execute(IContentHandler IContentHandler) throws Exception{
-                            IContentHandler.attribute(streamReader);
-                        }
-                    });
+                    notifyStaxEventToAll(IContentHandler -> IContentHandler.attribute(streamReader));
                     break;
                 }
                 case XMLStreamConstants.END_ELEMENT:{
-                    notifyStaxEventToAll(new Action<IContentHandler>() {
-                        @Override
-                        public void execute(IContentHandler IContentHandler) throws Exception {
-                            IContentHandler.endElement(streamReader);
-                        }
-                    });
+                    notifyStaxEventToAll(IContentHandler -> IContentHandler.endElement(streamReader));
                     break;
                 }
             }
@@ -87,14 +65,6 @@ public class StaxParser implements XmlParser{
         if(!handlers.contains(contentHandler)) handlers.add(contentHandler);
     }
 
-
-    public void register(IContentHandler... IContentHandlers) {
-        for(IContentHandler ch: IContentHandlers) {
-            if(!handlers.contains(ch)) {
-                handlers.add(ch);
-            }
-        }
-    }
 
     private void notifyStaxEventToAll(Action<IContentHandler> closure){
         for(IContentHandler listener: handlers){

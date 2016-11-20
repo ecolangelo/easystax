@@ -17,12 +17,6 @@ public class NodeBasedContentHandler implements IContentHandler {
     private Node referenceNode;
     private Node currentNode;
 
-    public NodeBasedContentHandler(Node referenceNode, NodeMatchingStrategy matchingStrategy, Action<ParsingResult> handler) {
-        this.referenceNode = referenceNode;
-        this.matchingStrategy = matchingStrategy;
-        this.handler = handler;
-    }
-
     public NodeBasedContentHandler(Node referenceNode, NodeMatchingStrategy matchingStrategy) {
         this.referenceNode = referenceNode;
         this.matchingStrategy = matchingStrategy;
