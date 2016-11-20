@@ -6,7 +6,7 @@ package com.github.ecolangelo.core;
 public abstract class OnMatch implements Action<ParsingResult> {
 
     @Override
-    public void execute(ParsingResult payload) throws Exception {
+    public void execute(ParsingResult payload) {
         payload(payload);
     }
 

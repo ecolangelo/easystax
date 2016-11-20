@@ -5,5 +5,5 @@ package com.github.ecolangelo.core;
  */
 public interface Action<T> {
 
-    void execute(T t) throws Exception;
+    void execute(T t) throws ParseException;
 }

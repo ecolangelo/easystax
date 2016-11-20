@@ -1,6 +1,7 @@
 package com.github.ecolangelo.core;
 
 
+import com.github.ecolangelo.core.pojo.XmlPath;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -129,6 +130,35 @@ public class StaxXmlParserIntegrationTest {
         assertThat(priceListOfChildrenBook.get(0).getText(), is("29.99"));
 
 
+    }
+
+
+    @Test
+    public void testPojoAPI() throws Exception {
+        InputStream is = this.getClass().getResourceAsStream("/books1.xml");
+        from(is).bindWith(TestPojo.class).stream(new Action<TestPojo>() {
+            @Override
+            public void execute(TestPojo o) throws ParseException {
+                System.out.println("bao!: "+o.getAuthor());
+            }
+        }).parse();
+
+    }
+
+    class TestPojo {
+
+        
+
+        @XmlPath("/bookstore/book/author")
+        private String author;
+
+        public String getAuthor() {
+            return author;
+        }
+
+        public void setAuthor(String author) {
+            this.author = author;
+        }
     }
 
 }

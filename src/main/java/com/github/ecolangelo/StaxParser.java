@@ -3,6 +3,7 @@ package com.github.ecolangelo;
 import com.github.ecolangelo.core.*;
 import com.github.ecolangelo.core.handlers.IContentHandler;
 import com.github.ecolangelo.core.handlers.NodeBasedContentHandler;
+import com.github.ecolangelo.core.pojo.XmlPath;
 import org.codehaus.stax2.XMLStreamReader2;
 
 import javax.xml.stream.XMLInputFactory;
@@ -10,6 +11,8 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -41,19 +44,43 @@ public class StaxParser implements XmlParser{
             int eventType = streamReader.getEventType();
             switch(eventType){
                 case XMLStreamConstants.START_ELEMENT:{
-                    notifyStaxEventToAll(IContentHandler -> IContentHandler.startElement(streamReader));
+                    notifyStaxEventToAll(IContentHandler -> {
+                        try {
+                            IContentHandler.startElement(streamReader);
+                        } catch (XMLStreamException e) {
+                            throw new ParseException(e);
+                        }
+                    });
                     break;
                 }
                 case XMLStreamConstants.CHARACTERS:{
-                    notifyStaxEventToAll(IContentHandler -> IContentHandler.character(streamReader));
+                    notifyStaxEventToAll(IContentHandler -> {
+                        try {
+                            IContentHandler.character(streamReader);
+                        } catch (XMLStreamException e) {
+                            throw new ParseException(e);
+                        }
+                    });
                     break;
                 }
                 case XMLStreamConstants.ATTRIBUTE:{
-                    notifyStaxEventToAll(IContentHandler -> IContentHandler.attribute(streamReader));
+                    notifyStaxEventToAll(IContentHandler -> {
+                        try {
+                            IContentHandler.attribute(streamReader);
+                        } catch (XMLStreamException e) {
+                            throw new ParseException(e);
+                        }
+                    });
                     break;
                 }
                 case XMLStreamConstants.END_ELEMENT:{
-                    notifyStaxEventToAll(IContentHandler -> IContentHandler.endElement(streamReader));
+                    notifyStaxEventToAll(IContentHandler -> {
+                        try {
+                            IContentHandler.endElement(streamReader);
+                        } catch (XMLStreamException e) {
+                            throw new ParseException(e);
+                        }
+                    });
                     break;
                 }
             }
@@ -87,7 +114,7 @@ public class StaxParser implements XmlParser{
     }
 
 
-    public static class Builder implements  IPath, IParse, ForEach, IProperties {
+    public static class Builder<T> implements  IPath, IParse, ForEach, IProperties ,IBind<T>{
 
         private InputStream inputStream;
 
@@ -112,6 +139,11 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
+        public IResult<T> bindWith(Class<T> classType) {
+            return new PojoBuilderParser<T>(inputStream, classType);
+        }
+
+        @Override
         public IParse stream(OnMatch match) {
             if(parser == null)parser = new StaxParser(woodstoxInputFactory());
             currentContentHandler.setHandler(match);
@@ -120,7 +152,7 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse addTo(final Collection<ParsingResult> result) {
+        public ForEach addTo(final Collection<ParsingResult> result) {
             if(parser == null)parser = new StaxParser(woodstoxInputFactory());
             currentContentHandler.setHandler(new OnMatch() {
                 @Override
@@ -144,6 +176,83 @@ public class StaxParser implements XmlParser{
         }
     }
 
+    public static class PojoBuilderParser<T> implements IResult<T> ,IParse{
+
+        private InputStream is;
+        private Class<T> type;
+        private StaxParser parser = new StaxParser(woodstoxInputFactory());
+        public PojoBuilderParser (InputStream is, Class<T> pojoType){
+            this.is = is;
+            this.type = pojoType;
+
+        }
+
+        @Override
+        public IParse addTo(Collection<T> results) {
+            return null;
+        }
+
+        @Override
+        public IParse stream(Action<T> action) {
+            List<Annotation> xmlPathAnnotations = getAnnotationsOnFields(XmlPath.class, type);
+
+            for(Annotation a : xmlPathAnnotations){
+                XmlPath xmlPath = (XmlPath)a;
+                NodeBasedContentHandler contentHandler = new NodeBasedContentHandler(Node.createNodeFromXpath(xmlPath.value()), new XPathNodeMatchingStrategy());
+                contentHandler.setHandler(new OnMatch() {
+                    @Override
+                    public void payload(ParsingResult payload) {
+                        T t = null;
+                        try {
+                            t = type.newInstance();
+                            inject(t, payload.getContent());
+                        } catch (InstantiationException | IllegalAccessException e) {
+                            throw new ParseException(e);
+                        }
+                        action.execute(t);
+                    }
+                });
+                parser.registerHandler(contentHandler);
+
+            }
+            return this;
+        }
+
+        @Override
+        public void parse() throws XMLStreamException {
+            parser.parse(is);
+        }
+    }
+
+    public static void inject(Object instance, Object value) {
+        Field[] fields = instance.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(XmlPath.class)) {
+                XmlPath set = field.getAnnotation(XmlPath.class);
+                field.setAccessible(true);
+                try {
+                    field.set(instance, value);
+                } catch (IllegalAccessException e) {
+                    throw new ParseException(e);
+                }
+
+            }
+        }
+    }
+
+    public static List<Annotation> getAnnotationsOnFields(Class annotationType, Class type) {
+        Field[] fields = type.getDeclaredFields();
+        List<Annotation> annotations = new ArrayList<>();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(annotationType)) {
+                Annotation set = field.getAnnotation(annotationType);
+                annotations.add(set);
+
+            }
+        }
+        return annotations;
+    }
+
 
     public interface IProperties {
         IPath properties(Map<String,Object> xmlParserProperties);
@@ -151,20 +260,35 @@ public class StaxParser implements XmlParser{
 
     public interface IPath {
         ForEach forEach(String path);
-
     }
 
     public interface ForEach {
+
+        ForEach forEach(String path);
+
         IParse stream(OnMatch match);
 
-        IParse addTo(Collection<ParsingResult> result);
+        ForEach addTo(Collection<ParsingResult> result);
+
+        void parse() throws XMLStreamException;
 
     }
 
+    public interface IBind<T> {
+        public IResult<T> bindWith(Class<T> classType);
+    }
+
+    public interface IResult<T> {
+        IParse addTo(Collection<T> results);
+
+        IParse stream(Action<T> action);
+    }
 
 
-    public interface IParse extends IPath{
+    public interface IParse{
         void parse() throws XMLStreamException;
+
+
     }
 
 
