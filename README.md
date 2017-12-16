@@ -1,7 +1,9 @@
 easystax
 ========
+<p><img src="https://travis-ci.org/ecolangelo/easystax.svg?branch=master" /></p>
 
 utility library that wraps StAX API for xml parsing. The library uses Woodstox implementation for XMLInputFactory and XMLOutputFactory
+
 
 Note: no validation is currently implemented for path, example of valid path:
 /root/child
