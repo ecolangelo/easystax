@@ -1,6 +1,6 @@
-easystax <p><a href="https://travis-ci.org/ecolangelo/easystax"><img src="https://travis-ci.org/ecolangelo/easystax.svg?branch=master" /></a></p>
+easystax
 ========
-
+<p><a href="https://travis-ci.org/ecolangelo/easystax"><img src="https://travis-ci.org/ecolangelo/easystax.svg?branch=master" /></a></p>
 
 utility library that wraps StAX API for xml parsing. The library uses Woodstox implementation for XMLInputFactory and XMLOutputFactory
 
