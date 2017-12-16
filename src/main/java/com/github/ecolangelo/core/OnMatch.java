@@ -1,12 +1,14 @@
 package com.github.ecolangelo.core;
 
+import java.util.function.Consumer;
+
 /**
  * Created by eros on 27/12/14.
  */
-public abstract class OnMatch implements Action<ParsingResult> {
+public abstract class OnMatch implements Consumer<ParsingResult> {
 
     @Override
-    public void execute(ParsingResult payload) {
+    public void accept(ParsingResult payload) {
         payload(payload);
     }
 

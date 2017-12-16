@@ -9,11 +9,12 @@ import javax.xml.stream.XMLStreamException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class NodeBasedContentHandler implements IContentHandler {
 
     private NodeMatchingStrategy matchingStrategy;
-    private Action<ParsingResult> handler;
+    private Consumer<ParsingResult> handler;
     private Node referenceNode;
     private Node currentNode;
 
@@ -83,7 +84,7 @@ public class NodeBasedContentHandler implements IContentHandler {
                 ParsingResult t = new ParsingResult();
                 t.setContent(w.toString());
                 t.setNode(currentNode);
-                handler.execute(t);
+                handler.accept(t);
                 w.close();
                 w = new StringWriter();
             } catch (Exception e) {
@@ -133,11 +134,11 @@ public class NodeBasedContentHandler implements IContentHandler {
     }
 
 
-    public Action<ParsingResult> getHandler() {
+    public Consumer<ParsingResult> getHandler() {
         return handler;
     }
 
-    public void setHandler(Action<ParsingResult> handler) {
+    public void setHandler(Consumer<ParsingResult> handler) {
         this.handler = handler;
     }
 }

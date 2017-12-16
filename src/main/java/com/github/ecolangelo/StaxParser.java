@@ -15,6 +15,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.function.Consumer;
 
 
 public class StaxParser implements XmlParser{
@@ -93,10 +94,10 @@ public class StaxParser implements XmlParser{
     }
 
 
-    private void notifyStaxEventToAll(Action<IContentHandler> closure){
+    private void notifyStaxEventToAll(Consumer<IContentHandler> closure){
         for(IContentHandler listener: handlers){
             try {
-                closure.execute(listener);
+                closure.accept(listener);
             } catch (Exception e) {
                 throw new ParseException(e);
             }
@@ -193,7 +194,7 @@ public class StaxParser implements XmlParser{
         }
 
         @Override
-        public IParse stream(Action<T> action) {
+        public IParse stream(Consumer<T> action) {
             List<Annotation> xmlPathAnnotations = getAnnotationsOnFields(XmlPath.class, type);
 
             for(Annotation a : xmlPathAnnotations){
@@ -204,12 +205,13 @@ public class StaxParser implements XmlParser{
                     public void payload(ParsingResult payload) {
                         T t = null;
                         try {
+
                             t = type.newInstance();
                             inject(t, payload.getContent());
                         } catch (InstantiationException | IllegalAccessException e) {
                             throw new ParseException(e);
                         }
-                        action.execute(t);
+                        action.accept(t);
                     }
                 });
                 parser.registerHandler(contentHandler);
@@ -281,7 +283,7 @@ public class StaxParser implements XmlParser{
     public interface IResult<T> {
         IParse addTo(Collection<T> results);
 
-        IParse stream(Action<T> action);
+        IParse stream(Consumer<T> action);
     }
 
 

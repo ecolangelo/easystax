@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.github.ecolangelo.StaxParser.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -136,9 +137,9 @@ public class StaxXmlParserIntegrationTest {
     @Test
     public void testPojoAPI() throws Exception {
         InputStream is = this.getClass().getResourceAsStream("/books1.xml");
-        from(is).bindWith(TestPojo.class).stream(new Action<TestPojo>() {
+        from(is).bindWith(TestPojo.class).stream(new Consumer<TestPojo>() {
             @Override
-            public void execute(TestPojo o) throws ParseException {
+            public void accept(TestPojo o) throws ParseException {
                 System.out.println("bao!: "+o.getAuthor());
             }
         }).parse();
@@ -147,7 +148,9 @@ public class StaxXmlParserIntegrationTest {
 
     class TestPojo {
 
-        
+        public TestPojo() {
+
+        }
 
         @XmlPath("/bookstore/book/author")
         private String author;
