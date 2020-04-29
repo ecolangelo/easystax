@@ -17,6 +17,7 @@ public class NodeBasedContentHandler implements IContentHandler {
     private Consumer<ParsingResult> handler;
     private Node referenceNode;
     private Node currentNode;
+    private ParsingResult currentParsingResult;
 
     public NodeBasedContentHandler(Node referenceNode, NodeMatchingStrategy matchingStrategy) {
         this.referenceNode = referenceNode;
@@ -85,10 +86,11 @@ public class NodeBasedContentHandler implements IContentHandler {
                 t.setContent(w.toString());
                 t.setNode(currentNode);
                 handler.accept(t);
+                currentParsingResult = t;
                 w.close();
                 w = new StringWriter();
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
         pop();
@@ -140,5 +142,9 @@ public class NodeBasedContentHandler implements IContentHandler {
 
     public void setHandler(Consumer<ParsingResult> handler) {
         this.handler = handler;
+    }
+
+    public ParsingResult getCurrentParsingResult() {
+        return currentParsingResult;
     }
 }

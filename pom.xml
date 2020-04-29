@@ -158,4 +158,11 @@
         </profile>
     </profiles>
 
+    <properties>
+        <sonar.projectKey>ecolangelo_easystax</sonar.projectKey>
+        <sonar.organization>ecolangelo</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>d6f918baa1fe6731b13df723bfa9f67e1da38a5c</sonar.login>
+    </properties>
+
 </project>
